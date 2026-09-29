@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>NOVA — motion</title>
+<style>
+  @font-face { font-family: Geist; src: url(fonts/Geist-Regular.woff2) format("woff2"); font-weight: 400; }
+  @font-face { font-family: Geist; src: url(fonts/Geist-Medium.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: Geist; src: url(fonts/Geist-SemiBold.woff2) format("woff2"); font-weight: 600; }
+  @font-face { font-family: Geist; src: url(fonts/Geist-Bold.woff2) format("woff2"); font-weight: 700; }
+  html, body { margin: 0; background: #111; }
+  canvas { display: block; width: min(100vw, 100vh); height: min(100vw, 100vh); margin: 0 auto; }
+  #ui { position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 16px; font: 13px Geist, sans-serif; color: #ddd; display: flex; gap: 12px; align-items: center; background: rgba(0,0,0,.6); }
+  #ui input { flex: 1; }
+  body.render #ui { display: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="goo" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feGaussianBlur id="gooBlur" in="SourceGraphic" stdDeviation="10"/>
+    <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -11"/>
+  </filter>
+</svg>
+<canvas id="c" width="1440" height="1440"></canvas>
+<div id="ui"><button id="play">play</button><input id="scrub" type="range" min="0" max="22" step="0.001" value="0"><span id="tt">0.00</span></div>
+<script src="nova.js"></script>
+<script>
+  // Scrub preview only: the render harness drives NOVA.seek(t) directly.
+  (async () => {
+    await NOVA.ready;
+    const s = document.getElementById('scrub'), tt = document.getElementById('tt');
+    let playing = false, t0 = 0, base = 0;
+    const show = t => { NOVA.seek(t); s.value = t; tt.textContent = t.toFixed(2); };
+    s.oninput = () => { playing = false; show(+s.value); };
+    document.getElementById('play').onclick = () => { playing = !playing; t0 = performance.now(); base = +s.value; };
+    (function loop() { if (playing) show((base + (performance.now() - t0) / 1000) % NOVA.DUR); requestAnimationFrame(loop); })();
+    show(+(new URLSearchParams(location.search).get('t') || 0));
+  })();
+</script>
+</body>
+</html>
