@@ -2,7 +2,7 @@
 // World units are desktop pixels, so at zoom 1 the camera shows the desktop 1:1.
 (() => {
 const W = 1920, H = 1080, DUR = 22;
-const BPM = 110, B = 60 / BPM;  // provisional grid until the real song is measured
+const BPM = 40 * 60 / DUR, B = 60 / BPM; // 40 beats = one 22s loop (~109 BPM), so the song loops seamlessly
 const G = 0.8;                  // every glide
 
 const T = {
