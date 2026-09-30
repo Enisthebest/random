@@ -31,6 +31,10 @@ animations {
     animation = layers, 1, 8, nova, fade
 }
 
+general {
+    border_size = 0          # no grey window borders
+}
+
 decoration {
     rounding = 24
     blur {
@@ -40,10 +44,7 @@ decoration {
         vibrancy = 0.2
     }
     shadow {
-        enabled = true
-        range = 60
-        render_power = 3
-        color = rgba(00000088)
+        enabled = false      # NOVA uses no shadows
     }
 }
 
@@ -51,9 +52,11 @@ decoration {
 layerrule = blur, nova-bar
 layerrule = blur, nova-control
 layerrule = ignorezero, nova-control
+layerrule = ignorezero, nova-bar      # blur only where pixels are drawn: no grey rims
+# If a layer still shows a grey edge, try: layerrule = ignorealpha 0.3, <namespace>
 ```
 
-Windows then open and close on the NOVA curve with rounded corners, blur and soft shadows. Hyprland's built-in animations can't grow a window out of its exact dock icon; `popin` is the closest native effect. The toolkit can do the true grow-from-icon inside the shell (e.g. the Control pill growing into the panel).
+Windows then open and close on the NOVA curve with rounded corners and blur, and no shadows or borders. Hyprland's built-in animations can't grow a window out of its exact dock icon; `popin` is the closest native effect. The toolkit can do the true grow-from-icon inside the shell (e.g. the Control pill growing into the panel).
 
 ## 3. The NOVA curve in each toolkit
 

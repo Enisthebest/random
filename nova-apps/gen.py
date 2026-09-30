@@ -26,7 +26,7 @@ button{font:inherit;color:inherit}
 .wall{position:absolute;left:-80px;top:-80px;width:1600px;height:1060px;object-fit:cover;filter:blur(46px) brightness(.5) saturate(1.2)}
 .bar{position:absolute;left:0;right:0;top:12px;height:36px;display:flex;justify-content:space-between;padding:0 16px;box-sizing:border-box}
 .pill{height:36px;border-radius:12px;background:rgba(16,16,20,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600}
-.win{position:absolute;left:80px;top:76px;width:1280px;height:776px;border-radius:24px;background:rgba(12,12,16,.9);border:1px solid rgba(255,255,255,.09);box-shadow:0 40px 90px rgba(0,0,0,.55),0 8px 24px rgba(0,0,0,.35);display:flex;overflow:hidden;backdrop-filter:blur(30px)}
+.win{position:absolute;left:80px;top:76px;width:1280px;height:776px;border-radius:24px;background:rgba(12,12,16,.9);border:1px solid rgba(255,255,255,.09);display:flex;overflow:hidden;backdrop-filter:blur(30px)}
 .side{width:248px;flex-shrink:0;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:22px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}
 .app{display:flex;align-items:center;gap:12px;padding:4px 10px 18px}
 .app b{font-size:17px;font-weight:700;letter-spacing:-.01em}
@@ -48,7 +48,7 @@ button{font:inherit;color:inherit}
 .rt span{display:block;font-size:13px;color:#a1a1aa;margin-top:2px}
 .ico{width:36px;height:36px;border-radius:11px;background:rgba(59,139,255,.14);color:#6aa8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .tog{width:46px;height:28px;border-radius:14px;border:0;background:#3a3a40;position:relative;flex-shrink:0;padding:0}
-.tog span{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f4f4f6;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.tog span{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f4f4f6}
 .tog.on{background:#2f9e5a}
 .tog.on span{left:21px}
 .btn{height:40px;padding:0 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
@@ -208,7 +208,7 @@ B['Monitor.dc.html'] = ('Monitor', page('Monitor', 'monitor', 'Monitor',
 
 # ---------- Ledger ----------
 def vcard(title, kind, last, grad, x=0, y=0, z=1, rot=0):
-    return (f'<div style="width: 290px; height: 182px; border-radius: 20px; background: {grad}; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 40px rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.18); flex-shrink: 0">'
+    return (f'<div style="width: 290px; height: 182px; border-radius: 20px; background: {grad}; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,.18); flex-shrink: 0">'
             f'<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-weight: 700; font-size: 16px">{title}</span><img src="{A["star"]}" alt="" style="width: 26px; height: 26px; object-fit: contain"></div>'
             f'<div><div class="mono" style="font-size: 16px; letter-spacing: .1em">•••• •••• •••• {last}</div><div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: rgba(255,255,255,.8)"><span>[CARDHOLDER]</span><span>{kind}</span></div></div></div>')
 B['Ledger.dc.html'] = ('Ledger', page('Ledger', 'ledger', 'Ledger',

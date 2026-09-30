@@ -76,8 +76,8 @@
   --row-min-height: 48px;
   --control-height: 40px;
 
-  /* depth */
-  --shadow-window: 0 40px 90px rgba(0, 0, 0, .55), 0 8px 24px rgba(0, 0, 0, .35);
+  /* depth: NOVA uses no shadows anywhere */
+  --shadow: none;
 
   /* motion */
   --ease: cubic-bezier(.45, 0, .15, 1);

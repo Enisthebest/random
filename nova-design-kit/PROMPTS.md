@@ -22,6 +22,7 @@ Rules:
 - Match the screenshots closely: sizes, spacing, radii, font sizes and weights, colours.
 - Build shared components first (Window, Sidebar + NavItem, Header, Card, Row, Toggle, Button, Chip, SearchField, Table, ChatBubble, PermissionCard), then build every app from them.
 - Fonts: Geist and Geist Mono (SIL OFL). Icons: Lucide, 2px stroke. App icons: nova-design-kit/assets/.
+- NO SHADOWS AND NO GREY EDGES, anywhere: no box-shadow, DropShadow/MultiEffect shadows, glows, Hyprland window shadows or borders, or default theme outlines. Keep everything outside rounded shapes fully transparent so blur leaves no grey rim. See DESIGN_SYSTEM.md → "No shadows, no grey edges".
 - Motion: one curve, cubic-bezier(.45,0,.15,1). 800ms for moves and shape changes, 400ms for fades and floods. Incoming content fades in during the second half of a move; outgoing content leaves in the first 40%. Windows grow out of their dock icon and shrink back into it. No bounces, springs or glows.
 - Everything in [BRACKETS] in the mockups is a placeholder: wire it to real data, never ship the placeholder.
 - Don't invent features that aren't in the mockups or in our code. If a mockup shows a control our backend doesn't support yet, build the UI, leave it disabled, and list it for me.
@@ -29,6 +30,20 @@ Rules:
 - Work one app at a time. After each one, show me what changed and a screenshot if you can.
 
 Start by reading the kit and proposing: (a) where the theme constants and shared components will live in our repo, and (b) the order you'll build things in. Wait for my OK before writing code.
+```
+
+---
+
+## Fix: remove shadows and grey edges (use anytime)
+
+```
+There are grey outlines / shadows around the UI. NOVA uses no shadows at all. Fix it everywhere:
+1. Remove every shadow: box-shadow, DropShadow, MultiEffect shadowEnabled, GTK box-shadow, glow effects.
+2. Hyprland: set general:border_size = 0 and decoration:shadow:enabled = false; add layerrule = ignorezero for every blurred layer namespace (try ignorealpha 0.3 if an edge remains).
+3. Make every window/layer root background fully transparent outside its rounded shape, and clip blur to the same radius.
+4. Reset default theme outlines, frames and focus rings; show focus only as a 2px --accent ring while focused via keyboard.
+5. Snap all 1px borders to whole pixels.
+Then list every file you changed, and show before/after screenshots if you can.
 ```
 
 ---

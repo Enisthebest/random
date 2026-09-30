@@ -10,7 +10,7 @@ Reference screens: `screens/*.html` (open in a browser), with screenshots in `pn
 
 1. **Dark glass on colour.** Windows are near-black, slightly translucent glass floating over the blurred wallpaper. The wallpaper's colour is the only decoration.
 2. **One accent at a time.** Blue marks what's selected. Green means safe, healthy or on. Orange means Pro, warnings, and warmth (Night Mode). Red is only for blocking and danger.
-3. **Quiet until touched.** Surfaces are flat. Depth comes from soft layered shadows and the glass, never from gradients on text or glows on controls.
+3. **Flat and clean. No shadows.** Surfaces are flat glass. Depth comes only from the glass (blur + transparency) and the fill contrast between layers. **No drop shadows, box shadows, glows or grey halos anywhere**: not on windows, cards, buttons, toggles, pills, the dock, the bar, text or icons.
 4. **Say it plainly.** Short, human copy: "You're protected", "2 things need a look", "Nothing phones home. Ever."
 5. **Nothing jumps.** Every change glides (see Motion). No bounces, no springs, no hard cuts.
 
@@ -95,8 +95,17 @@ Numbers that change (percentages, temperatures, counters) use tabular figures or
 - **Radii:** window 24 · card 18 · shell card 10 · button 12 · nav item 11 · icon tile 11 · toggle 14 · chip/pill 999 (fully round) · shell pill 12.
 - **Window anatomy:** sidebar 248 px wide (22 px top padding, 14 px sides) · header 76 px (32 px side padding, hairline below) · body padding 24 px × 32 px · 16 px between cards · list rows at least 48 px tall with a hairline between.
 - **Touch targets:** at least 40 px (buttons 40 px tall, toggles 46 × 28, round buttons 42).
-- **Window shadow:** `0 40px 90px rgba(0,0,0,.55), 0 8px 24px rgba(0,0,0,.35)`.
-- **Elevation for moving things** (grows with height `e` in px): three layers — `0 0.25e 0.6e rgba(0,0,0,.12)`, `0 0.9e 2.2e rgba(0,0,0,.10)`, `0 2e 5e rgba(0,0,0,.06)`.
+- **Shadows: none.** No `box-shadow`, no drop shadows, no glow. Separation comes from fills and the 1 px hairline only.
+
+### No shadows, no grey edges (hard rule)
+Grey outlines around shapes are always a bug. They come from:
+1. **Shadows**: any `box-shadow`, `DropShadow`/`MultiEffect` shadow, GTK `box-shadow`, or Hyprland's window shadow. Remove them all.
+2. **Compositor borders and shadows**: Hyprland draws its own border and shadow around windows and layers. Set `general:border_size = 0` and `decoration:shadow:enabled = false`.
+3. **Blurred edges on rounded shapes**: blur behind a surface whose corners aren't fully transparent leaves a grey rim. Keep everything outside the rounded shape fully transparent (alpha 0), clip the blur to the same radius, and use `layerrule = ignorezero` (or `ignorealpha`) on blurred layers.
+4. **Default toolkit styling**: GTK/Qt themes add focus rings, frames and outlines. Reset them (`outline: none; border: none;` on containers, `background: transparent` on window roots) and draw only the NOVA hairline where the spec asks for it.
+5. **Half-pixel strokes**: a 1 px border on a fractional position renders as a 2 px grey smear. Snap borders to whole pixels.
+
+Keyboard focus is still required for accessibility: show it as a 2 px `--accent` ring only while the element has keyboard focus, never as a permanent grey outline.
 
 ---
 
@@ -104,7 +113,7 @@ Numbers that change (percentages, temperatures, counters) use tabular figures or
 
 | Component | Spec |
 |---|---|
-| **Window** | `--surface-window`, radius 24, 1 px `--border-window`, window shadow, sidebar left, content right. No title-bar buttons (Hyprland tiles). |
+| **Window** | `--surface-window`, radius 24, 1 px `--border-window` (drawn *inside* the shape), no shadow, sidebar left, content right. No title-bar buttons (Hyprland tiles). |
 | **Sidebar nav item** | 40 px tall, radius 11, 18 px Lucide icon + 14/500 label, 12 px gap. Selected: `--surface-selected`, white text, icon `#6AA8FF`, `aria-current="page"`. Section labels between groups. |
 | **Header** | h1 + subtitle on the left, actions (search / chip / buttons) on the right. |
 | **Card** | `--surface-card`, radius 18, padding 18 × 20, optional uppercase label on top. |
