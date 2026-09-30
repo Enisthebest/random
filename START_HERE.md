@@ -13,7 +13,7 @@ your-nova-project/
 **1. The redesign (big job, do it first)**
 Open Claude Code in the project and paste the **Master prompt** from `nova-design-kit/PROMPTS.md`.
 Let it read the kit and propose a plan, say OK, then give it the other prompts from `PROMPTS.md` **one at a time**:
-shared components → Shell (top bar, dock, Control panel) → Lock screen → Notifications → Shield → Guard → Files → Monitor → Ledger → Images → Fix → Settings → ACE.
+shared components → Shell (top bar, dock, Control panel) → Launcher → Lock screen → Notifications → Shield → Guard → Files → Monitor → Ledger → Images → Fix → Settings → ACE.
 Check each one before the next.
 
 **2. Wallpapers + accent colours**

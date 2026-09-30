@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Launcher: ACE (Pro)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.bar{position:absolute;left:0;right:0;top:9px;height:36px;display:flex;justify-content:space-between;padding:0 15px;box-sizing:border-box}
+.pill{height:36px;border-radius:12px;background:#101013;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600}
+.ws{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.3)}.ws.on{width:22px;background:#f2f2f4}
+.dock{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);height:64px;border-radius:16px;background:rgba(16,16,19,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:16px;padding:0 12px;box-sizing:border-box}
+.dock img{width:44px;height:44px;object-fit:contain}
+/* launcher */
+.ln{position:absolute;left:50%;top:150px;transform:translateX(-50%);width:720px;border-radius:24px;background:rgba(14,14,18,.86);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(40px) saturate(1.3);overflow:hidden}
+.q{height:68px;display:flex;align-items:center;gap:14px;padding:0 22px;border-bottom:1px solid rgba(255,255,255,.06);color:#a1a1aa}
+.q .txt{flex-grow:1;font-size:22px;font-weight:500;letter-spacing:-.01em;color:#f2f2f4;display:flex;align-items:center}
+.q .ph{color:#6e6e77}
+.caret{display:inline-block;width:2px;height:26px;background:var(--acc);margin-left:2px;border-radius:1px}
+.kbd{font-style:normal;height:24px;min-width:24px;padding:0 7px;box-sizing:border-box;border-radius:7px;background:rgba(255,255,255,.08);color:#a1a1aa;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.list{padding:10px 10px 12px}
+.sec{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8d8d96;padding:12px 12px 8px}
+.apps{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:0 4px 4px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 0 10px;border-radius:16px;font-size:12px;font-weight:500;color:#d6d6db}
+.tile img{width:52px;height:52px;object-fit:contain}
+.tile.on{background:var(--sel);color:#fff}
+.row{display:flex;align-items:center;gap:14px;height:52px;padding:0 12px;border-radius:14px}
+.row.on{background:var(--sel)}
+.row .ico{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.06);color:#d6d6db;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.row .ico.acc{background:var(--tint);color:var(--acc2)}
+.row img.ai{width:34px;height:34px;object-fit:contain;flex-shrink:0}
+.rt{flex-grow:1;min-width:0;display:flex;align-items:baseline;gap:10px}
+.rt b{font-size:15px;font-weight:500;color:#c9c9cf;white-space:nowrap}
+.rt b em{font-style:normal;font-weight:700;color:#fff}
+.rt span{font-size:13px;color:#8d8d96;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kind{font-size:12px;color:#6e6e77;font-weight:500}
+.row.on .kind{display:none}
+.hint{display:none;align-items:center;gap:6px;font-size:12px;color:#d6d6db;font-weight:500}
+.row.on .hint{display:flex}
+.top{display:flex;align-items:center;gap:18px;margin:4px 4px 6px;padding:16px 18px;border-radius:18px;background:var(--sel)}
+.top img{width:64px;height:64px;object-fit:contain}
+.top .tt{flex-grow:1}
+.top .tt b{display:block;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.top .tt span{display:block;font-size:13px;color:#c9c9cf;margin-top:3px}
+.btn{height:36px;padding:0 14px;border-radius:11px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:8px;color:#f2f2f4}
+.btn.pri{background:#f2f2f4;color:#0b0b0e;border-color:transparent}
+.foot{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#8d8d96}
+.foot .k{display:flex;align-items:center;gap:14px}
+.foot .k span{display:flex;align-items:center;gap:6px}
+.calc{display:flex;align-items:center;justify-content:space-between;margin:4px 4px 6px;padding:22px 24px;border-radius:18px;background:var(--sel)}
+.calc .eq{font-size:15px;color:#c9c9cf;font-family:"Geist Mono",monospace}
+.calc .res{font-size:44px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.chip{height:24px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.chip.pro{background:rgba(245,146,30,.16);color:#ffae5a}
+.ace{margin:4px 4px 6px;padding:18px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.ace .h{display:flex;align-items:center;gap:12px}
+.ace .h img{width:30px;height:30px;object-fit:contain}
+.ace .h b{font-size:15px;font-weight:600;flex-grow:1}
+.step{display:flex;align-items:center;gap:12px;height:44px;padding:0 12px;margin-top:6px;border-radius:12px;background:rgba(255,255,255,.04);font-size:14px;font-weight:500}
+.step .n{width:22px;height:22px;border-radius:11px;background:var(--tint);color:var(--acc2);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step .ico{color:#a1a1aa;margin-left:auto}
+.acts{display:flex;justify-content:flex-end;gap:10px;margin-top:14px;align-items:center}
+.acts .note{flex-grow:1;font-size:12px;color:#8d8d96;display:flex;align-items:center;gap:6px}
+</style></head><body>
+<div class="frame" style="--acc:#3B8BFF;--acc2:#6AA8FF;--sel:rgba(59,139,255,.18);--tint:rgba(59,139,255,.16)">
+<img class="wall" src="../assets/wallpaper.png" alt=""><div class="dim"></div>
+<div class="bar"><div class="pill" style="gap:6px"><i class="ws on"></i><i class="ws"></i><i class="ws"></i></div>
+<div class="pill">12:22</div>
+<div style="display:flex;gap:12px"><div class="pill"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20h.01" /> <path d="M2 8.82a15 15 0 0 1 20 0" /> <path d="M5 12.859a10 10 0 0 1 14 0" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /> <path d="M16 9a5 5 0 0 1 0 6" /> <path d="M19.364 18.364a9 9 0 0 0 0-12.728" /></svg></div><div class="pill">us</div><div class="pill" style="padding:0 7px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M10 5H3" /> <path d="M12 19H3" /> <path d="M14 3v4" /> <path d="M16 17v4" /> <path d="M21 12h-9" /> <path d="M21 19h-5" /> <path d="M21 5h-7" /> <path d="M8 10v4" /> <path d="M8 12H3" /></svg></div></div></div>
+<div class="dock"><img src="../assets/folder.webp" alt=""><img src="../assets/shield.webp" alt=""><img src="../assets/monitor.png" alt=""><img src="../assets/images.png" alt=""><img src="../assets/ledger.png" alt=""><img src="../assets/fix.png" alt=""><img src="../assets/settings.webp" alt=""><img src="../assets/nova-star.png" alt=""></div>
+<div class="ln" role="dialog" aria-label="Launcher">
+<div class="q"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></svg><div class="txt">turn off wifi and lock my screen<i class="caret"></i></div><span class="kbd">esc</span></div><div class="list">
+<div class="ace"><div class="h"><img src="../assets/nova-star.png" alt=""><b>ACE will do this</b><span class="chip pro"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></svg> Pro</span></div>
+<div class="step"><span class="n">1</span>Turn off Wi-Fi<span class="ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20h.01" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /> <path d="M5 12.859a10 10 0 0 1 5.17-2.69" /> <path d="M19 12.859a10 10 0 0 0-2.007-1.523" /> <path d="M2 8.82a15 15 0 0 1 4.177-2.643" /> <path d="M22 8.82a15 15 0 0 0-11.288-3.764" /> <path d="m2 2 20 20" /></svg></span></div>
+<div class="step"><span class="n">2</span>Lock the screen<span class="ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></span></div>
+<div class="acts"><span class="note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /></svg> Runs on this device. Nothing happens until you press Run.</span>
+<span class="btn">Edit</span><span class="btn pri">Run <i class="kbd" style="background:rgba(0,0,0,.08);color:#0b0b0e">↵</i></span></div></div>
+<div class="sec">Also</div>
+<div class="row"><div class="ico acc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20h.01" /> <path d="M2 8.82a15 15 0 0 1 20 0" /> <path d="M5 12.859a10 10 0 0 1 14 0" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /></svg></div><div class="rt"><b>Wi-Fi</b><span>Settings › Network · On</span></div><span class="kind">Setting</span><span class="hint">Open <i class="kbd">↵</i></span></div>
+<div class="row"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></div><div class="rt"><b>Lock screen</b><span>Super + L</span></div><span class="kind">Action</span><span class="hint">Run <i class="kbd">↵</i></span></div>
+</div><div class="foot"><div class="k"><span><i class="kbd">↑</i><i class="kbd">↓</i> move</span><span><i class="kbd">↵</i> open</span><span><i class="kbd">tab</i> actions</span></div><div class="k"><span><i class="kbd">super</i><i class="kbd">space</i> open launcher</span></div></div>
+</div></div></body></html>

@@ -12,6 +12,7 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 | `screens/` | The same screens as HTML. Open in a browser or inspect for exact sizes. |
 | `assets/` | 3D app icons, NOVA star, wallpaper. |
 | `build.py` | Regenerates `screens/` from the design canvas sources in `../nova-apps/`. |
+| `launcher/` | Generator for the launcher screens (`screens/launcher-*.html`, `png/launcher-*.png`). |
 
 ## How to use it
 
@@ -22,4 +23,4 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 5. Paste one app prompt at a time (Shield, Guard, Files, …), reviewing each before the next.
 
 Apps: Shield · NOVA Guard · Files · Monitor · Ledger · Images · Fix · Settings · ACE (Pro).
-Shell: top bar · dock · Control panel · lock screen · notifications.
+Shell: top bar · dock · Control panel · launcher · lock screen · notifications.

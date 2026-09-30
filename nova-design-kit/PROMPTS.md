@@ -162,6 +162,22 @@ Restyle the shell to match DESIGN_SYSTEM.md section 7 and the screenshots: float
 Build the lock screen: blurred wallpaper (36px) with a 32% black layer, clock 200px/600 in the upper third, date 30px/500 below, "Swipe up to unlock" at the bottom. On unlock the big clock shrinks and slides into the top-bar clock pill while the blur and dark layer fade out (800ms, NOVA curve); locking plays it in reverse.
 ```
 
+### Launcher — `png/launcher-open.png`, `launcher-search.png`, `launcher-calc.png`, `launcher-ace.png`
+```
+Redesign our app launcher to match nova-design-kit/png/launcher-*.png and screens/launcher-*.html, following DESIGN_SYSTEM.md → "Launcher". Keep our existing search backend: [DESCRIBE WHAT OUR LAUNCHER SEARCHES TODAY], and restyle and extend the UI.
+Layout: a 720px glass panel centred horizontally, 150px from the top, radius 24, over the desktop dimmed 28%. The desktop stays visible; don't blur the whole screen.
+- Search row 68px: magnifier, 22px/500 input, accent caret, "esc" keycap on the right.
+- Empty query: an "Apps" row of 8 pinned 3D app icons (52px, labels 12px) and a "Recent" list (files, settings, apps used last).
+- Typing: a Top hit card (64px icon, 22/700 name, one-line description, white "Open ↵" button), then results grouped under Settings, Files, Actions (and Apps if more than one matches). Matched letters are bold and white; the rest of the title is grey. Group order is by best match.
+- Quick answers: maths and unit/currency conversions answer inside the launcher (big 44px result, "Copy ↵"), with "Open in Calculator" below. Currency rates are cached offline: never call the network while the user types.
+- Pro only: when the query reads like a sentence or command, show the ACE card: the planned steps as a numbered draft, "Runs on this device. Nothing happens until you press Run.", with Edit and Run buttons. Nothing runs without Run. On non-Pro editions this card doesn't exist.
+- Footer 44px: ↑ ↓ move · ↵ open · tab actions on the left, "super space open launcher" on the right.
+Keyboard: Super+Space toggles it; typing starts instantly (focus in the field); ↑/↓ move the selection (it glides between rows); ↵ opens; Tab shows actions for the selected item (Open, Show in Files, Copy path, Pin); Esc clears the query, a second Esc closes. Mouse hover moves the selection too.
+Motion: opens by fading in and scaling from 0.96 to 1 over 400ms on the NOVA curve while the desktop dims; results resize the panel height with an 800ms glide (never jump); rows fade in over the second half. Closes in 250ms.
+Performance: first results within 50ms of a keystroke; index apps, settings and recent files locally. Nothing typed ever leaves the device.
+No shadows and no grey edges on the panel (see DESIGN_SYSTEM.md). Match the screenshots closely.
+```
+
 ### Notifications
 ```
 Build notification toasts: 382x66, radius 16, top-right under the top bar, app icon in a tinted circle, title 14/600, one line 12/400, "now" top-right. They slide in from the right with the glide. With Do Not Disturb on, an incoming toast folds down into the Do Not Disturb moon icon instead of staying.
