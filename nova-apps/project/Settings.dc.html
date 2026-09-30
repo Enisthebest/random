@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Settings</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+a{color:#6aa8ff}a:hover{color:#9cc4ff}
+button{font:inherit;color:inherit}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;left:-80px;top:-80px;width:1600px;height:1060px;object-fit:cover;filter:blur(46px) brightness(.5) saturate(1.2)}
+.bar{position:absolute;left:0;right:0;top:12px;height:36px;display:flex;justify-content:space-between;padding:0 16px;box-sizing:border-box}
+.pill{height:36px;border-radius:12px;background:rgba(16,16,20,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600}
+.win{position:absolute;left:80px;top:76px;width:1280px;height:776px;border-radius:24px;background:rgba(12,12,16,.9);border:1px solid rgba(255,255,255,.09);box-shadow:0 40px 90px rgba(0,0,0,.55),0 8px 24px rgba(0,0,0,.35);display:flex;overflow:hidden;backdrop-filter:blur(30px)}
+.side{width:248px;flex-shrink:0;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:22px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}
+.app{display:flex;align-items:center;gap:12px;padding:4px 10px 18px}
+.app b{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.sec{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8d8d96;padding:16px 12px 6px}
+.nav{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:11px;font-size:14px;font-weight:500;color:#d6d6db;text-decoration:none;border:0;background:none;text-align:left;width:100%;box-sizing:border-box}
+.nav.on{background:rgba(59,139,255,.18);color:#fff}
+.nav.on svg{color:#6aa8ff}
+.main{flex-grow:1;display:flex;flex-direction:column;min-width:0}
+.head{height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.h1{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0}
+.sub{font-size:14px;color:#a1a1aa;margin:2px 0 0}
+.body{flex-grow:1;padding:28px 32px;display:flex;flex-direction:column;gap:20px;overflow:hidden}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:20px;box-sizing:border-box}
+.label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96;margin:0 0 12px}
+.row{display:flex;align-items:center;gap:14px;min-height:56px;border-top:1px solid rgba(255,255,255,.05)}
+.row:first-of-type{border-top:0}
+.rt{flex-grow:1;min-width:0}
+.rt b{display:block;font-size:15px;font-weight:600}
+.rt span{display:block;font-size:13px;color:#a1a1aa;margin-top:2px}
+.ico{width:36px;height:36px;border-radius:11px;background:rgba(59,139,255,.14);color:#6aa8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tog{width:46px;height:28px;border-radius:14px;border:0;background:#3a3a40;position:relative;flex-shrink:0;padding:0}
+.tog span{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f4f4f6;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.tog.on{background:#2f9e5a}
+.tog.on span{left:21px}
+.btn{height:40px;padding:0 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn.pri{background:#f2f2f4;color:#0b0b0e;border-color:#f2f2f4}
+.chip{height:28px;padding:0 12px;border-radius:14px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;white-space:nowrap}
+.ok{background:rgba(52,199,89,.16);color:#5fdc86}
+.warn{background:rgba(245,146,30,.16);color:#ffae5a}
+.blue{background:rgba(59,139,255,.16);color:#8cbcff}
+.mono{font-family:"Geist Mono",ui-monospace,monospace}
+.search{height:40px;width:240px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;padding:0 12px;box-sizing:border-box;color:#a1a1aa;font-size:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.big{font-size:34px;font-weight:700;letter-spacing:-.03em}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8d8d96;text-align:left;padding:0 0 10px}
+td{padding:11px 0;border-top:1px solid rgba(255,255,255,.05);color:#e4e4e7}
+td.m{color:#a1a1aa}
+</style>
+</helmet>
+<div class="frame" style="width: 1440px; height: 900px">
+<img class="wall" src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="">
+<div class="bar">
+<div class="pill" style="width: 165px"><span style="width: 27px; height: 22px; border-radius: 7px; background: #c9c9cf; display: block"></span></div>
+<div class="pill">12:22</div>
+<div style="display: flex; gap: 10px"><div class="pill"><img src="/_blob/7648c8f5b886accd3eaf466089cdf7e4" alt="" style="width: 16px; height: 16px; object-fit: contain"><img src="/_blob/13f573a93c0b6cd51fc2774545d5e2ec" alt="" style="width: 16px; height: 16px; object-fit: contain"></div><div class="pill">us</div></div>
+</div>
+<div class="win">
+<aside class="side">
+<div class="app"><img src="/_blob/a662e4032fa52bbb496ca34c0de1077a" alt="" style="width: 36px; height: 36px; object-fit: contain"><b>Settings</b></div>
+<button class="nav on" aria-current="page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"></path> <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle> <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle> <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle> <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle></svg>Appearance</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="20" height="14" x="2" y="3" rx="2"></rect> <line x1="8" x2="16" y1="21" y2="21"></line> <line x1="12" x2="12" y1="17" y2="21"></line></svg>Display</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path> <path d="M16 9a5 5 0 0 1 0 6"></path> <path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>Sound</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M12 20h.01"></path> <path d="M2 8.82a15 15 0 0 1 20 0"></path> <path d="M5 12.859a10 10 0 0 1 14 0"></path> <path d="M8.5 16.429a5 5 0 0 1 7 0"></path></svg>Network</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path> <path d="m9 12 2 2 4-4"></path></svg>Privacy</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M10 8h.01"></path> <path d="M12 12h.01"></path> <path d="M14 8h.01"></path> <path d="M16 12h.01"></path> <path d="M18 8h.01"></path> <path d="M6 8h.01"></path> <path d="M7 16h10"></path> <path d="M8 12h.01"></path> <rect width="20" height="16" x="2" y="4" rx="2"></rect></svg>Keyboard</button><div class="sec">System</div><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><circle cx="12" cy="12" r="10"></circle> <path d="M12 16v-4"></path> <path d="M12 8h.01"></path></svg>About NOVA</button>
+</aside>
+<main class="main">
+<div class="head"><div><h1 class="h1">Appearance</h1><p class="sub">Make it yours.</p></div><div style="display: flex; gap: 12px; align-items: center"></div></div><div class="body" style="gap: 20px"><div class="card"><p class="label">Theme</p><div style="display: flex; gap: 16px"><button style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start"><div style="width: 200px; height: 120px; border-radius: 14px; background: #0c0c10; border: 2px solid #3b8bff; box-sizing: border-box; position: relative; overflow: hidden"><div style="position: absolute; left: 14px; top: 14px; width: 110px; height: 70px; border-radius: 9px; background: #1c1c22"></div></div><span style="font-size: 14px; font-weight: 600">Dark</span></button><button style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start"><div style="width: 200px; height: 120px; border-radius: 14px; background: #e9e9ee; border: 1px solid rgba(255,255,255,.12); box-sizing: border-box; position: relative; overflow: hidden"><div style="position: absolute; left: 14px; top: 14px; width: 110px; height: 70px; border-radius: 9px; background: #ffffff"></div></div><span style="font-size: 14px; font-weight: 600">Light</span></button><button style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start"><div style="width: 200px; height: 120px; border-radius: 14px; background: linear-gradient(90deg, #0c0c10 50%, #e9e9ee 50%); border: 1px solid rgba(255,255,255,.12); box-sizing: border-box; position: relative; overflow: hidden"><div style="position: absolute; left: 14px; top: 14px; width: 110px; height: 70px; border-radius: 9px; background: rgba(128,128,136,.5)"></div></div><span style="font-size: 14px; font-weight: 600">Auto</span></button></div></div><div class="grid2"><div class="card"><p class="label">Accent colour</p><div style="display: flex; gap: 14px"><button aria-label="Accent #268cff" style="width: 40px; height: 40px; border-radius: 20px; background: #268cff; border: 0; outline: 2.5px solid #fff; outline-offset: 3px"></button><button aria-label="Accent #ff921e" style="width: 40px; height: 40px; border-radius: 20px; background: #ff921e; border: 0; "></button><button aria-label="Accent #30d158" style="width: 40px; height: 40px; border-radius: 20px; background: #30d158; border: 0; "></button><button aria-label="Accent #ff408c" style="width: 40px; height: 40px; border-radius: 20px; background: #ff408c; border: 0; "></button><button aria-label="Accent #a060ff" style="width: 40px; height: 40px; border-radius: 20px; background: #a060ff; border: 0; "></button><button aria-label="Accent #8e8e98" style="width: 40px; height: 40px; border-radius: 20px; background: #8e8e98; border: 0; "></button></div></div><div class="card"><p class="label">Text size</p><div style="display: flex; align-items: center; gap: 14px"><span style="font-size: 13px">A</span><div style="flex-grow: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.1); position: relative"><div style="width: 45%; height: 6px; border-radius: 3px; background: #3b8bff"></div><div style="position: absolute; left: 45%; top: -8px; width: 22px; height: 22px; border-radius: 11px; background: #f4f4f6; margin-left: -11px"></div></div><span style="font-size: 20px; font-weight: 600">A</span></div></div></div><div class="card"><p class="label">Wallpaper</p><div style="display: flex; gap: 16px"><div style="width: 220px; height: 124px; border-radius: 14px; overflow: hidden; border: 2px solid #3b8bff"><img src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="Wallpaper option 1" style="width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; filter: hue-rotate(0deg)"></div><div style="width: 220px; height: 124px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.1)"><img src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="Wallpaper option 2" style="width: 100%; height: 100%; object-fit: cover; object-position: 80% 30%; filter: hue-rotate(40deg)"></div><div style="width: 220px; height: 124px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.1)"><img src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="Wallpaper option 3" style="width: 100%; height: 100%; object-fit: cover; object-position: 30% 70%; filter: hue-rotate(-40deg)"></div><div style="width: 220px; height: 124px; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.1)"><img src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="Wallpaper option 4" style="width: 100%; height: 100%; object-fit: cover; object-position: 60% 60%; filter: hue-rotate(180deg)"></div></div></div><div class="card" style="padding-top: 10px; padding-bottom: 10px"><div class="row"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path> <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path> <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path></svg></div><div class="rt"><b>Transparency</b><span>Blur behind windows and panels</span></div><button class="tog on" aria-pressed="true" aria-label="Transparency"><span></span></button></div><div class="row"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M18 5h4"></path> <path d="M20 3v4"></path> <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg></div><div class="rt"><b>Night Mode on a schedule</b><span>Warmer after sunset</span></div><button class="tog on" aria-pressed="true" aria-label="Night Mode schedule"><span></span></button></div></div></div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

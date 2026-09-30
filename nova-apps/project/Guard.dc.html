@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NOVA Guard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+a{color:#6aa8ff}a:hover{color:#9cc4ff}
+button{font:inherit;color:inherit}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;left:-80px;top:-80px;width:1600px;height:1060px;object-fit:cover;filter:blur(46px) brightness(.5) saturate(1.2)}
+.bar{position:absolute;left:0;right:0;top:12px;height:36px;display:flex;justify-content:space-between;padding:0 16px;box-sizing:border-box}
+.pill{height:36px;border-radius:12px;background:rgba(16,16,20,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600}
+.win{position:absolute;left:80px;top:76px;width:1280px;height:776px;border-radius:24px;background:rgba(12,12,16,.9);border:1px solid rgba(255,255,255,.09);box-shadow:0 40px 90px rgba(0,0,0,.55),0 8px 24px rgba(0,0,0,.35);display:flex;overflow:hidden;backdrop-filter:blur(30px)}
+.side{width:248px;flex-shrink:0;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:22px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}
+.app{display:flex;align-items:center;gap:12px;padding:4px 10px 18px}
+.app b{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.sec{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8d8d96;padding:16px 12px 6px}
+.nav{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:11px;font-size:14px;font-weight:500;color:#d6d6db;text-decoration:none;border:0;background:none;text-align:left;width:100%;box-sizing:border-box}
+.nav.on{background:rgba(59,139,255,.18);color:#fff}
+.nav.on svg{color:#6aa8ff}
+.main{flex-grow:1;display:flex;flex-direction:column;min-width:0}
+.head{height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.h1{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0}
+.sub{font-size:14px;color:#a1a1aa;margin:2px 0 0}
+.body{flex-grow:1;padding:28px 32px;display:flex;flex-direction:column;gap:20px;overflow:hidden}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:20px;box-sizing:border-box}
+.label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96;margin:0 0 12px}
+.row{display:flex;align-items:center;gap:14px;min-height:56px;border-top:1px solid rgba(255,255,255,.05)}
+.row:first-of-type{border-top:0}
+.rt{flex-grow:1;min-width:0}
+.rt b{display:block;font-size:15px;font-weight:600}
+.rt span{display:block;font-size:13px;color:#a1a1aa;margin-top:2px}
+.ico{width:36px;height:36px;border-radius:11px;background:rgba(59,139,255,.14);color:#6aa8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tog{width:46px;height:28px;border-radius:14px;border:0;background:#3a3a40;position:relative;flex-shrink:0;padding:0}
+.tog span{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f4f4f6;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.tog.on{background:#2f9e5a}
+.tog.on span{left:21px}
+.btn{height:40px;padding:0 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn.pri{background:#f2f2f4;color:#0b0b0e;border-color:#f2f2f4}
+.chip{height:28px;padding:0 12px;border-radius:14px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;white-space:nowrap}
+.ok{background:rgba(52,199,89,.16);color:#5fdc86}
+.warn{background:rgba(245,146,30,.16);color:#ffae5a}
+.blue{background:rgba(59,139,255,.16);color:#8cbcff}
+.mono{font-family:"Geist Mono",ui-monospace,monospace}
+.search{height:40px;width:240px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;padding:0 12px;box-sizing:border-box;color:#a1a1aa;font-size:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.big{font-size:34px;font-weight:700;letter-spacing:-.03em}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8d8d96;text-align:left;padding:0 0 10px}
+td{padding:11px 0;border-top:1px solid rgba(255,255,255,.05);color:#e4e4e7}
+td.m{color:#a1a1aa}
+</style>
+</helmet>
+<div class="frame" style="width: 1440px; height: 900px">
+<img class="wall" src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="">
+<div class="bar">
+<div class="pill" style="width: 165px"><span style="width: 27px; height: 22px; border-radius: 7px; background: #c9c9cf; display: block"></span></div>
+<div class="pill">12:22</div>
+<div style="display: flex; gap: 10px"><div class="pill"><img src="/_blob/7648c8f5b886accd3eaf466089cdf7e4" alt="" style="width: 16px; height: 16px; object-fit: contain"><img src="/_blob/13f573a93c0b6cd51fc2774545d5e2ec" alt="" style="width: 16px; height: 16px; object-fit: contain"></div><div class="pill">us</div></div>
+</div>
+<div class="win">
+<aside class="side">
+<div class="app"><img src="/_blob/13f573a93c0b6cd51fc2774545d5e2ec" alt="" style="width: 36px; height: 36px; object-fit: contain"><b>NOVA Guard</b></div>
+<button class="nav on" aria-current="page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="7" height="7" x="3" y="3" rx="1"></rect> <rect width="7" height="7" x="14" y="3" rx="1"></rect> <rect width="7" height="7" x="14" y="14" rx="1"></rect> <rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Overview</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path> <path d="M17 3h2a2 2 0 0 1 2 2v2"></path> <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path> <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path> <circle cx="12" cy="12" r="3"></circle> <path d="m16 16-1.9-1.9"></path></svg>Scans</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="20" height="5" x="2" y="3" rx="1"></rect> <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path> <path d="M10 12h4"></path></svg>Quarantine</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>Real-time</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path> <path d="M3 3v5h5"></path> <path d="M12 7v5l4 2"></path></svg>History</button>
+</aside>
+<main class="main">
+<div class="head"><div><h1 class="h1">Protection</h1><p class="sub">Your device is being watched over.</p></div><div style="display: flex; gap: 12px; align-items: center"><button class="btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M14 17H5"></path> <path d="M19 7h-9"></path> <circle cx="17" cy="17" r="3"></circle> <circle cx="7" cy="7" r="3"></circle></svg>Scan settings</button></div></div><div class="body"><div class="card" style="display: flex; align-items: center; gap: 40px; padding: 32px 40px"><div style="position: relative; width: 190px; height: 190px; flex-shrink: 0"><svg width="190" height="190" viewBox="0 0 190 190" aria-hidden="true"><circle cx="95" cy="95" r="84" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"></circle><circle cx="95" cy="95" r="84" fill="none" stroke="#34c759" stroke-width="12" stroke-linecap="round" stroke-dasharray="527.8" stroke-dashoffset="0" transform="rotate(-90 95 95)"></circle></svg><div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #5fdc86"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#5fdc86" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M20 6 9 17l-5-5"></path></svg></div></div><div style="flex-grow: 1"><div class="big">No threats found</div><div class="sub" style="font-size: 16px; margin-top: 6px">Last scan: today at [TIME] · [N] files checked</div><div style="display: flex; gap: 12px; margin-top: 24px"><button class="btn pri"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path> <path d="M17 3h2a2 2 0 0 1 2 2v2"></path> <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path> <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path> <circle cx="12" cy="12" r="3"></circle> <path d="m16 16-1.9-1.9"></path></svg>Quick scan</button><button class="btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M10 16h.01"></path> <path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path> <path d="M21.946 12.013H2.054"></path> <path d="M6 16h.01"></path></svg>Full scan</button><button class="btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>Scan a folder</button></div></div></div><div class="grid3"><div class="card"><div style="display: flex; justify-content: space-between; align-items: center"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg></div><button class="tog on" aria-pressed="true" aria-label="Real-time protection"><span></span></button></div><div style="font-size: 16px; font-weight: 600; margin-top: 16px">Real-time protection</div><div class="sub">Checks files as they open</div></div><div class="card"><div style="display: flex; justify-content: space-between; align-items: center"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="20" height="5" x="2" y="3" rx="1"></rect> <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path> <path d="M10 12h4"></path></svg></div><span class="chip blue">0 items</span></div><div style="font-size: 16px; font-weight: 600; margin-top: 16px">Quarantine</div><div class="sub">Nothing held right now</div></div><div class="card"><div style="display: flex; justify-content: space-between; align-items: center"><div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path> <path d="M21 3v5h-5"></path> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path> <path d="M8 16H3v5"></path></svg></div><span class="chip ok">Up to date</span></div><div style="font-size: 16px; font-weight: 600; margin-top: 16px">Threat definitions</div><div class="sub">Updated [DATE]</div></div></div><div class="card" style="padding-bottom: 8px"><p class="label">Recent scans</p><table><thead><tr><th>Scan</th><th>When</th><th>Files</th><th>Result</th></tr></thead><tbody><tr><td>Quick scan</td><td class="m">[TODAY]</td><td class="m mono">[N]</td><td><span class="chip ok" style="height: 24px">Clean</span></td></tr><tr><td>Full scan</td><td class="m">[DATE]</td><td class="m mono">[N]</td><td><span class="chip ok" style="height: 24px">Clean</span></td></tr><tr><td>USB · ARCH_202609</td><td class="m">[DATE]</td><td class="m mono">[N]</td><td><span class="chip ok" style="height: 24px">Clean</span></td></tr></tbody></table></div></div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
