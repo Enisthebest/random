@@ -8,6 +8,19 @@ your-nova-project/
 └── nova-wallpapers/     ← from nova-wallpapers.zip
 ```
 
+## First: give Claude the NOVA design skill (so it designs like this forever)
+
+Copy the skill into your project once:
+```
+mkdir -p .claude/skills
+cp -r nova-design-kit/skill/nova-design .claude/skills/
+```
+And add this line to your project's `CLAUDE.md` (create the file if it doesn't exist):
+```
+For any UI work on NOVA OS, use the nova-design skill and follow nova-design-kit/DESIGN_SYSTEM.md. New screens must look like the mockups in nova-design-kit/png/.
+```
+Now every future Claude Code session in this project designs in the NOVA style, even for new screens that have no mockup. For a brand-new screen just say: *"Design a [thing] for NOVA using the nova-design skill, show me a screenshot first."*
+
 ## Order
 
 **1. The redesign (big job, do it first)**

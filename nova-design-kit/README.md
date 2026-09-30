@@ -12,6 +12,7 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 | `screens/` | The same screens as HTML. Open in a browser or inspect for exact sizes. |
 | `assets/` | 3D app icons, NOVA star, wallpaper. |
 | `build.py` | Regenerates `screens/` from the design canvas sources in `../nova-apps/`. |
+| `skill/nova-design/` | Claude Code skill: how to design **new** NOVA screens in this style. Copy to `.claude/skills/`. |
 | `launcher/` | Generator for the launcher screens (`screens/launcher-*.html`, `png/launcher-*.png`). |
 
 ## How to use it
