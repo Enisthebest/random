@@ -20,7 +20,7 @@ Set `FFMPEG=/path/to/ffmpeg` if ffmpeg isn't on PATH, and `PORT` if 8125 is take
 
 ## Workflow (always in this order)
 1. **Plan with the user first.** Write the beat map: every scene with its start time, the on-screen words, what moves. Ask for missing inputs (screenshots, logos, copy, length, format). Don't render before they agree.
-2. **Build `film.js`**: the timeline object `T` at the top (all times in seconds), then `seek(t)`.
+2. **Build `film.js`**: set `W`, `H`, `DUR` on its first line, the timeline object `T` (all times in seconds), then `seek(t)`. Keep `DUR` about 1.5 s after the last thing appears.
 3. **Stills before rendering.** Run `stills.mjs` on 6–10 key moments, look at every image, fix, repeat. Rendering takes minutes, stills take seconds.
 4. **Render** with `make.sh`. Then read the scan output: every big change it lists must be a cut you meant.
 5. **Deliver an MP4** (H.264 + AAC, `+faststart`). Keep it under the chat's upload limit (re-encode `-crf 21 -b:a 192k` if needed).
