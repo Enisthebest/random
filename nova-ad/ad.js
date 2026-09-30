@@ -4,19 +4,20 @@ const W = 1920, H = 1080, DUR = 30;
 const G = 0.8;
 
 const T = {
-  l1: 0.30, l1out: 2.20,          // Your computer knows everything about you.
-  l2: 2.60, l2out: 4.20,          // Who else does?
-  star: 4.55, brand: 4.85, brandOut: 6.70,
-  s1: 7.00, s2: 7.55, s3: 8.10, stackOut: 9.10,
-  card: 9.40,                      // the screen grows out of the black
-  shieldWin: 9.95, capShield: 10.30, curCam: 10.90, camClick: 11.85, capShieldOut: 12.75,
-  sandbox: 13.00, capSand1: 13.20, capSand2: 14.00, probe: 13.70, capSandOut: 15.25,
-  firewall: 15.50, capFw: 15.70, capFwOut: 17.75,
-  guard: 18.00, capGuard: 18.20, scan: 18.60, scanDone: 20.00, capGuardOut: 20.75,
-  speed: 21.00, capSpeed: 21.20, unlock: 21.80, capSpeedOut: 23.75,
-  pretty: 24.00, capPretty: 24.20, prettyCam: 24.10, capPrettyOut: 26.10,
-  cardOut: 26.40,                  // the screen folds into the star
-  endStar: 26.80, endName: 27.30, soon: 28.00, built: 28.45,
+  l1: 0.30, l1out: 2.10,          // Your computer knows everything about you.
+  l2: 2.45, l2out: 3.95,          // Who else does?
+  star: 4.25, brand: 4.55, brand2: 5.05, brandOut: 6.45,
+  s1: 6.75, s2: 7.25, s3: 7.75, stackOut: 8.85,
+  card: 9.15,                      // the screen grows out of the black
+  shieldWin: 9.55, capShield: 9.90, capShieldOut: 11.20, capShield2: 11.35, capShield2Out: 12.55,
+  curCam: 10.35, camClick: 11.40,
+  sandbox: 12.75, capSand: 12.95, probe: 13.30, capSandOut: 14.75,
+  firewall: 14.95, capFw: 15.15, capFwOut: 16.95,
+  guard: 17.15, capGuard: 17.35, scan: 17.60, scanDone: 18.90, capGuardOut: 19.35,
+  ace: 19.55, capAce: 19.75, aceType: 20.05, aceReply: 20.85, aceLocks: 21.20, capAceOut: 21.35, capAce2: 21.50, capAce2Out: 22.55,
+  lean: 22.75, capLean: 22.95, capLeanOut: 24.00, capBoot: 24.15, capBootOut: 25.15,
+  cardOut: 25.35,                  // the screen folds into the star
+  endStar: 25.75, endName: 26.25, soon: 26.95, built: 27.40,
 };
 
 // ---------- easing ----------
@@ -77,13 +78,13 @@ function shadow(g, pathFn, elev) {
 function text(g, s, x, y, o) {
   const a = o.a == null ? 1 : o.a; if (a <= 0) return;
   g.save();
-  g.font = `${o.w || 500} ${o.size}px Geist`;
+  g.font = `${o.w || 500} ${o.size}px ${o.v ? 'GeistV' : 'Geist'}`;
   g.fillStyle = o.color || TXT; g.globalAlpha *= a;
   g.textAlign = o.align || 'left'; g.textBaseline = o.base || 'alphabetic';
   g.letterSpacing = (o.track || 0) * o.size + 'px';
   g.fillText(s, x, y); g.restore();
 }
-function measure(s, size, w, track = 0) { ctx.save(); ctx.font = `${w} ${size}px Geist`; ctx.letterSpacing = track * size + 'px'; const m = ctx.measureText(s).width; ctx.restore(); return m; }
+function measure(s, size, w, track = 0, v = false) { ctx.save(); ctx.font = `${w} ${size}px ${v ? 'GeistV' : 'Geist'}`; ctx.letterSpacing = track * size + 'px'; const m = ctx.measureText(s).width; ctx.restore(); return m; }
 function icon(g, name, cx, cy, size, color = TXT, a = 1, lw = 2) {
   if (a <= 0) return;
   g.save(); g.globalAlpha *= a; g.translate(cx - size / 2, cy - size / 2); g.scale(size / 24, size / 24);
@@ -131,15 +132,15 @@ const label = (g, s, x, y, a) => text(g, s, x, y, { size: 11, w: 700, track: 0.0
 // words rise and fade in one after another; the whole line lifts away together.
 function headline(g, s, cx, cy, size, tin, tout, t, o = {}) {
   if (t < tin || t > tout + 0.5) return;
-  const w = o.w || 700, track = o.track == null ? -0.03 : o.track, gap = size * 0.26;
-  const words = s.split(' '), ws = words.map(x => measure(x, size, w, track));
+  const w = o.w || 800, track = o.track == null ? -0.035 : o.track, gap = size * 0.24;
+  const words = s.split(' '), ws = words.map(x => measure(x, size, w, track, true));
   const total = ws.reduce((a, b) => a + b, 0) + gap * (words.length - 1);
   const outE = gl(t, tout, 0.5);
   let x = cx - total / 2;
   words.forEach((word, i) => {
     const e = ease((t - tin - i * 0.07) / 0.7);
     const a = e * (1 - outE);
-    text(g, word, x, cy + 26 * (1 - e) - 14 * outE, { size, w, track, color: o.color || '#fff', a, base: 'middle' });
+    text(g, word, x, cy + 26 * (1 - e) - 14 * outE, { size, w, track, color: o.color || '#fff', a, base: 'middle', v: true });
     x += ws[i] + gap;
   });
 }
@@ -238,70 +239,58 @@ function titleBar(g, name) {
   g.fillStyle = 'rgba(255,255,255,.06)'; g.fillRect(APPWIN[0], APPWIN[1] + 52, APPWIN[2] - APPWIN[0], 1);
   text(g, name, 920, APPWIN[1] + 32, { size: 14, w: 600, align: 'center', color: 'rgb(160,160,166)' });
 }
-const SHIELD_ROWS = [
-  ['shuffle', 'Randomized MAC', 'A new address on every network'],
-  ['lock', 'VPN kill switch', 'No VPN, no traffic'],
-  ['globe', 'IP randomizer', 'Your public IP keeps moving'],
-  ['camera-off', 'Camera & mic kill switch', 'Cut access in one tap'],
-  ['usb', 'USB detection', 'Know every device you plug in'],
-  ['trash-2', 'Disk cleaner', 'Clear traces and cache'],
+const PROTECTIONS = [
+  ['Hide your device ID', 1], ['Private DNS', 1], ['VPN kill switch', 1], ['Tor per app', 0],
+  ['Camera off switch', 0], ['Boot tamper check', 1], ['Lock on USB unplug', 1], ['Guest mode', 0],
+  ['Decoy login', 0], ['Sandbox status', 1], ['Network watch', 1], ['Secure delete', 1],
+  ['Clipboard auto-clear', 1], ['Metadata wipe', 1],
 ];
-const CAM_ROW = 3, rowY = i => 352 + i * 70;
-const CAM_TOGGLE = [1224, rowY(CAM_ROW)];
+const CAM_IDX = 4;
+const pillR = i => { const c = i % 2, r = Math.floor(i / 2), x = 580 + c * 348, y = 330 + r * 72; return [x, y - 26, x + 332, y + 26]; };
+const CAM_TOGGLE = (() => { const R = pillR(CAM_IDX); return [R[2] - 36, (R[1] + R[3]) / 2]; })();
 function shieldWindow(g, t, tq) {
   const w = winFrom(t, T.shieldWin, 3);
   const p = windowShape(g, w.R, lerp(11, 18, w.e), lerp(3, 22, w.e));
   if (w.a <= 0) return;
   g.save(); p(); g.clip(); g.globalAlpha *= w.a;
-  titleBar(g, 'Shield');
-  drawImg(g, 'shield', 612, 262, 64);
-  text(g, 'Protected', 660, 258, { size: 28, w: 700, color: '#fff' });
-  text(g, '16 tools active', 660, 284, { size: 14, color: SUB });
-  rrR(g, [1130, 240, 1260, 276], 18); g.fillStyle = rgba(GREEN, 0.16); g.fill();
-  text(g, 'All clear', 1195, 263, { size: 14, w: 600, align: 'center', color: rgba(GREEN) });
+  titleBar(g, 'NOVA Shield');
+  drawImg(g, 'shield', 612, 250, 60);
+  text(g, 'All your privacy.', 660, 244, { size: 26, w: 800, color: '#fff', v: true });
+  text(g, '14 protections. One tap each.', 660, 272, { size: 15, color: SUB });
   const on = gl(t, T.camClick + 0.03);
-  SHIELD_ROWS.forEach(([ic, name, sub], i) => {
-    const y = rowY(i);
-    rrR(g, [572, y - 30, 1268, y + 30], 12); g.fillStyle = 'rgba(255,255,255,.035)'; g.fill();
-    g.beginPath(); g.arc(610, y, 20, 0, Math.PI * 2); g.fillStyle = rgba(BLUE, 0.16); g.fill();
-    icon(g, ic, 610, y, 18, rgba(BLUE));
-    text(g, name, 644, y - 3, { size: 16, w: 600, color: '#fff' });
-    if (i === CAM_ROW) {
-      text(g, sub, 644, y + 17, { size: 13, color: SUB, a: 1 - on });
-      text(g, 'Camera and mic are off', 644, y + 17, { size: 13, color: rgba(GREEN), a: on });
-      toggle(g, [1200, y - 12, 1246, y + 12], on, GREEN);
-    } else if (i === 5) {
-      text(g, sub, 644, y + 17, { size: 13, color: SUB });
-      rrR(g, [1176, y - 15, 1248, y + 15], 15); g.fillStyle = rgba(BTN); g.fill();
-      text(g, 'Clean', 1212, y + 5, { size: 13, w: 600, align: 'center' });
-    } else {
-      text(g, sub, 644, y + 17, { size: 13, color: SUB });
-      toggle(g, [1200, y - 12, 1246, y + 12], 1, GREEN);
-    }
+  PROTECTIONS.forEach(([name, st], i) => {
+    const R = pillR(i), y = (R[1] + R[3]) / 2;
+    const v = i === CAM_IDX ? on : st;
+    rrR(g, R, 26); g.fillStyle = rgba(mix([255, 255, 255], GREEN, v), lerp(0.05, 0.13, v)); g.fill();
+    g.lineWidth = 1.2; g.strokeStyle = rgba(mix([255, 255, 255], GREEN, v), lerp(0.14, 0.5, v)); g.stroke();
+    text(g, name, R[0] + 22, y + 6, { size: 17, w: 600, color: '#fff' });
+    toggle(g, [R[2] - 60, y - 12, R[2] - 14, y + 12], v, GREEN);
   });
-  icon(g, 'plus', 610, rowY(6) - 6, 18, SUB);
-  text(g, 'and more', 644, rowY(6) - 1, { size: 16, w: 600, color: SUB });
   g.restore();
 }
 const FW_ROWS = [
-  ['Unknown', '203.0.113.24 : 443', 0], ['Tracker', '198.51.100.7 : 80', 0], ['Browser', '192.0.2.10 : 443', 1],
-  ['Telemetry', '203.0.113.91 : 443', 0], ['Unknown', '198.51.100.44 : 8080', 0], ['Ad network', '203.0.113.150 : 443', 0],
+  ['Incoming · port scan', '203.0.113.24 → port 22', 0], ['Incoming', '198.51.100.7 → port 3389', 0],
+  ['Your phone', 'allowed by you', 1], ['Incoming', '203.0.113.91 → port 445', 0],
+  ['Unknown device', '198.51.100.44 → port 8080', 0], ['Incoming', '203.0.113.150 → port 5900', 0],
 ];
+const fwRowY = i => 352 + i * 70;
 function firewallWindow(g, t, tq) {
   const p = windowShape(g, APPWIN, 18, 22);
   g.save(); p(); g.clip();
-  titleBar(g, 'Shield — Firewall');
+  titleBar(g, 'NOVA Shield — Firewall');
   g.beginPath(); g.arc(612, 262, 30, 0, Math.PI * 2); g.fillStyle = rgba(BLUE, 0.16); g.fill();
   icon(g, 'brick-wall', 612, 262, 28, rgba(BLUE));
-  text(g, 'Firewall', 660, 258, { size: 28, w: 700, color: '#fff' });
-  text(g, 'On · every outgoing connection checked', 660, 284, { size: 14, color: SUB });
-  const n = 1284 * ease((tq - T.firewall - 0.3) / 1.6);
-  text(g, fmtN(n), 1262, 262, { size: 34, w: 700, align: 'right', color: '#fff' });
-  text(g, 'blocked today', 1262, 284, { size: 13, align: 'right', color: SUB });
+  text(g, 'Firewall on', 660, 258, { size: 26, w: 800, color: '#fff', v: true });
+  text(g, 'Nothing gets in unless you allow it.', 660, 284, { size: 15, color: SUB });
+  // live count of the rows shown so far: whole values only
+  let blocked = 0;
+  FW_ROWS.forEach(([, , ok], i) => { if (!ok && tq >= T.firewall + 0.3 + i * 0.3) blocked++; });
+  text(g, String(blocked), 1262, 262, { size: 34, w: 800, align: 'right', color: '#fff', v: true });
+  text(g, 'blocked', 1262, 284, { size: 13, align: 'right', color: SUB });
   FW_ROWS.forEach(([who, dst, ok], i) => {
     const t0 = T.firewall + 0.3 + i * 0.3, e = gl(t, t0, 0.6);
     if (e <= 0) return;
-    const y = rowY(i) + 16 * (1 - e);
+    const y = fwRowY(i) + 16 * (1 - e);
     g.save(); g.globalAlpha *= e;
     rrR(g, [572, y - 28, 1268, y + 28], 12); g.fillStyle = 'rgba(255,255,255,.035)'; g.fill();
     icon(g, ok ? 'circle-check' : 'ban', 610, y, 20, rgba(ok ? GREEN : RED));
@@ -333,9 +322,9 @@ function guardWindow(g, t, tq) {
   const files = 128420 * ease(clamp((tq - T.scan) / (T.scanDone - T.scan)));
   text(g, 'Scanning…', 920, 640, { size: 28, w: 700, align: 'center', color: '#fff', a: 1 - done });
   text(g, fmtN(files) + ' files checked', 920, 674, { size: 16, align: 'center', color: SUB, a: 1 - done });
-  text(g, '0 threats found', 920, 640 - 10 * (1 - done), { size: 28, w: 700, align: 'center', color: '#fff', a: done });
+  text(g, '0 threats found', 920, 640 - 10 * (1 - done), { size: 28, w: 800, v: true, align: 'center', color: '#fff', a: done });
   text(g, '128,420 files checked · just now', 920, 674, { size: 16, align: 'center', color: SUB, a: done });
-  [['shield-check', 'Real-time protection', 'On'], ['scan-search', 'Scheduled scans', 'Daily'], ['zap', 'Impact on speed', 'Minimal']].forEach(([ic, n, v], i) => {
+  [['shield-check', 'Real-time protection', 'On'], ['scan-search', 'Last scan', 'Just now'], ['circle-check', 'Threats', 'None']].forEach(([ic, n, v], i) => {
     const x = 590 + i * 240;
     rrR(g, [x, 730, x + 220, 850], 14); g.fillStyle = 'rgba(255,255,255,.04)'; g.fill();
     icon(g, ic, x + 30, 764, 20, rgba(BLUE));
@@ -378,17 +367,70 @@ function sandbox(g, t) {
   }
 }
 
-// ---------- speed: lock screen straight to desktop ----------
-function speedScene(g, t, tq) {
-  const u = gl(t, T.unlock);
-  wallpaper(g, 1 - u);
-  const L = 1 - u;
-  topBar(g, gl(t, T.unlock + 0.45), false);
-  dock(g, gl(t, T.unlock + 0.55));
-  controlPanel(g, back(t, T.unlock + 0.6));
-  if (1 - clamp(L / 0.5) > 0) { g.save(); g.globalAlpha *= 1 - clamp(L / 0.5); pillShape(g, CLOCK); g.restore(); }
-  text(g, '12:22', lerp(959.5, 960, L), lerp(27.5, 400, L), { size: lerpLog(13, 200, L), w: 600, align: 'center', base: 'middle', color: '#fff' });
-  text(g, 'Wednesday, 30 September', 960, 535 - 60 * u, { size: 30, w: 500, align: 'center', color: 'rgba(255,255,255,.88)', a: 1 - clamp(u / 0.4) });
+// ---------- ACE: the built-in AI ----------
+const ACE_WIN = [600, 210, 1320, 850];
+const ACE_Q = 'How hot is my PC running?';
+function aceScene(g, t, tq) {
+  wallpaper(g); topBar(g); dock(g);
+  const e = gl(t, T.ace), R = lerpRect([900, 500, 1020, 560], ACE_WIN, e);
+  const p = windowShape(g, R, lerp(20, 26, e), lerp(4, 24, e));
+  const a = back(t, T.ace); if (a <= 0) return;
+  g.save(); p(); g.clip(); g.globalAlpha *= a;
+  drawImg(g, 'star', 652, 262, 34);
+  text(g, 'ACE', 680, 272, { size: 24, w: 800, color: '#fff', v: true, track: 0.04 });
+  text(g, 'Your AI. Built right in.', 1280, 270, { size: 14, color: SUB, align: 'right' });
+  g.fillStyle = 'rgba(255,255,255,.06)'; g.fillRect(600, 300, 720, 1);
+  // question: typed in the field, then sent as a bubble
+  const n = Math.floor(ACE_Q.length * clamp((tq - T.aceType) / 0.55) + 1e-6);
+  const sent = gl(t, T.aceType + 0.62, 0.5);
+  const qw = measure(ACE_Q, 18, 500) + 40;
+  const bub = [lerp(632, 1288 - qw, sent), lerp(778, 330, sent), lerp(1288, 1288, sent), lerp(830, 380, sent)];
+  if (sent > 0) { rrR(g, bub, 22); g.fillStyle = rgba(BLUE, sent); g.fill(); text(g, ACE_Q, bub[0] + 20, bub[1] + 32, { size: 18, color: '#fff', a: sent }); }
+  // input field
+  rrR(g, [632, 778, 1288, 830], 26); g.fillStyle = 'rgba(255,255,255,.06)'; g.fill();
+  text(g, sent > 0.5 ? 'Ask ACE anything' : (n ? ACE_Q.slice(0, n) : 'Ask ACE anything'), 658, 810, { size: 18, color: n && sent <= 0.5 ? '#fff' : SUB });
+  g.beginPath(); g.arc(1262, 804, 18, 0, Math.PI * 2); g.fillStyle = 'rgba(255,255,255,.9)'; g.fill(); icon(g, 'arrow-up', 1262, 804, 18, '#111');
+  // reply
+  const re = gl(t, T.aceReply, 0.6);
+  if (re > 0) {
+    g.save(); g.globalAlpha *= re; g.translate(0, 12 * (1 - re));
+    rrR(g, [632, 400, 1150, 490], 22); g.fillStyle = 'rgba(255,255,255,.07)'; g.fill();
+    icon(g, 'thermometer', 664, 445, 22, rgba(ORANGE));
+    text(g, 'CPU 48°C · GPU 52°C', 692, 438, { size: 18, w: 700, color: '#fff' });
+    text(g, 'All good. I’ll tell you if that changes.', 692, 464, { size: 15, color: SUB });
+    g.restore();
+  }
+  // the two promises, in the site's white pills
+  [['eye', 'Sees your screen, only when you ask'], ['square-terminal', 'Runs commands, only with your permission']].forEach(([ic, s2], i) => {
+    const le = gl(t, T.aceLocks + i * 0.15, 0.6); if (le <= 0) return;
+    const y = 560 + i * 74;
+    g.save(); g.globalAlpha *= le; g.translate(0, 12 * (1 - le));
+    rrR(g, [632, y - 28, 1288, y + 28], 28); g.fillStyle = 'rgb(236,236,238)'; g.fill();
+    icon(g, ic, 668, y, 22, '#111');
+    text(g, s2, 700, y + 6, { size: 18, w: 700, color: '#111' });
+    icon(g, 'lock', 1250, y, 20, '#111');
+    g.restore();
+  });
+  g.restore();
+}
+// ---------- lean: the site's numbers, counting down to what's left ----------
+const STATS = [['63', 205, 63, 0, 'Apps', 'was 205'], ['1,062', 1305, 1062, 0, 'Packages', 'was 1,305'], ['7.4', 9.1, 7.4, 1, 'System size', 'was 9.1 GB']];
+function leanScene(g, t, tq) {
+  g.fillStyle = '#060608'; g.fillRect(-800, -800, 3520, 2680);
+  STATS.forEach(([, from, to, dec, name, was], i) => {
+    const e = gl(t, T.lean + 0.1 + i * 0.12); if (e <= 0) return;
+    const x = 920 + (i - 1) * 330, y = 510;
+    g.save(); g.globalAlpha *= e; g.translate(0, 20 * (1 - e));
+    rrR(g, [x - 150, y - 150, x + 150, y + 150], 34); g.fillStyle = 'rgb(13,13,17)'; g.fill();
+    g.lineWidth = 1.5; g.strokeStyle = 'rgba(255,255,255,.12)'; g.stroke();
+    const v = lerp(from, to, ease((tq - T.lean - 0.3 - i * 0.12) / 1.0));
+    const str = dec ? v.toFixed(1) : fmtN(v);
+    text(g, str, x - (dec ? 22 : 0), y - 10, { size: 78, w: 800, align: 'center', color: '#fff', v: true, track: -0.03 });
+    if (dec) text(g, 'GB', x + measure(str, 78, 800, -0.03, true) / 2 - 12, y - 10, { size: 34, w: 700, color: 'rgba(255,255,255,.7)', v: true });
+    text(g, name, x, y + 56, { size: 24, w: 700, align: 'center', color: '#fff' });
+    text(g, was, x, y + 88, { size: 18, align: 'center', color: SUB });
+    g.restore();
+  });
 }
 
 // ---------- the floating screen ----------
@@ -403,18 +445,17 @@ const IN_FULL = { x: 960, y: 540, z: 1 };
 const IN_SHIELD = { x: 920, y: 525, z: 1.3 };
 const IN_PANEL = { x: 1600, y: 360, z: 1.9 };
 function innerCam(t) {
-  if (t < T.speed - 0.1) return IN_SHIELD;
-  if (t < T.pretty) { const e = gl(t, T.speed - 0.1); return { x: lerp(IN_SHIELD.x, IN_FULL.x, e), y: lerp(IN_SHIELD.y, IN_FULL.y, e), z: lerpLog(IN_SHIELD.z, IN_FULL.z, e) }; }
-  const e = gl(t, T.prettyCam, 1.6);
-  return { x: lerp(IN_FULL.x, IN_PANEL.x, e), y: lerp(IN_FULL.y, IN_PANEL.y, e), z: lerpLog(IN_FULL.z, IN_PANEL.z, e) };
+  if (t < T.ace - 0.1) return IN_SHIELD;
+  const e = gl(t, T.ace - 0.1);
+  return { x: lerp(IN_SHIELD.x, 960, e), y: lerp(IN_SHIELD.y, 530, e), z: lerpLog(IN_SHIELD.z, 1.25, e) };
 }
 const SCENES = [
   [T.card, (g, t, tq) => { wallpaper(g); topBar(g); controlPanel(g); dock(g, 1, ['shield']); shieldWindow(g, t, tq); }],
   [T.sandbox, (g, t) => sandbox(g, t)],
   [T.firewall, (g, t, tq) => { wallpaper(g); topBar(g); controlPanel(g); dock(g, 1, ['shield']); firewallWindow(g, t, tq); }],
   [T.guard, (g, t, tq) => { wallpaper(g); topBar(g); controlPanel(g); dock(g, 1, ['shield']); guardWindow(g, t, tq); }],
-  [T.speed, (g, t, tq) => speedScene(g, t, tq)],
-  [T.pretty, (g, t) => { wallpaper(g); topBar(g); controlPanel(g); dock(g); }],
+  [T.ace, (g, t, tq) => aceScene(g, t, tq)],
+  [T.lean, (g, t, tq) => leanScene(g, t, tq)],
 ];
 function drawCard(g, t, tq) {
   if (t < T.card || t > T.cardOut + G) return;
@@ -453,35 +494,43 @@ function seek(t, tq = t) {
   t = clamp(t, 0, DUR - 1e-6); tq = clamp(tq, 0, DUR - 1e-6);
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
   Z = 1;
-  headline(ctx, 'Your computer knows everything about you.', 960, 540, 84, T.l1, T.l1out, t);
-  headline(ctx, 'Who else does?', 960, 540, 84, T.l2, T.l2out, t);
-  // brand beat: the star, then the line
+  headline(ctx, 'Your computer knows', 960, 475, 104, T.l1, T.l1out, t);
+  headline(ctx, 'everything about you.', 960, 605, 104, T.l1 + 0.3, T.l1out, t);
+  headline(ctx, 'Who else does?', 960, 540, 104, T.l2, T.l2out, t);
+  // brand beat: the star, then the name, then the promise
   const se = gl(t, T.star), so = gl(t, T.brandOut, 0.5);
-  if (se > 0 && so < 1) drawImg(ctx, 'star', 960, 420 - 10 * so, 110 * lerp(0.7, 1, se), se * (1 - so));
-  headline(ctx, 'NOVA. Private by design.', 960, 600, 84, T.brand, T.brandOut, t);
-  headline(ctx, 'No tracking.', 960, 400, 84, T.s1, T.stackOut, t);
-  headline(ctx, 'No account.', 960, 520, 84, T.s2, T.stackOut, t);
-  headline(ctx, 'Nothing to sign in to.', 960, 640, 84, T.s3, T.stackOut, t);
+  if (se > 0 && so < 1) drawImg(ctx, 'star', 960, 360 - 10 * so, 120 * lerp(0.7, 1, se), se * (1 - so));
+  headline(ctx, 'NOVA OS.', 960, 540, 112, T.brand, T.brandOut, t);
+  headline(ctx, 'Private by design.', 960, 670, 112, T.brand2, T.brandOut, t, { color: 'rgba(255,255,255,.62)' });
+  headline(ctx, 'Zero tracking.', 960, 400, 104, T.s1, T.stackOut, t);
+  headline(ctx, 'No account.', 960, 540, 104, T.s2, T.stackOut, t);
+  headline(ctx, 'Nothing phones home. Ever.', 960, 680, 104, T.s3, T.stackOut, t);
   drawCard(ctx, t, tq);
   ctx.setTransform(1, 0, 0, 1, 0, 0); Z = 1;
   // captions under the screen
-  const cap = (s, a, b) => headline(ctx, s, 960, 978, 50, a, b, t, { w: 700 });
-  cap('16 privacy tools. One app.', T.capShield, T.capShieldOut);
-  cap('Every app lives in its own space.', T.capSand1, T.capSand2 - 0.35);
-  cap('None can see another.', T.capSand2, T.capSandOut);
-  cap('A firewall that says no.', T.capFw, T.capFwOut);
+  const cap = (s2, a2, b2, o) => headline(ctx, s2, 960, 978, 60, a2, b2, t, o);
+  cap('All your privacy. One app.', T.capShield, T.capShieldOut);
+  cap('14 protections. One tap each.', T.capShield2, T.capShield2Out);
+  cap('Apps can’t touch what they shouldn’t.', T.capSand, T.capSandOut);
+  cap('Nothing gets in unless you allow it.', T.capFw, T.capFwOut);
   cap('NOVA Guard. Protection, built in.', T.capGuard, T.capGuardOut);
-  cap('Light. Boots in 5 seconds.', T.capSpeed, T.capSpeedOut);
-  cap('Beautiful, too.', T.capPretty, T.capPrettyOut);
+  cap('Meet ACE. Your AI, built right in.', T.capAce, T.capAceOut);
+  cap('Only when you ask.', T.capAce2, T.capAce2Out);
+  cap('Light. Fast. Clean.', T.capLean, T.capLeanOut);
+  cap('Boots in 5 seconds.', T.capBoot, T.capBootOut);
   // end card: the screen folds into the star
   const ee = gl(t, T.endStar);
-  if (ee > 0) drawImg(ctx, 'star', 960, 430, lerp(120, 170, ee), ee);
+  if (ee > 0) drawImg(ctx, 'star', 960, 400, lerp(130, 180, ee), ee);
   if (t >= T.endName) {
     const e = gl(t, T.endName);
-    text(ctx, 'NOVA', 960 + 8, 600 + 20 * (1 - e), { size: 64, w: 700, track: 0.28, align: 'center', base: 'middle', color: '#fff', a: e });
+    text(ctx, 'NOVA OS', 960 + 14, 590 + 20 * (1 - e), { size: 60, w: 500, track: 0.42, align: 'center', base: 'middle', color: '#fff', a: e, v: true });
   }
-  headline(ctx, 'Coming soon.', 960, 700, 44, T.soon, 99, t, { w: 600, color: 'rgba(255,255,255,.85)' });
-  if (t >= T.built) text(ctx, 'Built on Arch Linux & Hyprland', 960, 1010, { size: 22, w: 500, align: 'center', color: 'rgba(255,255,255,.45)', a: gl(t, T.built) });
+  headline(ctx, 'Coming soon.', 960, 700, 52, T.soon, 99, t, { color: 'rgba(255,255,255,.85)' });
+  if (t >= T.built) {
+    const e = gl(t, T.built);
+    text(ctx, 'byeno.org', 960, 790, { size: 26, w: 600, align: 'center', color: 'rgba(255,255,255,.7)', a: e });
+    text(ctx, 'Built on Arch Linux & Hyprland', 960, 1010, { size: 22, w: 500, align: 'center', color: 'rgba(255,255,255,.4)', a: e });
+  }
 }
 
 const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const aC = acc.getContext('2d');
@@ -499,6 +548,7 @@ const isFast = t => (t > T.card - 0.05 && t < T.card + G + 0.05) || (t > T.cardO
 
 const ready = (async () => {
   await Promise.all(['400', '500', '600', '700', '900'].map(w => document.fonts.load(`${w} 20px Geist`)));
+  await Promise.all(['500', '700', '800'].map(w => document.fonts.load(`${w} 20px GeistV`)));
   const A = '../nova-os/assets/';
   await Promise.all([load('wall', A + 'wallpaper-padded.jpg'), load('folder', A + 'folder.webp'), load('settings', A + 'settings.webp'), load('shield', A + 'shield.webp'), load('star', A + 'nova-star.png')]);
   BLUR_WALL = document.createElement('canvas'); BLUR_WALL.width = IMG.wall.width; BLUR_WALL.height = IMG.wall.height;

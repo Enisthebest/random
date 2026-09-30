@@ -1,6 +1,6 @@
 // Converts the Lucide SVGs we use into plain path strings for Path2D.
 import fs from 'fs';
-const names = ['shuffle','lock','globe','camera-off','camera','usb','trash-2','plus','brick-wall','shield-check','scan-search','network','circle-check','ban','house','chevron-up','volume-2','power','audio-lines','monitor','headphones','moon','moon-star','sun','hard-drive','eject','search','folder','pencil','file-search','zap'];
+const names = ['shuffle','lock','globe','camera-off','camera','usb','trash-2','plus','brick-wall','shield-check','scan-search','network','circle-check','ban','house','chevron-up','volume-2','power','audio-lines','monitor','headphones','moon','moon-star','sun','hard-drive','eject','search','folder','pencil','file-search','zap','eye','thermometer','square-terminal','message-circle','app-window','mail','layers','arrow-up'];
 const attr = (s, k) => { const m = s.match(new RegExp(`\\b${k}="([^"]*)"`)); return m ? +m[1] || m[1] : 0; };
 const out = {};
 for (const n of names) {

@@ -149,7 +149,8 @@ peak(tick(1400, 0.006), T['camClick'] + 0.08, 0.2)
 for i in range(6):
     peak(tick(2200 + 150 * i, 0.003), T['firewall'] + 0.3 + i * 0.3 + 0.3, 0.1)
 peak(chime([note('D6'), note('A6')], 1.6), T['scanDone'] + 0.1, 0.1)
-peak(whoosh(0.8, 200, 1800), T['unlock'] + 0.4, 0.2)
+peak(whoosh(0.8, 200, 1800), T['lean'] + 0.4, 0.2)
+peak(chime([note('A5'), note('D6')], 1.4), T['ace'] + 0.6, 0.06)
 peak(whoosh(0.8, 2500, 300), T['cardOut'] + 0.45, 0.2)
 peak(chime([note('D6'), note('F#6'), note('A6'), note('D7')], 3.5), T['endStar'] + 0.5, 0.1)
 # final resolving chord under the end card
