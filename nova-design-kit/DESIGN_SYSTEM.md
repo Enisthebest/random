@@ -65,6 +65,8 @@ Tinted chips use the accent at 16% opacity for the background and the text colou
 ### Wallpaper
 The blue→cyan→cream→orange wallpaper (`assets/wallpaper.png`). Behind windows it shows through blurred; on the lock screen it's blurred 36 px with a 32% black layer.
 
+NOVA ships six wallpapers (NOVA, Aurora, Ember, Lilac, Ocean, Citrus) in the separate `nova-wallpapers/` pack. Each one sets its own accent colour: `--accent` follows the current wallpaper unless "Match accent to wallpaper" is off. The values and rules are in `nova-wallpapers/README.md`.
+
 ---
 
 ## 3. Type
