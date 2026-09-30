@@ -153,6 +153,36 @@ peak(whoosh(0.8, 200, 1800), T['lean'] + 0.4, 0.2)
 peak(chime([note('A5'), note('D6')], 1.4), T['ace'] + 0.6, 0.06)
 peak(whoosh(0.8, 2500, 300), T['cardOut'] + 0.45, 0.2)
 peak(chime([note('D6'), note('F#6'), note('A6'), note('D7')], 3.5), T['endStar'] + 0.5, 0.1)
+
+# ---------- typing: a key per word as each line appears, a key per letter for ACE ----------
+def key(v):
+    """One soft keystroke: a short click on top of a low thock, varied per key."""
+    n = int(0.06 * SR); tt = t_(n)
+    f = 2600 + 900 * v
+    click_ = bp(rng.standard_normal(n), f, f * 1.9) * np.exp(-tt / 0.004)
+    thock = np.sin(2 * np.pi * (170 + 50 * v) * tt) * np.exp(-tt / 0.018) * 0.5
+    return (click_ + thock) * np.minimum(1, tt / 0.0008)
+
+
+LINES = [
+    ('Your computer knows', T['l1']), ('everything about you.', T['l1'] + 0.3), ('Who else does?', T['l2']),
+    ('NOVA OS.', T['brand']), ('Private by design.', T['brand2']),
+    ('Zero tracking.', T['s1']), ('No account.', T['s2']), ('Nothing phones home. Ever.', T['s3']),
+    ('All your privacy. One app.', T['capShield']), ('14 protections. One tap each.', T['capShield2']),
+    ('Apps can’t touch what they shouldn’t.', T['capSand']), ('Nothing gets in unless you allow it.', T['capFw']),
+    ('NOVA Guard. Protection, built in.', T['capGuard']), ('Meet ACE. Your AI, built right in.', T['capAce']),
+    ('Only when you ask.', T['capAce2']), ('Light. Fast. Clean.', T['capLean']), ('Boots in 5 seconds.', T['capBoot']),
+    ('Coming soon.', T['soon']),
+]
+for line, t0 in LINES:
+    for i, _ in enumerate(line.split(' ')):
+        peak(key(rng.random()), t0 + i * 0.07 + 0.03, 0.11 * (0.8 + 0.4 * rng.random()))
+q = 'How hot is my PC running?'
+for i, ch in enumerate(q):
+    if ch != ' ':
+        peak(key(rng.random()), T['aceType'] + i * 0.55 / len(q), 0.08 * (0.8 + 0.4 * rng.random()))
+peak(key(0.2) * 1.3, T['aceType'] + 0.62, 0.1)   # enter
+
 # final resolving chord under the end card
 for i, nm in enumerate(['D2', 'A2', 'F#3', 'A3', 'C#4', 'E4']):
     place(keys, piano(note(nm), 4.0, 0.5), T['cardOut'] + 0.5 + i * 0.04)
