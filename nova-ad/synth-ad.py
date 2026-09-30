@@ -166,7 +166,7 @@ def key(v):
 
 LINES = [
     ('Your computer knows', T['l1']), ('everything about you.', T['l1'] + 0.3), ('Who else does?', T['l2']),
-    ('NOVA OS.', T['brand']), ('Private by design.', T['brand2']),
+    ('NOVA OS Pro.', T['brand']), ('Private by design.', T['brand2']),
     ('Zero tracking.', T['s1']), ('No account.', T['s2']), ('Nothing phones home. Ever.', T['s3']),
     ('All your privacy. One app.', T['capShield']), ('14 protections. One tap each.', T['capShield2']),
     ('Apps can’t touch what they shouldn’t.', T['capSand']), ('Nothing gets in unless you allow it.', T['capFw']),

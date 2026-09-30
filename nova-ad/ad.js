@@ -503,7 +503,7 @@ function seek(t, tq = t) {
   // brand beat: the star, then the name, then the promise
   const se = gl(t, T.star), so = gl(t, T.brandOut, 0.5);
   if (se > 0 && so < 1) drawImg(ctx, 'star', 960, 360 - 10 * so, 120 * lerp(0.7, 1, se), se * (1 - so));
-  headline(ctx, 'NOVA OS.', 960, 540, 112, T.brand, T.brandOut, t);
+  headline(ctx, 'NOVA OS Pro.', 960, 540, 112, T.brand, T.brandOut, t);
   headline(ctx, 'Private by design.', 960, 670, 112, T.brand2, T.brandOut, t, { color: 'rgba(255,255,255,.62)' });
   headline(ctx, 'Zero tracking.', 960, 400, 104, T.s1, T.stackOut, t);
   headline(ctx, 'No account.', 960, 540, 104, T.s2, T.stackOut, t);
@@ -526,7 +526,7 @@ function seek(t, tq = t) {
   if (ee > 0) drawImg(ctx, 'star', 960, 400, lerp(130, 180, ee), ee);
   if (t >= T.endName) {
     const e = gl(t, T.endName);
-    text(ctx, 'NOVA OS', 960 + 14, 590 + 20 * (1 - e), { size: 60, w: 500, track: 0.42, align: 'center', base: 'middle', color: '#fff', a: e, v: true });
+    text(ctx, 'NOVA OS PRO', 960 + 14, 590 + 20 * (1 - e), { size: 60, w: 500, track: 0.42, align: 'center', base: 'middle', color: '#fff', a: e, v: true });
   }
   headline(ctx, 'Coming soon.', 960, 700, 52, T.soon, 99, t, { color: 'rgba(255,255,255,.85)' });
   if (t >= T.built) {
