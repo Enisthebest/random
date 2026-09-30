@@ -6,7 +6,7 @@ from scipy.signal import butter, lfilter, fftconvolve
 
 SR = 48000
 T = json.load(open('out/timeline.json'))
-DUR = 30.0
+DUR = 60.0
 N = int(DUR * SR) + SR * 3          # room for tails, trimmed at the end
 rng = np.random.default_rng(11)
 BPM = 80
@@ -71,7 +71,7 @@ CH = {
     'Gmaj7': ['G2', 'D3', 'F#3', 'B3', 'E4'],
     'A6sus': ['A2', 'E3', 'F#3', 'B3', 'D4'],
 }
-PROG = ['Dmaj9', 'Bm9', 'Gmaj7', 'A6sus'] * 2 + ['Gmaj7', 'Dmaj9']
+PROG = ['Dmaj9', 'Bm9', 'Gmaj7', 'A6sus'] * 4 + ['Gmaj7', 'A6sus', 'Gmaj7', 'Dmaj9']
 MEL = ['F#5', 'E5', 'D5', 'E5', 'C#5', 'A4', 'B4', 'C#5', 'D5', 'E5', 'F#5', 'A5', 'E5', 'D5', 'C#5', 'D5']
 
 keys = np.zeros(N); pads = np.zeros(N); low = np.zeros(N); perc = np.zeros(N); sfx = np.zeros(N)
@@ -147,7 +147,7 @@ peak(whoosh(0.8, 300, 2000), T['shieldWin'] + 0.45, 0.12)
 peak(click(), T['camClick'], 0.35)
 peak(tick(1400, 0.006), T['camClick'] + 0.08, 0.2)
 for i in range(6):
-    peak(tick(2200 + 150 * i, 0.003), T['firewall'] + 0.3 + i * 0.3 + 0.3, 0.1)
+    peak(tick(2200 + 150 * i, 0.003), T['firewall'] + 0.4 + i * 0.5 + 0.3, 0.1)
 peak(chime([note('D6'), note('A6')], 1.6), T['scanDone'] + 0.1, 0.1)
 peak(whoosh(0.8, 200, 1800), T['lean'] + 0.4, 0.2)
 peak(chime([note('A5'), note('D6')], 1.4), T['ace'] + 0.6, 0.06)

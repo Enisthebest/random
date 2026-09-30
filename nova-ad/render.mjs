@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import { spawn } from 'child_process';
 const FF = '/usr/local/lib/python3.11/dist-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2';
 const out = process.argv[2] || 'out/nova-ad-preview.mp4';
-const FPS = 60, N = Math.round(30 * FPS);
+const FPS = 60, N = Math.round(60 * FPS);
 const ff = spawn(FF, ['-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out], { stdio: ['pipe', 'ignore', 'inherit'] });
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });

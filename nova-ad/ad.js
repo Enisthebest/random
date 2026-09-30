@@ -1,6 +1,6 @@
 // NOVA — 30s ad. Bold white type on black, OS clips in a floating screen. Pure function of time.
 (() => {
-const W = 1920, H = 1080, DUR = 30;
+const W = 1920, H = 1080, DUR = 60;
 const G = 0.8;
 
 const T = {
@@ -19,6 +19,9 @@ const T = {
   cardOut: 25.35,                  // the screen folds into the star
   endStar: 25.75, endName: 26.25, soon: 26.95, built: 27.40,
 };
+
+// the 30s cut, given twice the time so every line can be read
+for (const k in T) T[k] *= 2;
 
 // ---------- easing ----------
 function bezier(x1, y1, x2, y2) {
@@ -284,11 +287,11 @@ function firewallWindow(g, t, tq) {
   text(g, 'Nothing gets in unless you allow it.', 660, 284, { size: 15, color: SUB });
   // live count of the rows shown so far: whole values only
   let blocked = 0;
-  FW_ROWS.forEach(([, , ok], i) => { if (!ok && tq >= T.firewall + 0.3 + i * 0.3) blocked++; });
+  FW_ROWS.forEach(([, , ok], i) => { if (!ok && tq >= T.firewall + 0.4 + i * 0.5) blocked++; });
   text(g, String(blocked), 1262, 262, { size: 34, w: 800, align: 'right', color: '#fff', v: true });
   text(g, 'blocked', 1262, 284, { size: 13, align: 'right', color: SUB });
   FW_ROWS.forEach(([who, dst, ok], i) => {
-    const t0 = T.firewall + 0.3 + i * 0.3, e = gl(t, t0, 0.6);
+    const t0 = T.firewall + 0.4 + i * 0.5, e = gl(t, t0, 0.6);
     if (e <= 0) return;
     const y = fwRowY(i) + 16 * (1 - e);
     g.save(); g.globalAlpha *= e;
