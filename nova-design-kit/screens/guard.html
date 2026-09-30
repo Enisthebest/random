@@ -3,11 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>NOVA Guard</title>
-<script src="./support.js"></script>
 </head>
 <body>
-<x-dc>
-<helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
@@ -60,17 +57,16 @@ th{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
 td{padding:11px 0;border-top:1px solid rgba(255,255,255,.05);color:#e4e4e7}
 td.m{color:#a1a1aa}
 </style>
-</helmet>
 <div class="frame" style="width: 1440px; height: 900px">
-<img class="wall" src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="">
+<img class="wall" src="../assets/wallpaper.png" alt="">
 <div class="bar">
 <div class="pill" style="width: 165px"><span style="width: 27px; height: 22px; border-radius: 7px; background: #c9c9cf; display: block"></span></div>
 <div class="pill">12:22</div>
-<div style="display: flex; gap: 10px"><div class="pill"><img src="/_blob/7648c8f5b886accd3eaf466089cdf7e4" alt="" style="width: 16px; height: 16px; object-fit: contain"><img src="/_blob/13f573a93c0b6cd51fc2774545d5e2ec" alt="" style="width: 16px; height: 16px; object-fit: contain"></div><div class="pill">us</div></div>
+<div style="display: flex; gap: 10px"><div class="pill"><img src="../assets/nova-star.png" alt="" style="width: 16px; height: 16px; object-fit: contain"><img src="../assets/shield.webp" alt="" style="width: 16px; height: 16px; object-fit: contain"></div><div class="pill">us</div></div>
 </div>
 <div class="win">
 <aside class="side">
-<div class="app"><img src="/_blob/13f573a93c0b6cd51fc2774545d5e2ec" alt="" style="width: 36px; height: 36px; object-fit: contain"><b>NOVA Guard</b></div>
+<div class="app"><img src="../assets/shield.webp" alt="" style="width: 36px; height: 36px; object-fit: contain"><b>NOVA Guard</b></div>
 <button class="nav on" aria-current="page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="7" height="7" x="3" y="3" rx="1"></rect> <rect width="7" height="7" x="14" y="3" rx="1"></rect> <rect width="7" height="7" x="14" y="14" rx="1"></rect> <rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Overview</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 7V5a2 2 0 0 1 2-2h2"></path> <path d="M17 3h2a2 2 0 0 1 2 2v2"></path> <path d="M21 17v2a2 2 0 0 1-2 2h-2"></path> <path d="M7 21H5a2 2 0 0 1-2-2v-2"></path> <circle cx="12" cy="12" r="3"></circle> <path d="m16 16-1.9-1.9"></path></svg>Scans</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="20" height="5" x="2" y="3" rx="1"></rect> <path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8"></path> <path d="M10 12h4"></path></svg>Quarantine</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"></path></svg>Real-time</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path> <path d="M3 3v5h5"></path> <path d="M12 7v5l4 2"></path></svg>History</button>
 </aside>
 <main class="main">
@@ -78,11 +74,5 @@ td.m{color:#a1a1aa}
 </main>
 </div>
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
-class Component extends DCLogic {
-renderVals() { return {}; }
-}
-</script>
 </body>
 </html>

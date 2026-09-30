@@ -38,10 +38,10 @@ button{font:inherit;color:inherit}
 .head{height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06)}
 .h1{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0}
 .sub{font-size:14px;color:#a1a1aa;margin:2px 0 0}
-.body{flex-grow:1;padding:28px 32px;display:flex;flex-direction:column;gap:20px;overflow:hidden}
-.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:20px;box-sizing:border-box}
+.body{flex-grow:1;padding:24px 32px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px 20px;box-sizing:border-box}
 .label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96;margin:0 0 12px}
-.row{display:flex;align-items:center;gap:14px;min-height:56px;border-top:1px solid rgba(255,255,255,.05)}
+.row{display:flex;align-items:center;gap:14px;min-height:48px;border-top:1px solid rgba(255,255,255,.05)}
 .row:first-of-type{border-top:0}
 .rt{flex-grow:1;min-width:0}
 .rt b{display:block;font-size:15px;font-weight:600}
@@ -141,12 +141,12 @@ cards = ''.join(f'<div class="card"><p class="label">{g}</p>' + ''.join(row(i, n
 B['Main.dc.html'] = ('NOVA Shield', page('NOVA Shield', 'shield', 'Shield',
  [('Overview', 'layout-grid', 1), ('Network', 'globe', 0), ('Identity', 'fingerprint', 0), ('Device', 'laptop', 0), ('Data', 'hard-drive', 0), '§Insight', ('Activity', 'activity', 0)],
  head('Privacy', '14 protections. One tap each.', '<span class="chip ok">' + ic('shield-check', 15) + 'Protected</span>') +
- '<div class="body" style="gap: 20px">'
- '<div class="card" style="display: flex; align-items: center; gap: 22px; padding: 22px 26px; background: linear-gradient(90deg, rgba(52,199,89,.10), rgba(255,255,255,.03))">'
- f'<img src="{A["shield"]}" alt="" style="width: 72px; height: 72px; object-fit: contain">'
+ '<div class="body" style="gap: 16px">'
+ '<div class="card" style="display: flex; align-items: center; gap: 22px; padding: 14px 24px; background: linear-gradient(90deg, rgba(52,199,89,.10), rgba(255,255,255,.03))">'
+ f'<img src="{A["shield"]}" alt="" style="width: 60px; height: 60px; object-fit: contain">'
  '<div style="flex-grow: 1"><div style="font-size: 22px; font-weight: 700; letter-spacing: -.02em">You’re protected</div><div class="sub">11 of 14 protections on · nothing phones home</div></div>'
  '<button class="btn">' + ic('sliders-horizontal', 16) + 'Turn all on</button></div>'
- f'<div class="grid2" style="grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start">{cards}</div></div>'))
+ f'<div class="grid2" style="grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px">{cards}</div></div>'))
 
 # ---------- NOVA Guard ----------
 B['Guard.dc.html'] = ('NOVA Guard', page('NOVA Guard', 'shield', 'NOVA Guard',
@@ -208,9 +208,9 @@ B['Monitor.dc.html'] = ('Monitor', page('Monitor', 'monitor', 'Monitor',
 
 # ---------- Ledger ----------
 def vcard(title, kind, last, grad, x=0, y=0, z=1, rot=0):
-    return (f'<div style="width: 360px; height: 226px; border-radius: 22px; background: {grad}; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 40px rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.18); flex-shrink: 0">'
+    return (f'<div style="width: 290px; height: 182px; border-radius: 20px; background: {grad}; padding: 24px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 40px rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.18); flex-shrink: 0">'
             f'<div style="display: flex; justify-content: space-between; align-items: center"><span style="font-weight: 700; font-size: 16px">{title}</span><img src="{A["star"]}" alt="" style="width: 26px; height: 26px; object-fit: contain"></div>'
-            f'<div><div class="mono" style="font-size: 20px; letter-spacing: .12em">•••• •••• •••• {last}</div><div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: rgba(255,255,255,.8)"><span>[CARDHOLDER]</span><span>{kind}</span></div></div></div>')
+            f'<div><div class="mono" style="font-size: 16px; letter-spacing: .1em">•••• •••• •••• {last}</div><div style="display: flex; justify-content: space-between; margin-top: 12px; font-size: 13px; color: rgba(255,255,255,.8)"><span>[CARDHOLDER]</span><span>{kind}</span></div></div></div>')
 B['Ledger.dc.html'] = ('Ledger', page('Ledger', 'ledger', 'Ledger',
  [('Cards', 'credit-card', 1), ('Passes', 'ticket', 0), ('Receipts', 'receipt', 0), '§Privacy', ('Locked cards', 'lock', 0), ('Activity', 'activity', 0)],
  head('Card vault', 'Encrypted and stored only on this device.', '<button class="btn pri">' + ic('plus', 16) + 'Add card</button>') +
@@ -267,14 +267,14 @@ sw = ['#268cff', '#ff921e', '#30d158', '#ff408c', '#a060ff', '#8e8e98']
 B['Settings.dc.html'] = ('Settings', page('Settings', 'settings', 'Settings',
  [('Appearance', 'palette', 1), ('Display', 'monitor', 0), ('Sound', 'volume-2', 0), ('Network', 'wifi', 0), ('Privacy', 'shield-check', 0), ('Keyboard', 'keyboard', 0), '§System', ('About NOVA', 'info', 0)],
  head('Appearance', 'Make it yours.', '') +
- '<div class="body" style="gap: 20px"><div class="card"><p class="label">Theme</p><div style="display: flex; gap: 16px">'
- + ''.join(f'<button style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start"><div style="width: 200px; height: 120px; border-radius: 14px; background: {bg}; border: {"2px solid #3b8bff" if on else "1px solid rgba(255,255,255,.12)"}; box-sizing: border-box; position: relative; overflow: hidden"><div style="position: absolute; left: 14px; top: 14px; width: 110px; height: 70px; border-radius: 9px; background: {fg}"></div></div><span style="font-size: 14px; font-weight: 600">{n}</span></button>'
+ '<div class="body" style="gap: 14px"><div class="card"><p class="label">Theme</p><div style="display: flex; gap: 16px">'
+ + ''.join(f'<button style="border: 0; background: none; padding: 0; display: flex; flex-direction: column; gap: 10px; align-items: flex-start"><div style="width: 180px; height: 96px; border-radius: 14px; background: {bg}; border: {"2px solid #3b8bff" if on else "1px solid rgba(255,255,255,.12)"}; box-sizing: border-box; position: relative; overflow: hidden"><div style="position: absolute; left: 14px; top: 14px; width: 110px; height: 56px; border-radius: 9px; background: {fg}"></div></div><span style="font-size: 14px; font-weight: 600">{n}</span></button>'
    for n, bg, fg, on in [('Dark', '#0c0c10', '#1c1c22', 1), ('Light', '#e9e9ee', '#ffffff', 0), ('Auto', 'linear-gradient(90deg, #0c0c10 50%, #e9e9ee 50%)', 'rgba(128,128,136,.5)', 0)]) +
  '</div></div><div class="grid2"><div class="card"><p class="label">Accent colour</p><div style="display: flex; gap: 14px">'
  + ''.join(f'<button aria-label="Accent {c}" style="width: 40px; height: 40px; border-radius: 20px; background: {c}; border: 0; {"outline: 2.5px solid #fff; outline-offset: 3px" if i == 0 else ""}"></button>' for i, c in enumerate(sw)) +
  '</div></div><div class="card"><p class="label">Text size</p><div style="display: flex; align-items: center; gap: 14px"><span style="font-size: 13px">A</span><div style="flex-grow: 1; height: 6px; border-radius: 3px; background: rgba(255,255,255,.1); position: relative"><div style="width: 45%; height: 6px; border-radius: 3px; background: #3b8bff"></div><div style="position: absolute; left: 45%; top: -8px; width: 22px; height: 22px; border-radius: 11px; background: #f4f4f6; margin-left: -11px"></div></div><span style="font-size: 20px; font-weight: 600">A</span></div></div></div>'
  '<div class="card"><p class="label">Wallpaper</p><div style="display: flex; gap: 16px">'
- + ''.join(f'<div style="width: 220px; height: 124px; border-radius: 14px; overflow: hidden; border: {"2px solid #3b8bff" if i == 0 else "1px solid rgba(255,255,255,.1)"}"><img src="{A["wall"]}" alt="Wallpaper option {i+1}" style="width: 100%; height: 100%; object-fit: cover; object-position: {p}; filter: hue-rotate({h}deg)"></div>' for i, (p, h) in enumerate([('50% 50%', 0), ('80% 30%', 40), ('30% 70%', -40), ('60% 60%', 180)])) +
+ + ''.join(f'<div style="width: 200px; height: 104px; border-radius: 14px; overflow: hidden; border: {"2px solid #3b8bff" if i == 0 else "1px solid rgba(255,255,255,.1)"}"><img src="{A["wall"]}" alt="Wallpaper option {i+1}" style="width: 100%; height: 100%; object-fit: cover; object-position: {p}; filter: hue-rotate({h}deg)"></div>' for i, (p, h) in enumerate([('50% 50%', 0), ('80% 30%', 40), ('30% 70%', -40), ('60% 60%', 180)])) +
  '</div></div><div class="card" style="padding-top: 10px; padding-bottom: 10px">'
  + row('layers', 'Transparency', 'Blur behind windows and panels', tog(1, 'Transparency'))
  + row('moon-star', 'Night Mode on a schedule', 'Warmer after sunset', tog(1, 'Night Mode schedule')) +

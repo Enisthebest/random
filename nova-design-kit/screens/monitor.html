@@ -3,11 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Monitor</title>
-<script src="./support.js"></script>
 </head>
 <body>
-<x-dc>
-<helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
@@ -60,17 +57,16 @@ th{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
 td{padding:11px 0;border-top:1px solid rgba(255,255,255,.05);color:#e4e4e7}
 td.m{color:#a1a1aa}
 </style>
-</helmet>
 <div class="frame" style="width: 1440px; height: 900px">
-<img class="wall" src="/_blob/7d31e4e8d17b4505882c1cd7aa30b595" alt="">
+<img class="wall" src="../assets/wallpaper.png" alt="">
 <div class="bar">
 <div class="pill" style="width: 165px"><span style="width: 27px; height: 22px; border-radius: 7px; background: #c9c9cf; display: block"></span></div>
 <div class="pill">12:22</div>
-<div style="display: flex; gap: 10px"><div class="pill"><img src="/_blob/7648c8f5b886accd3eaf466089cdf7e4" alt="" style="width: 16px; height: 16px; object-fit: contain"><img src="/_blob/13f573a93c0b6cd51fc2774545d5e2ec" alt="" style="width: 16px; height: 16px; object-fit: contain"></div><div class="pill">us</div></div>
+<div style="display: flex; gap: 10px"><div class="pill"><img src="../assets/nova-star.png" alt="" style="width: 16px; height: 16px; object-fit: contain"><img src="../assets/shield.webp" alt="" style="width: 16px; height: 16px; object-fit: contain"></div><div class="pill">us</div></div>
 </div>
 <div class="win">
 <aside class="side">
-<div class="app"><img src="/_blob/a026c59a86a658da97d38f270699cb31" alt="" style="width: 36px; height: 36px; object-fit: contain"><b>Monitor</b></div>
+<div class="app"><img src="../assets/monitor.png" alt="" style="width: 36px; height: 36px; object-fit: contain"><b>Monitor</b></div>
 <button class="nav on" aria-current="page"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect width="7" height="7" x="3" y="3" rx="1"></rect> <rect width="7" height="7" x="14" y="3" rx="1"></rect> <rect width="7" height="7" x="14" y="14" rx="1"></rect> <rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Overview</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M3 5h.01"></path> <path d="M3 12h.01"></path> <path d="M3 19h.01"></path> <path d="M8 5h13"></path> <path d="M8 12h13"></path> <path d="M8 19h13"></path></svg>Processes</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"></path></svg>Temperatures</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><rect x="16" y="16" width="6" height="6" rx="1"></rect> <rect x="2" y="16" width="6" height="6" rx="1"></rect> <rect x="9" y="2" width="6" height="6" rx="1"></rect> <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"></path> <path d="M12 12V8"></path></svg>Network</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M12 2v10"></path> <path d="M18.4 6.6a9 9 0 1 1-12.77.04"></path></svg>Startup</button>
 </aside>
 <main class="main">
@@ -78,11 +74,5 @@ td.m{color:#a1a1aa}
 </main>
 </div>
 </div>
-</x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
-class Component extends DCLogic {
-renderVals() { return {}; }
-}
-</script>
 </body>
 </html>
