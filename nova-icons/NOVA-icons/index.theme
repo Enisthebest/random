@@ -1,0 +1,19 @@
+[Icon Theme]
+Name=NOVA
+Comment=NOVA OS icons (Lucide + NOVA)
+Inherits=Adwaita,hicolor
+Directories=symbolic/apps,symbolic/status
+
+[symbolic/apps]
+Context=Applications
+Size=16
+MinSize=8
+MaxSize=512
+Type=Scalable
+
+[symbolic/status]
+Context=Status
+Size=16
+MinSize=8
+MaxSize=512
+Type=Scalable

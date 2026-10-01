@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>NOVA icons</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--bg:#0b0b0e;--card:#141418;--tx:#f2f2f4;--sub:#8d8d96;--acc:#6aa8ff}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:Geist,system-ui,sans-serif}
+header{position:sticky;top:0;background:rgba(11,11,14,.92);backdrop-filter:blur(20px);padding:20px 24px;display:flex;gap:16px;align-items:center;z-index:2}
+h1{font-size:22px;margin:0;font-weight:700;letter-spacing:-.02em}
+input{flex:1;max-width:420px;height:40px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:var(--tx);padding:0 14px;font:inherit}
+#n{color:var(--sub);font-size:13px}
+h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sub);margin:24px 24px 8px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;padding:0 24px 24px}
+.i{background:var(--card);border-radius:14px;padding:16px 6px 10px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer;border:1px solid transparent}
+.i:hover{border-color:rgba(106,168,255,.5)}
+.i svg{width:28px;height:28px;color:var(--tx)}
+.i.nova svg{color:var(--acc)}
+.i span{font-size:11px;color:var(--sub);text-align:center;word-break:break-all}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#f2f2f4;color:#0b0b0e;padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:opacity .4s}
+</style></head><body>
+<header><h1>NOVA icons</h1><input id="q" placeholder="Search 2,164 icons (name or tag)"><span id="n"></span></header>
+<h2>NOVA</h2><div class="g" id="nova"></div>
+<h2>All icons</h2><div class="g" id="all"></div>
+<div class="toast" id="t">Copied</div>
+<script src="icons-data.js"></script>
+<script>
+const nova = document.getElementById('nova'), all = document.getElementById('all'), q = document.getElementById('q'), n = document.getElementById('n'), toast = document.getElementById('t');
+const items = Object.keys(ICONS).sort().map(name => {
+  const d = document.createElement('div'); d.className = 'i' + (name.startsWith('nova-') ? ' nova' : '');
+  d.innerHTML = ICONS[name] + '<span>' + name + '</span>'; d.title = (TAGS[name] || []).join(', ');
+  d.onclick = () => { navigator.clipboard && navigator.clipboard.writeText(name); toast.textContent = 'Copied ' + name; toast.style.opacity = 1; setTimeout(() => toast.style.opacity = 0, 1200); };
+  (name.startsWith('nova-') ? nova : all).appendChild(d); return [name, d];
+});
+function filter() {
+  const s = q.value.trim().toLowerCase(); let c = 0;
+  for (const [name, d] of items) { const ok = !s || name.includes(s) || (TAGS[name] || []).some(t => t.includes(s)); d.style.display = ok ? '' : 'none'; c += ok; }
+  n.textContent = c + ' icons';
+}
+q.oninput = filter; filter();
+</script></body></html>

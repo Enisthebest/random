@@ -19,7 +19,7 @@ You are the designer as well as the engineer. Every new NOVA screen must look li
 - **Big and calm.** Generous space: 24/32 px body padding, 16 px gaps, rows ≥ 48 px, controls 40 px. When unsure, add space, not lines.
 - **Strong type hierarchy.** One big title (26/700, −2%), secondary text in `#A1A1AA`, uppercase 12/600 section labels. Numbers that change use tabular figures / Geist Mono. Hero moments (a status, a result) get one large number or phrase (22–44 px, 700).
 - **Few, grouped things.** Group settings in cards with a label on top; 3–5 rows per card; lists with hairlines, not boxes inside boxes.
-- **Icons:** 3D clay icons for apps (`assets/`), Lucide 2 px line icons everywhere else, in a 34–36 px tinted tile (radius 10–11) when they lead a row.
+- **Icons:** 3D clay icons for apps (`assets/`); every other icon comes from the **`nova-icons/`** set (Lucide + NOVA's own, 2 px line), in a 34–36 px tinted tile (radius 10–11) when they lead a row. Never draw an icon by hand: search `nova-icons/gallery.html`, and follow `nova-icons/README.md` for which icon goes where.
 - **Radii:** window 24, panel 24, card 18, row 14, button 12, nav item 11, chip 999. Nested radius is always smaller than its parent.
 - **Selected state** = `--surface-selected` fill (accent 18%) + white text + accent icon. Never an outline.
 

@@ -5,7 +5,8 @@ Put both folders in your NOVA OS project folder (unzip them there):
 ```
 your-nova-project/
 ├── nova-design-kit/     ← from nova-design-kit.zip
-└── nova-wallpapers/     ← from nova-wallpapers.zip
+├── nova-wallpapers/     ← from nova-wallpapers.zip
+└── nova-icons/          ← from nova-icons.zip (icons for everything + a Linux icon theme)
 ```
 
 ## First: give Claude the NOVA design skill (so it designs like this forever)
