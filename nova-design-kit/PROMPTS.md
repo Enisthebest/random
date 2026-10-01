@@ -152,14 +152,32 @@ Rules: the model runs locally [OUR LOCAL MODEL/RUNTIME]; screen access always sh
 
 ## Shell
 
-### Top bar, dock and Control panel
+### Top bar, dock and Control panel — `png/shell-desktop.png`, `shell-control.png`, `shell-wifi.png`, `shell-bluetooth.png`
 ```
-Restyle the shell to match DESIGN_SYSTEM.md section 7 and the screenshots: floating 36px top-bar pills (workspace, clock, tray, keyboard layout, Control), the centred dock (64px, radius 16, 44px icons on a 60px pitch, accent dot under running apps, icons swell gently as the pointer passes), and the Control panel (Sound with output list, Do Not Disturb, Shortcuts, Network, Night Mode with temperature slider, USB & Drives). The Control pill grows into the panel with the 800ms glide; the cards appear one after another.
+Restyle the shell to match png/shell-desktop.png, png/shell-control.png, png/shell-wifi.png and png/shell-bluetooth.png (HTML in screens/shell-*.html), following DESIGN_SYSTEM.md section 7.
+Top bar: floating 36px pills, radius 12, 9px from the top: workspaces (dots; the active one is a 22px bar), centred clock, then tray (Wi-Fi, Bluetooth, volume, battery %), keyboard layout, and the Control pill (highlighted while the panel is open).
+Dock: centred, 64px, radius 16, 44px icons with 16px gaps, a divider before ACE, a 5px accent dot under running apps; icons swell gently as the pointer passes.
+Control panel: "Control" title + Edit; left column Sound (slider + output list with the active device highlighted), Do Not Disturb, Shortcuts (screenshot, search, files, lock, power); right column Wi-Fi and Bluetooth cards (tap opens their picker in place), Night Mode (toggle + warmth slider), USB & Drives (eject). The Control pill grows into the panel with the 800ms glide; cards appear one after another.
+Wi-Fi / Bluetooth pickers replace the panel in the same spot with a back chevron and an on/off toggle: networks/devices as 48px rows, the connected one highlighted, lock or battery on the right, then a footer action.
+Wire everything to the real system: [NetworkManager / iwd, BlueZ, PipeWire (wpctl), hyprsunset, udisks2].
 ```
 
-### Lock screen
+### Lock screen — `png/shell-lock.png`, `png/shell-lock-password.png`
 ```
-Build the lock screen: blurred wallpaper (36px) with a 32% black layer, clock 200px/600 in the upper third, date 30px/500 below, "Swipe up to unlock" at the bottom. On unlock the big clock shrinks and slides into the top-bar clock pill while the blur and dark layer fade out (800ms, NOVA curve); locking plays it in reverse.
+Build the lock screen to match png/shell-lock.png and png/shell-lock-password.png.
+Idle: blurred wallpaper (36px) with a 32% black layer, clock 200px/600, date 30px/500 below, "Swipe up to unlock" with a chevron at the bottom, Wi-Fi and battery top-right.
+Any key, click or swipe glides to the password state: the clock shrinks to 96px and moves up (800ms, NOVA curve), the avatar (88px), name and a 48px round password field fade in; the field focuses at once. Wrong password: the field turns red for 1s and clears (no shaking). Unlock: the clock shrinks into the top-bar clock pill while the blur and dark layer fade out; locking plays it in reverse.
+Use Quickshell's WlSessionLock (or our lock tool) and PAM for the password.
+```
+
+### Power menu — `png/shell-power.png`
+```
+Build the power menu to match png/shell-power.png: opens from the Control panel's power shortcut or Super+Escape. A centred glass panel over the desktop dimmed 40%: "Signed in as [NAME]", five 72px round buttons with labels and key hints: Lock (L), Sleep (S), Log out (O), Restart (R), Shut down (P, red tint). Arrow keys move, Enter or the letter runs it, Esc closes. Opens with a 400ms fade + scale 0.96→1. Use loginctl / systemctl.
+```
+
+### Volume and brightness popup (OSD) — `png/shell-osd.png`
+```
+Build the on-screen display to match png/shell-osd.png: a 340x56 glass pill centred 96px above the bottom, icon + a thin 8px white bar + the value. Shows when volume or brightness keys are pressed, the bar glides to the new value (400ms), and it fades out 1.5s after the last change. The icon follows the state (volume-x when muted, sun for brightness).
 ```
 
 ### Launcher — `png/launcher-open.png`, `launcher-search.png`, `launcher-calc.png`, `launcher-ace.png`
@@ -178,7 +196,7 @@ Performance: first results within 50ms of a keystroke; index apps, settings and 
 No shadows and no grey edges on the panel (see DESIGN_SYSTEM.md). Match the screenshots closely.
 ```
 
-### Notifications
+### Notifications — `png/shell-notifications.png`
 ```
-Build notification toasts: 382x66, radius 16, top-right under the top bar, app icon in a tinted circle, title 14/600, one line 12/400, "now" top-right. They slide in from the right with the glide. With Do Not Disturb on, an incoming toast folds down into the Do Not Disturb moon icon instead of staying.
+Build notification toasts to match png/shell-notifications.png: 382x66, radius 16, top-right under the top bar, stacked with 10px gaps (max 3, older ones collapse). App icon in a tinted circle (green for Shield/Guard, accent for system), title 14/600, one line 12/400, "now" top-right. They slide in from the right with the glide and leave after 5s. Clicking opens the related app. With Do Not Disturb on, an incoming toast folds down into the Do Not Disturb moon icon instead of staying.
 ```

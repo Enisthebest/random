@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Notifications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wall.blur{filter:blur(36px);transform:scale(1.1)}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.32)}
+/* top bar */
+.bar{position:absolute;left:0;right:0;top:9px;height:36px;display:flex;justify-content:space-between;padding:0 15px;box-sizing:border-box;z-index:3}
+.pill{height:36px;border-radius:12px;background:#101013;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:12px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600;color:#e4e4e7}
+.pill.on{background:#1b1b1f}
+.ws{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.28);display:inline-block}.ws.on{width:22px;background:#f2f2f4}
+.right{display:flex;gap:10px}
+/* dock */
+.dock{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);height:64px;border-radius:16px;background:rgba(16,16,19,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:16px;padding:0 12px;box-sizing:border-box;z-index:3}
+.dock .app{position:relative;width:44px;height:44px}
+.dock img{width:44px;height:44px;object-fit:contain;display:block}
+.dock .run::after{content:"";position:absolute;left:50%;bottom:-8px;width:5px;height:5px;margin-left:-2.5px;border-radius:3px;background:var(--acc)}
+.sep{width:1px;height:32px;background:rgba(255,255,255,.08)}
+/* shell cards (Control panel) */
+.cp{position:absolute;right:15px;top:57px;width:546px;display:flex;gap:14px;z-index:4}
+.cp-head{position:absolute;right:15px;top:57px;width:546px;display:flex;justify-content:space-between;align-items:center;z-index:4}
+.col{display:flex;flex-direction:column;gap:12px}
+.sc{border-radius:12px;background:linear-gradient(#131317,#09090d);border:1px solid rgba(255,255,255,.06);padding:14px 16px;box-sizing:border-box}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#b0b0b5;margin:0 0 12px}
+.rowc{display:flex;align-items:center;gap:12px}
+.rb{width:40px;height:40px;border-radius:20px;background:#252528;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#f2f2f4}
+.rb.on{background:var(--acc);color:#fff}
+.sl{position:relative;flex:1;height:24px;border-radius:12px;background:#222224}
+.sl i{position:absolute;left:0;top:0;bottom:0;border-radius:12px;background:linear-gradient(90deg,#1074e4,#268cff)}
+.sl b{position:absolute;top:1px;width:22px;height:22px;border-radius:11px;background:#f2f2f4;margin-left:-22px}
+.pct{font-size:12px;font-weight:600;color:#cdcdd2;width:34px;text-align:right}
+.out{display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-radius:10px;font-size:13px;color:#e4e4e7}
+.out.on{background:#363639}
+.t1{font-size:13px;font-weight:600}.t2{font-size:11px;color:#8c8c92;margin-top:2px}
+.tog{width:46px;height:26px;border-radius:13px;background:#353538;position:relative;flex-shrink:0;margin-left:auto}
+.tog::after{content:"";position:absolute;left:2px;top:2px;width:22px;height:22px;border-radius:11px;background:#f2f2f4}
+.tog.on{background:var(--acc)}.tog.on::after{left:22px}
+.tog.night{background:#ff9f0a}
+.edit{height:28px;padding:0 12px;border-radius:9px;background:#252528;font-size:12px;font-weight:600;display:flex;align-items:center}
+/* glass panel (power menu, pickers) */
+.glass{position:absolute;border-radius:24px;background:rgba(14,14,18,.86);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(40px) saturate(1.3);z-index:4}
+.kbd{height:24px;min-width:24px;padding:0 7px;box-sizing:border-box;border-radius:7px;background:rgba(255,255,255,.08);color:#a1a1aa;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;font-style:normal}
+/* notifications */
+.toasts{position:absolute;right:15px;top:57px;width:382px;display:flex;flex-direction:column;gap:10px;z-index:4}
+.toast{height:66px;border-radius:16px;background:rgba(16,16,20,.92);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(30px);display:flex;align-items:center;gap:12px;padding:0 14px;box-sizing:border-box}
+.toast .ti{width:38px;height:38px;border-radius:19px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toast .tt{flex:1;min-width:0}.toast b{display:block;font-size:14px;font-weight:600}.toast span{display:block;font-size:12px;color:#a1a1aa;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toast em{font-style:normal;font-size:11px;color:#8d8d96;align-self:flex-start;margin-top:13px}
+</style></head><body>
+<div class="frame" style="--acc:#268cff">
+<img class="wall" src="../assets/wallpaper.png" alt="">
+<div class="bar"><div class="pill" style="gap:7px"><i class="ws on"></i><i class="ws"></i><i class="ws"></i><i class="ws"></i></div><div class="pill">12:22</div><div class="right"><div class="pill"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20h.01" /> <path d="M2 8.82a15 15 0 0 1 20 0" /> <path d="M5 12.859a10 10 0 0 1 14 0" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="m7 7 10 10-5 5V2l5 5L7 17" /></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /> <path d="M16 9a5 5 0 0 1 0 6" /> <path d="M19.364 18.364a9 9 0 0 0 0-12.728" /></svg><span style="display:flex;align-items:center;gap:5px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M10 10v4" /> <path d="M14 10v4" /> <path d="M22 14v-4" /> <path d="M6 10v4" /> <rect x="2" y="6" width="16" height="12" rx="2" /></svg>86%</span></div><div class="pill">us</div><div class="pill" style="padding:0 9px" aria-label="Control"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M10 5H3" /> <path d="M12 19H3" /> <path d="M14 3v4" /> <path d="M16 17v4" /> <path d="M21 12h-9" /> <path d="M21 19h-5" /> <path d="M21 5h-7" /> <path d="M8 10v4" /> <path d="M8 12H3" /></svg></div></div></div><div class="dock"><div class="app run"><img src="../assets/folder.webp" alt=""></div><div class="app run"><img src="../assets/shield.webp" alt=""></div><div class="app"><img src="../assets/monitor.png" alt=""></div><div class="app"><img src="../assets/images.png" alt=""></div><div class="app"><img src="../assets/ledger.png" alt=""></div><div class="app"><img src="../assets/fix.png" alt=""></div><div class="app"><img src="../assets/settings.webp" alt=""></div><div class="sep"></div><div class="app"><img src="../assets/nova-star.png" alt=""></div></div><div class="toasts"><div class="toast"><div class="ti" style="background:rgba(52,199,89,.16);color:#5fdc86"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 7.5c.35 2.6 1.6 3.85 4.2 4.2-2.6.35-3.85 1.6-4.2 4.2-.35-2.6-1.6-3.85-4.2-4.2 2.6-.35 3.85-1.6 4.2-4.2z"/></svg></div><div class="tt"><b>Shield blocked a port scan</b><span>203.0.113.24 tried port 22. Nothing got in.</span></div><em>now</em></div><div class="toast"><div class="ti" style="background:rgba(38,140,255,.16);color:#6aa8ff"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><circle cx="10" cy="7" r="1" /> <circle cx="4" cy="20" r="1" /> <path d="M4.7 19.3 19 5" /> <path d="m21 3-3 1 2 2Z" /> <path d="M9.26 7.68 5 12l2 5" /> <path d="m10 14 5 2 3.5-3.5" /> <path d="m18 12 1-1 1 1-1 1Z" /></svg></div><div class="tt"><b>ARCH_202609 connected</b><span>USB drive · 32 GB · Open in Files</span></div><em>now</em></div><div class="toast"><div class="ti" style="background:rgba(52,199,89,.16);color:#5fdc86"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><mask id="m-nova-guard"><rect width="24" height="24" fill="#fff" stroke="none"/><circle cx="18" cy="18" r="7.2" fill="#000" stroke="none"/></mask><g mask="url(#m-nova-guard)"><path d="M12 20v-9" /> <path d="M14 7a4 4 0 0 1 4 4v3a6 6 0 0 1-12 0v-3a4 4 0 0 1 4-4z" /> <path d="M14.12 3.88 16 2" /> <path d="M21 21a4 4 0 0 0-3.81-4" /> <path d="M21 5a4 4 0 0 1-3.55 3.97" /> <path d="M22 13h-4" /> <path d="M3 21a4 4 0 0 1 3.81-4" /> <path d="M3 5a4 4 0 0 0 3.55 3.97" /> <path d="M6 13H2" /> <path d="m8 2 1.88 1.88" /> <path d="M9 7.13V6a3 3 0 1 1 6 0v1.13" /></g><g transform="translate(12.6 12.6) scale(0.45)" stroke-width="4.44"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></g></svg></div><div class="tt"><b>Scan complete</b><span>No threats found in 48,210 files</span></div><em>now</em></div></div>
+</div></body></html>
