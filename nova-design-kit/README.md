@@ -14,6 +14,7 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 | `build.py` | Regenerates `screens/` from the design canvas sources in `../nova-apps/`. |
 | `skill/nova-design/` | Claude Code skill: how to design **new** NOVA screens in this style. Copy to `.claude/skills/`. |
 | `shell/` | Generator for the shell screens (`screens/shell-*.html`, `png/shell-*.png`): desktop, Control panel, Wi-Fi/Bluetooth pickers, lock screen, notifications, power menu, OSD. |
+| `apps2/` | Generator for Terminal, Text Editor and NOVA Browser (`screens/terminal.html`, `editor.html`, `browser-*.html`). |
 | `launcher/` | Generator for the launcher screens (`screens/launcher-*.html`, `png/launcher-*.png`). |
 
 ## How to use it
@@ -24,5 +25,5 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 4. Paste the **shared components** prompt, review the gallery it makes.
 5. Paste one app prompt at a time (Shield, Guard, Files, …), reviewing each before the next.
 
-Apps: Shield · NOVA Guard · Files · Monitor · Ledger · Images · Fix · Settings · ACE (Pro).
+Apps: Shield · NOVA Guard · Files · Monitor · Ledger · Images · Fix · Settings · ACE (Pro) · Terminal · Text Editor · NOVA Browser.
 Shell: top bar · dock · Control panel · Wi-Fi & Bluetooth pickers · launcher · lock screen · notifications · power menu · volume/brightness popup.

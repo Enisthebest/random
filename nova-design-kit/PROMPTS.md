@@ -148,6 +148,30 @@ Right panel: "What ACE can do" list, and two permission cards: "Sees your screen
 Rules: the model runs locally [OUR LOCAL MODEL/RUNTIME]; screen access always shows an "Allow once / Don't allow" prompt; commands and messages are shown as a draft the user confirms before anything runs or sends.
 ```
 
+### Terminal — `png/terminal.png`
+```
+Build (or restyle) the Terminal to match png/terminal.png. If we wrap an existing terminal (e.g. foot, kitty or a VTE widget), apply the look; don't rewrite the emulator.
+Window: no sidebar; a 52px tab row (app tile, tabs as 34px pills, the active one raised, close ×, + new tab; split, search and menu on the right), the terminal body in Geist Mono 14px / 1.62 line height with 18x22px padding, and a 30px status bar (shell, path, size, encoding).
+Colours (ANSI palette): background = the window glass, foreground #D6D6DB, dim #6E6E77, green #5FDC86, blue #6AA8FF, orange #FFAE5A, purple #B48CFF, cyan #5AD4FF, red #FF7B7B, white #F2F2F4. Ship a matching zsh/starship prompt: user@host in green, path in blue, git branch in purple, ❯ in orange. Block cursor, white, no blink.
+Ctrl+Shift+T new tab, Ctrl+Shift+D split, Ctrl+Shift+F search.
+```
+
+### Text Editor — `png/editor.png`
+```
+Build the Text Editor to match png/editor.png. Sidebar (232px) with the project file tree (chevrons, folder/file icons from nova-icons, selected file highlighted); tab row for open files; editor in Geist Mono 14px / 1.7 with line numbers (#4E4E56) and the current line softly highlighted; a 30px status bar (language, line/column, indentation, encoding, "Saved" in green or "Edited" in orange).
+Syntax colours use the same palette as the Terminal (headings/keywords purple, links/types blue, strings orange, comments #8D8D96, commands cyan, list markers green).
+Find (Ctrl+F) opens as a floating bar top-right in the editor with match count and up/down/close; matches get an orange highlight. Autosave on focus loss; never lose unsaved text on close (ask).
+```
+
+### NOVA Browser — `png/browser-newtab.png`, `browser-site.png`, `browser-shield.png`
+```
+Restyle NOVA Browser to match png/browser-newtab.png, png/browser-site.png and png/browser-shield.png. Keep our engine: [OUR ENGINE, e.g. QtWebEngine / WebKitGTK / Chromium-based].
+Chrome: a tab row on top (pills like the Terminal), then a 56px toolbar: back, forward (dimmed when unavailable), reload, the address field (38px, radius 12, lock + domain in white and the path in grey), the green shield chip "N blocked" inside the right end of the address field, then downloads and menu.
+New tab: NOVA star, "NOVA Browser", "Private by default. Nothing you do here leaves this device.", a big 56px round private search field, 6 shortcut tiles (user-editable, letter tiles; no remote favicons fetched without permission), and three stat cards: trackers blocked this week (green), ads blocked, fingerprints taken (blue). Counts come from the browser's own local blocking, never from a server.
+Shield panel (click the chip): a 340px panel under it: "You're protected on [site]", counts, and per-site toggles: Block trackers, Block third-party cookies, Fingerprint protection, HTTPS only, Open through Tor (off by default); buttons Site settings and Clear site data. Changes apply on reload and are remembered per site.
+Defaults: trackers and third-party cookies blocked, fingerprint protection on, HTTPS-only on, a private search engine, no telemetry, no account, history cleared on close if the user picks that in settings.
+```
+
 ---
 
 ## Shell
