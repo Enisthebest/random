@@ -138,14 +138,18 @@ Appearance: Theme (Dark / Light / Auto previews), Accent colour (6 swatches; the
 Changing the accent updates every component that uses --accent live.
 ```
 
-### ACE (Pro) — `png/ace.png`
+### ACE (Pro) — `png/ace.png`, `ace-new.png`, `ace-screen.png`, `ace-command.png`, `ace-message.png`, `ace-permissions.png`
 ```
-Build the ACE app (Pro only) to match png/ace.png and screens/ace.html.
-Sidebar: New chat, Today (conversation list, selected one highlighted), Settings: Permissions.
+Build the ACE app (Pro only) to match png/ace.png plus the five ace-*.png screens.
+Sidebar: ACE + star, New chat, "Today" conversation list (selected highlighted), Settings: Permissions & model.
 Header: conversation title / "ACE runs on your device. It only sees what you allow." with an orange "Pro" chip.
-Chat: user bubbles right (#2F7CF6), ACE bubbles left with the star, suggestion chips above the input, 54px round input with a white send button.
-Right panel: "What ACE can do" list, and two permission cards: "Sees your screen, only when you ask" and "Runs commands, only with your permission".
-Rules: the model runs locally [OUR LOCAL MODEL/RUNTIME]; screen access always shows an "Allow once / Don't allow" prompt; commands and messages are shown as a draft the user confirms before anything runs or sends.
+Chat: user bubbles right (#2F7CF6, bottom-right corner 6), ACE bubbles left with the star (bottom-left corner 6), suggestion chips above the 56px round input with a white send button.
+New chat (ace-new.png): star, "What can I do for you?", "Everything stays on this device", four suggestion cards (each says how ACE stays safe: "Asks before it looks", "Shows the commands first", "You send the draft", "Never deletes without asking").
+Screen access (ace-screen.png): ACE never looks on its own. It asks with a light permission card in the chat: "Let ACE see your screen once?", what it will do with the image, Allow once / Don't allow. One look per Allow; the image is deleted after the answer.
+Commands (ace-command.png): ACE shows a "Commands to run" card with the exact commands (commented, Geist Mono), what they free/change, what they don't touch, whether a password is needed, and Edit / Run. Nothing runs until Run; sudo uses the normal polkit/sudo prompt.
+Messages (ace-message.png): ACE writes a draft card (To, app, text) with Edit / Send and tone chips (shorter, more formal, add an apology). ACE never sends on its own.
+Permissions & model (ace-permissions.png): what ACE can use (screen, commands: Ask first / Never; messages: Drafts only / Off; files: chosen folders; private web search), the model card (runs on this device, [MODEL] · [SIZE] · GPU, works offline), memory (remember things about me, chat history auto-delete, see what ACE remembers, erase everything).
+Rules: the model runs locally [OUR LOCAL MODEL/RUNTIME]; nothing leaves the device; every action that changes something is a draft the user confirms. On non-Pro editions ACE doesn't appear.
 ```
 
 ### Terminal — `png/terminal.png`

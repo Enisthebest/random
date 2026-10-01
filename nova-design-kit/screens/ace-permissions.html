@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>ACE: permissions & model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+a{color:#6aa8ff}a:hover{color:#9cc4ff}
+button{font:inherit;color:inherit}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;left:-80px;top:-80px;width:1600px;height:1060px;object-fit:cover;filter:blur(46px) brightness(.5) saturate(1.2)}
+.bar{position:absolute;left:0;right:0;top:12px;height:36px;display:flex;justify-content:space-between;padding:0 16px;box-sizing:border-box}
+.pill{height:36px;border-radius:12px;background:rgba(16,16,20,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600}
+.win{position:absolute;left:80px;top:76px;width:1280px;height:776px;border-radius:24px;background:rgba(12,12,16,.9);border:1px solid rgba(255,255,255,.09);display:flex;overflow:hidden;backdrop-filter:blur(30px)}
+.side{width:248px;flex-shrink:0;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:22px 14px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px}
+.app{display:flex;align-items:center;gap:12px;padding:4px 10px 18px}
+.app b{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.sec{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:#8d8d96;padding:16px 12px 6px}
+.nav{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:11px;font-size:14px;font-weight:500;color:#d6d6db;text-decoration:none;border:0;background:none;text-align:left;width:100%;box-sizing:border-box}
+.nav.on{background:rgba(59,139,255,.18);color:#fff}
+.nav.on svg{color:#6aa8ff}
+.main{flex-grow:1;display:flex;flex-direction:column;min-width:0}
+.head{height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.06)}
+.h1{font-size:26px;font-weight:700;letter-spacing:-.02em;margin:0}
+.sub{font-size:14px;color:#a1a1aa;margin:2px 0 0}
+.body{flex-grow:1;padding:24px 32px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:18px 20px;box-sizing:border-box}
+.label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96;margin:0 0 12px}
+.row{display:flex;align-items:center;gap:14px;min-height:48px;border-top:1px solid rgba(255,255,255,.05)}
+.row:first-of-type{border-top:0}
+.rt{flex-grow:1;min-width:0}
+.rt b{display:block;font-size:15px;font-weight:600}
+.rt span{display:block;font-size:13px;color:#a1a1aa;margin-top:2px}
+.ico{width:36px;height:36px;border-radius:11px;background:rgba(59,139,255,.14);color:#6aa8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tog{width:46px;height:28px;border-radius:14px;border:0;background:#3a3a40;position:relative;flex-shrink:0;padding:0}
+.tog span{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f4f4f6}
+.tog.on{background:#2f9e5a}
+.tog.on span{left:21px}
+.btn{height:40px;padding:0 18px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.btn.pri{background:#f2f2f4;color:#0b0b0e;border-color:#f2f2f4}
+.chip{height:28px;padding:0 12px;border-radius:14px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;white-space:nowrap}
+.ok{background:rgba(52,199,89,.16);color:#5fdc86}
+.warn{background:rgba(245,146,30,.16);color:#ffae5a}
+.blue{background:rgba(59,139,255,.16);color:#8cbcff}
+.mono{font-family:"Geist Mono",ui-monospace,monospace}
+.search{height:40px;width:240px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px;padding:0 12px;box-sizing:border-box;color:#a1a1aa;font-size:14px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.big{font-size:34px;font-weight:700;letter-spacing:-.03em}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8d8d96;text-align:left;padding:0 0 10px}
+td{padding:11px 0;border-top:1px solid rgba(255,255,255,.05);color:#e4e4e7}
+td.m{color:#a1a1aa}
+
+.win.col{flex-direction:column}
+.mono,.term,.code{font-family:"Geist Mono",ui-monospace,monospace}
+/* tabs row (terminal, editor, browser) */
+.tabs{height:52px;flex-shrink:0;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.tab{height:34px;display:flex;align-items:center;gap:9px;padding:0 12px;border-radius:10px;font-size:13px;font-weight:500;color:#a1a1aa;max-width:220px;white-space:nowrap}
+.tab.on{background:rgba(255,255,255,.07);color:#f2f2f4}
+.tab .x{color:#6e6e77;margin-left:4px;display:flex}
+.tab.add{color:#8d8d96;padding:0 9px}
+.ib{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#c9c9cf;flex-shrink:0}
+.ib.dim{color:#5e5e66}
+.tile{width:28px;height:28px;border-radius:9px;background:rgba(59,139,255,.16);color:#6aa8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* terminal */
+.term{flex:1;padding:18px 22px;font-size:14px;line-height:1.62;color:#d6d6db;overflow:hidden;white-space:pre}
+.p-user{color:#5fdc86}.p-dir{color:#6aa8ff}.p-arrow{color:#ffae5a}.p-git{color:#b48cff}.dimt{color:#6e6e77}.ok{color:#5fdc86}.wa{color:#ffae5a}.er{color:#ff7b7b}.cy{color:#5ad4ff}
+.cur{display:inline-block;width:9px;height:19px;background:#f2f2f4;vertical-align:-4px;border-radius:2px}
+.sbar{height:30px;flex-shrink:0;display:flex;align-items:center;gap:18px;padding:0 16px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#8d8d96}
+.sbar b{font-weight:600;color:#c9c9cf}
+/* editor */
+.tree{width:232px;flex-shrink:0;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:16px 10px;box-sizing:border-box;font-size:13px}
+.tr{display:flex;align-items:center;gap:8px;height:30px;padding:0 8px;border-radius:8px;color:#c9c9cf}
+.tr.on{background:rgba(59,139,255,.18);color:#fff}
+.tr .chev{color:#6e6e77;display:flex}
+.code{flex:1;display:flex;font-size:14px;line-height:1.7;padding-top:14px;overflow:hidden}
+.ln{width:56px;text-align:right;padding-right:18px;color:#4e4e56;flex-shrink:0;white-space:pre}
+.src{white-space:pre;color:#d6d6db;flex:1;position:relative}
+.cl{background:rgba(255,255,255,.04);display:block;margin-left:-8px;padding-left:8px}
+.k1{color:#b48cff}.k2{color:#6aa8ff}.k3{color:#5fdc86}.k4{color:#ffae5a}.k5{color:#8d8d96}.k6{color:#5ad4ff}
+.find{position:absolute;right:18px;top:62px;height:40px;border-radius:12px;background:#1a1a1f;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:8px;padding:0 6px 0 12px;font-size:13px;z-index:2}
+.find .fi{width:180px;color:#f2f2f4}
+.mark{background:rgba(255,174,90,.28);border-radius:3px;outline:1px solid rgba(255,174,90,.6)}
+/* browser */
+.tool{height:56px;flex-shrink:0;display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.url{flex:1;height:38px;border-radius:12px;background:rgba(255,255,255,.06);display:flex;align-items:center;gap:10px;padding:0 6px 0 14px;font-size:14px;color:#c9c9cf;min-width:0}
+.url b{color:#f2f2f4;font-weight:500}
+.shieldbtn{height:30px;display:flex;align-items:center;gap:6px;padding:0 10px;border-radius:9px;background:rgba(52,199,89,.16);color:#5fdc86;font-size:12px;font-weight:600;margin-left:auto;flex-shrink:0}
+.page{flex:1;position:relative;overflow:hidden}
+.nt{display:flex;flex-direction:column;align-items:center;padding-top:70px}
+.bigsearch{width:620px;height:56px;border-radius:28px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;gap:14px;padding:0 22px;font-size:17px;color:#8d8d96;box-sizing:border-box;margin-top:28px}
+.sc{display:grid;grid-template-columns:repeat(6,96px);gap:14px;margin-top:30px}
+.sc div{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;color:#c9c9cf}
+.sc i{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:20px;font-weight:700}
+.stats{display:flex;gap:14px;margin-top:34px}
+.stat{width:196px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:16px 18px;box-sizing:border-box}
+.stat .n{font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .d{font-size:12px;color:#a1a1aa;margin-top:2px}
+.site{position:absolute;inset:0;background:#f4f4f6;color:#16161a;font-family:Georgia,"Times New Roman",serif}
+.pop{position:absolute;right:14px;top:62px;width:340px;border-radius:20px;background:rgba(18,18,22,.97);border:1px solid rgba(255,255,255,.1);padding:18px;box-sizing:border-box;z-index:3;color:#f2f2f4;font-family:"Geist",system-ui,sans-serif}
+.prow{display:flex;align-items:center;gap:12px;min-height:46px;border-top:1px solid rgba(255,255,255,.06);font-size:14px;font-weight:500}
+.prow:first-of-type{border-top:0}
+.prow small{display:block;font-size:12px;color:#a1a1aa;font-weight:400;margin-top:1px}
+.tog.s{width:40px;height:24px;border-radius:12px}.tog.s span{width:18px;height:18px;border-radius:9px}.tog.s.on span{left:19px}
+
+.chat{flex:1;display:flex;flex-direction:column;min-width:0}
+.msgs{flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
+.u{align-self:flex-end;max-width:62%;background:#2f7cf6;color:#fff;padding:11px 18px;border-radius:20px 20px 6px 20px;font-size:15px;line-height:1.5}
+.a{display:flex;gap:14px;align-items:flex-start;max-width:78%}
+.a .st{width:22px;height:22px;object-fit:contain;margin-top:9px;flex-shrink:0}
+.ab{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:11px 18px;border-radius:20px 20px 20px 6px;font-size:15px;line-height:1.5}
+.draft{border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);padding:16px 18px;width:520px;box-sizing:border-box}
+.dh{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;margin-bottom:12px}
+.cmd{white-space:pre;font-family:"Geist Mono",monospace;font-size:13px;background:rgba(0,0,0,.35);border-radius:12px;padding:12px 14px;line-height:1.75;color:#d6d6db}
+.cmd .c{color:#6e6e77}
+.why{font-size:13px;color:#a1a1aa;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.why span{display:flex;gap:8px;align-items:center}
+.acts{display:flex;gap:10px;align-items:center;margin-top:14px}
+.note{flex:1;font-size:12px;color:#8d8d96;display:flex;gap:6px;align-items:center}
+.inp{margin:0 32px 26px;height:56px;border-radius:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);display:flex;align-items:center;padding:0 8px 0 24px;font-size:15px;color:#8d8d96;gap:10px}
+.send{margin-left:auto;width:40px;height:40px;border-radius:20px;background:#f2f2f4;color:#0b0b0e;display:flex;align-items:center;justify-content:center}
+.chips{display:flex;gap:10px;margin:0 32px 12px}
+.chipb{height:34px;padding:0 16px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);font-size:14px;font-weight:600;display:flex;align-items:center}
+.perm{border-radius:18px;background:#ececef;color:#111114;padding:18px;width:520px;box-sizing:border-box}
+.perm .t{font-size:16px;font-weight:700}.perm .d{font-size:13px;color:#4a4a52;margin-top:4px;line-height:1.5}
+.pb{height:40px;padding:0 18px;border-radius:12px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:20px}
+.sugg{display:grid;grid-template-columns:repeat(2,300px);gap:12px;margin-top:30px}
+.sg{border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.sg b{display:block;font-size:14px;font-weight:600}.sg span{display:block;font-size:12px;color:#a1a1aa;margin-top:3px}
+.sg .ti{width:34px;height:34px;border-radius:10px;background:rgba(59,139,255,.14);color:#6aa8ff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pro{height:28px;padding:0 12px;border-radius:999px;background:rgba(245,146,30,.16);color:#ffae5a;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+</style></head><body>
+<div class="frame" style="width:1440px;height:900px">
+<img class="wall" src="../assets/wallpaper.png" alt="">
+<div class="bar"><div class="pill" style="width:165px"><span style="width:27px;height:22px;border-radius:7px;background:#c9c9cf;display:block"></span></div><div class="pill">12:22</div><div style="display:flex;gap:10px"><div class="pill"><img src="../assets/nova-star.png" alt="" style="width:16px;height:16px;object-fit:contain"><img src="../assets/shield.webp" alt="" style="width:16px;height:16px;object-fit:contain"></div><div class="pill">us</div></div></div>
+<div class="win"><aside class="side"><div class="app"><img src="../assets/nova-star.png" alt="" style="width:30px;height:30px;object-fit:contain"><b>ACE</b></div><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /> <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" /></svg>New chat</button><div class="sec">Today</div><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>Fix this error</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>Free up space</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>Message Sam</button><button class="nav"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg>PC temperatures</button><div class="sec">Settings</div><button class="nav on"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>Permissions &amp; model</button></aside><div class="main"><div class="head"><div><h1 class="h1">Permissions &amp; model</h1><p class="sub">You decide what ACE can see and do.</p></div><span class="pro"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></svg>Pro</span></div><div class="body" style="display:grid;grid-template-columns:1.25fr 1fr;gap:16px;align-content:start"><div class="card"><p class="label">What ACE can use</p><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect width="20" height="14" x="2" y="3" rx="2" /> <line x1="8" x2="16" y1="21" y2="21" /> <line x1="12" x2="12" y1="17" y2="21" /></svg><div class="rt"><b>Your screen</b><span>Only when you allow it, one look at a time</span></div><div style="display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px;gap:2px"><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;background:#f2f2f4;color:#0b0b0e">Ask first</span><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#a1a1aa">Never</span></div></div><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="m7 11 2-2-2-2" /> <path d="M11 13h4" /> <rect width="18" height="18" x="3" y="3" rx="2" ry="2" /></svg><div class="rt"><b>Run commands</b><span>Shows a draft; runs only when you press Run</span></div><div style="display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px;gap:2px"><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;background:#f2f2f4;color:#0b0b0e">Ask first</span><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#a1a1aa">Never</span></div></div><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" /></svg><div class="rt"><b>Messages</b><span>Writes drafts; you always send</span></div><div style="display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px;gap:2px"><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;background:#f2f2f4;color:#0b0b0e">Drafts only</span><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#a1a1aa">Off</span></div></div><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" /></svg><div class="rt"><b>Files</b><span>Documents and Downloads</span></div><span class="btn">Choose folders</span></div><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></svg><div class="rt"><b>Web search</b><span>Private search, no account, no history kept</span></div><span class="tog on"><span></span></span></div></div><div style="display:flex;flex-direction:column;gap:16px"><div class="card"><p class="label">Model</p><div style="display:flex;align-items:center;gap:16px"><div style="width:52px;height:52px;border-radius:14px;background:rgba(245,146,30,.14);color:#ffae5a;display:flex;align-items:center;justify-content:center"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20v2" /> <path d="M12 2v2" /> <path d="M17 20v2" /> <path d="M17 2v2" /> <path d="M2 12h2" /> <path d="M2 17h2" /> <path d="M2 7h2" /> <path d="M20 12h2" /> <path d="M20 17h2" /> <path d="M20 7h2" /> <path d="M7 20v2" /> <path d="M7 2v2" /> <rect x="4" y="4" width="16" height="16" rx="2" /> <rect x="8" y="8" width="8" height="8" rx="1" /></svg></div><div style="flex:1"><div style="font-size:18px;font-weight:700">Runs on this device</div><div style="font-size:13px;color:#a1a1aa;margin-top:3px">[MODEL NAME] · [SIZE] GB · using your GPU</div></div></div><div style="font-size:13px;color:#a1a1aa;margin-top:14px;line-height:1.6">Works offline. Nothing you ask ACE is sent to a server. Not your chats, not your screen, not your files.</div></div><div class="card"><p class="label">Memory</p><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 18V5" /> <path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4" /> <path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5" /> <path d="M17.997 5.125a4 4 0 0 1 2.526 5.77" /> <path d="M18 18a4 4 0 0 0 2-7.464" /> <path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517" /> <path d="M6 18a4 4 0 0 1-2-7.464" /> <path d="M6.003 5.125a4 4 0 0 0-2.526 5.77" /></svg><div class="rt"><b>Remember things about me</b><span>Kept on this device · 12 notes</span></div><span class="tog on"><span></span></span></div><div class="row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /> <path d="M3 3v5h5" /> <path d="M12 7v5l4 2" /></svg><div class="rt"><b>Chat history</b><span>Delete chats after</span></div><div style="display:flex;background:rgba(255,255,255,.06);border-radius:10px;padding:3px;gap:2px"><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#a1a1aa">7 days</span><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;background:#f2f2f4;color:#0b0b0e">30 days</span><span style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#a1a1aa">Never</span></div></div><div style="display:flex;gap:10px;margin-top:14px"><span class="btn">See what ACE remembers</span><span class="btn" style="color:#ff7b7b">Erase everything</span></div></div></div></div></div></div>
+</div></body></html>
