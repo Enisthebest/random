@@ -132,7 +132,7 @@ function seek(t) {
 
   // 3. the list, one check at a time
   if (t >= T.list - 0.1 && t < T.listOut + 0.6) {
-    ['No account.', 'No tracking.', 'No telemetry.', 'AI runs on your device.'].forEach((s, i) => {
+    ['No account.', 'No tracking.', 'No telemetry.', 'No ads.'].forEach((s, i) => {
       const t0 = T.list + i * 0.45, e = gl(t, t0, 0.6), o = gl(t, T.listOut, 0.4);
       const y = 700 + i * 160 + 30 * (1 - e) - 14 * o;
       check(150, y, 84, e * (1 - o));
@@ -141,10 +141,11 @@ function seek(t) {
   }
 
   // 4. the disclaimer, said plainly
-  headline(ctx, 'One more thing:', 540, 700, 60, T.more, T.moreOut, t, { color: 'rgba(255,255,255,.7)' });
-  headline(ctx, 'Back up before', 540, 860, 116, T.backup, T.moreOut, t);
-  headline(ctx, 'you install.', 540, 990, 116, T.backup + 0.25, T.moreOut, t);
-  headline(ctx, "NOVA is in beta. Use it at your own risk.", 540, 1150, 44, T.beta, T.moreOut, t, { color: 'rgba(255,255,255,.75)', w: 600 });
+  headline(ctx, 'A friendly note:', 540, 700, 60, T.more, T.moreOut, t, { color: 'rgba(255,255,255,.7)' });
+  headline(ctx, 'We suggest', 540, 860, 116, T.backup, T.moreOut, t);
+  headline(ctx, 'backing up first.', 540, 990, 116, T.backup + 0.25, T.moreOut, t);
+  headline(ctx, 'NOVA is still in beta, so please', 540, 1150, 46, T.beta, T.moreOut, t, { color: 'rgba(255,255,255,.75)', w: 600 });
+  headline(ctx, 'install at your own risk.', 540, 1212, 46, T.beta + 0.15, T.moreOut, t, { color: 'rgba(255,255,255,.75)', w: 600 });
 
   // 5. end card
   if (t >= T.end - 0.2) {
@@ -157,7 +158,7 @@ function seek(t) {
   }
 }
 
-const LINES = [['Most privacy policies:', T.label], ["NOVA's privacy policy:", T.nova], ['We collect', T.collect], ['nothing.', T.collect + 0.3], ['One more thing:', T.more], ['Back up before', T.backup], ['you install.', T.backup + 0.25], ['Coming soon.', T.soon]];
+const LINES = [['Most privacy policies:', T.label], ["NOVA's privacy policy:", T.nova], ['We collect', T.collect], ['nothing.', T.collect + 0.3], ['A friendly note:', T.more], ['We suggest', T.backup], ['backing up first.', T.backup + 0.25], ['Coming soon.', T.soon]];
 const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const aC = acc.getContext('2d');
 function renderFrame(f, fps = 60, n = 4) {
   const t0 = f / fps;
