@@ -153,7 +153,7 @@ const HALF = BAR / 2;
   add(t, T.brk - t, { kind: 'walls' });
   // drop 2: a cut on every beat; a big word on each bar
   const reel = ['app-shield', 'wall-aurora', 'app-guard', 'app-files', 'wall-ember', 'app-monitor', 'app-images', 'wall-lilac',
-    'app-ledger', 'app-fix', 'wall-ocean', 'app-settings', 'app-launcher-search', 'wall-citrus', 'app-ace', 'app-launcher-ace',
+    'app-ledger', 'app-fix', 'wall-ocean', 'app-settings', 'app-launcher-search', 'wall-citrus', 'app-images', 'app-launcher-calc',
     'app-shield', 'wall-original', 'app-files', 'app-monitor', 'wall-aurora', 'app-images', 'app-guard', 'wall-ember',
     'app-settings', 'app-ledger', 'wall-ocean', 'app-fix'];
   const words = ['No tracking.', 'No account.', 'No limits.', 'Private.', 'Fast.', 'Light.', 'Yours.'];
@@ -246,24 +246,24 @@ function seek(t) {
   const s = shotAt(t);
   if (s && t < T.brk) { drawShot(s, t); return; }
 
-  // ---- 3. breakdown: ACE (Pro), half-time and calm ----
+  // ---- 3. breakdown: half-time and calm (Shield, then the launcher) ----
   if (t >= T.brk && t < T.drop2) {
     aura(ctx, W / 2, H / 2, 1700, 0.5, t);
-    headline(ctx, 'And in Pro…', W / 2, H / 2, 120, T.pro, T.ace - 0.6, t, { color: ORANGE });
+    headline(ctx, 'Built different.', W / 2, H / 2, 120, T.pro, T.ace - 0.6, t, { color: ORANGE });
     if (t >= T.ace - 0.3 && t < T.ready2) {
       const e = gl(t, T.ace - 0.3, 0.9), o = gl(t, T.ready2 - 0.7, 0.6);
       const k = lerp(0.86, 0.9, clamp((t - T.ace) / 6));
-      const key = t < T.draft ? 'app-ace' : 'app-launcher-ace';
+      const key = t < T.draft ? 'app-shield' : 'app-launcher-search';
       const w = W * k, h = w * 900 / 1440, x = (W - w) / 2, y = (H - h) / 2 - 30;
       ctx.save(); ctx.globalAlpha = e * (1 - o);
       rr(ctx, x, y, w, h, 28); ctx.clip(); ctx.drawImage(IMG[key], x, y, w, h); ctx.restore();
-      // cross-fade ACE -> launcher draft
+      // cross-fade Shield -> launcher
       if (t >= T.draft && t < T.draft + 0.6) {
-        ctx.save(); ctx.globalAlpha = (1 - gl(t, T.draft, 0.6)) * e; rr(ctx, x, y, w, h, 28); ctx.clip(); ctx.drawImage(IMG['app-ace'], x, y, w, h); ctx.restore();
+        ctx.save(); ctx.globalAlpha = (1 - gl(t, T.draft, 0.6)) * e; rr(ctx, x, y, w, h, 28); ctx.clip(); ctx.drawImage(IMG['app-shield'], x, y, w, h); ctx.restore();
       }
       ctx.fillStyle = `rgba(0,0,0,${0.3 * e * (1 - o)})`; ctx.fillRect(0, 0, W, H); vignette(ctx, 0.85 * e * (1 - o));
-      headline(ctx, 'Meet ACE. Local AI.', W / 2, H - 120, 92, T.ace + 0.2, T.draft - 0.4, t);
-      headline(ctx, 'It drafts. You decide.', W / 2, H - 120, 92, T.draft + 0.2, T.ready2 - 0.6, t);
+      headline(ctx, '14 protections. One tap each.', W / 2, H - 120, 92, T.ace + 0.2, T.draft - 0.4, t);
+      headline(ctx, 'Everything. One search.', W / 2, H - 120, 92, T.draft + 0.2, T.ready2 - 0.6, t);
     }
     headline(ctx, 'Ready?', W / 2, H / 2, 170, T.ready2 + 0.1, T.drop2 - 0.7, t);
     if (t > T.drop2 - BEAT) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); }
@@ -302,8 +302,8 @@ function seek(t) {
   ctx.fillStyle = `rgba(0,0,0,${gl(t, DUR - 1.2, 1.1)})`; ctx.fillRect(0, 0, W, H);
 }
 
-const LINES = [["We didn't build another OS.", T.l1], ['We built yours.', T.l2], ['Ready?', T.ready], ['And in Pro…', T.pro],
-  ['Meet ACE. Local AI.', T.ace + 0.2], ['It drafts. You decide.', T.draft + 0.2], ['Ready?', T.ready2 + 0.1], ['Coming soon.', T.soon]];
+const LINES = [["We didn't build another OS.", T.l1], ['We built yours.', T.l2], ['Ready?', T.ready], ['Built different.', T.pro],
+  ['14 protections. One tap each.', T.ace + 0.2], ['Everything. One search.', T.draft + 0.2], ['Ready?', T.ready2 + 0.1], ['Coming soon.', T.soon]];
 const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const aC = acc.getContext('2d');
 function renderFrame(f, fps = 60, n = 4) {
   const t0 = f / fps;
@@ -321,7 +321,7 @@ const ready = (async () => {
   await Promise.all(['500', '600', '700', '800'].map(w => document.fonts.load(`${w} 20px GeistV`)));
   const jobs = [load('star', 'assets/nova-star.png')];
   WALLS.forEach(k => jobs.push(load('wall-' + k, `assets/nova-${k}-1080p.png`)));
-  ['shield', 'guard', 'files', 'monitor', 'ledger', 'images', 'fix', 'settings', 'ace', 'launcher-search', 'launcher-calc', 'launcher-ace', 'launcher-open']
+  ['shield', 'guard', 'files', 'monitor', 'ledger', 'images', 'fix', 'settings', 'launcher-search', 'launcher-calc', 'launcher-open']
     .forEach(k => jobs.push(load('app-' + k, `assets/app-${k}.png`)));
   for (const k in window.ICONS) {
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${window.ICONS[k]}</svg>`;
