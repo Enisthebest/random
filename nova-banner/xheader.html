@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><title>NOVA X header</title>
+<style>
+@font-face{font-family:GeistV;src:url(../nova-os/fonts/Geist-Variable.woff2) format("woff2");font-weight:100 900}
+html,body{margin:0;background:#000}
+.b{position:relative;width:1500px;height:500px;overflow:hidden;background:#000;font-family:GeistV,sans-serif;color:#fff}
+.wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+.shade{position:absolute;inset:0;background:radial-gradient(ellipse 520px 170px at 62% 58%,rgba(0,0,0,.5),rgba(0,0,0,0) 80%)}
+/* keep clear of the phone status bar (top) and the profile picture (bottom-left) */
+.c{position:absolute;left:520px;top:190px;display:flex;align-items:center;gap:34px}
+.star{width:110px}
+.name{font-size:84px;font-weight:700;letter-spacing:.2em;line-height:1}
+.tag{font-size:36px;font-weight:800;letter-spacing:-.03em;margin-top:12px}
+.tag em{font-style:normal;color:rgb(255,174,90)}
+</style></head><body><div class="b">
+<img class="wall" src="../nova-wallpapers/out/nova-original-4k.png"><div class="shade"></div>
+<div class="c"><img class="star" src="../nova-os/assets/nova-star.png"><div><div class="name">NOVA OS</div><div class="tag">Private. Fast. <em>Yours.</em></div></div></div>
+</div></body></html>
