@@ -2,13 +2,14 @@
 (() => {
 const W = 1920, H = 1080, G = 0.8;
 const T = {
-  // [13] = the end line; [14–17] = the honest part
-  vo: [0.4, 2.85, 4.4, 5.85, 8.65, 12.45, 15.8, 18.6, 21.1, 24.1, 26.1, 27.3, 31.0, 50.9, 35.2, 38.7, 42.85, 46.1],
-  stack: 8.65, layers: [9.7, 13.1, 16.1, 19.0],
-  st: { design: 27.6, desk: 29.0, inst: 29.9, beta: 30.4 },
-  honest: 35.0, end: 50.8,
+  // [13] = the end line; [14–17] = the honest part. Timed to the calm voice (assets/vo-durations.json).
+  vo: [0.5, 3.81, 5.94, 8.01, 11.77, 16.56, 20.87, 24.56, 27.96, 31.91, 34.9, 36.79, 41.4, 70.02, 47.1, 52.45, 58.87, 63.29],
+  stack: 11.77, layers: [12.98, 17.31, 21.21, 25.01],
+  st: { design: 37.13, desk: 38.72, inst: 39.74, beta: 40.31 },
+  honest: 46.7, end: 69.92,
 };
-const DUR = 55.2;
+const VOD = [2.56, 1.38, 1.32, 2.86, 4.04, 3.56, 2.94, 2.4, 3.2, 1.99, 1.14, 3.86, 4.4, 2.99, 4.35, 5.32, 3.52, 5.33];
+const DUR = 75.21;
 
 // ---------- easing + drawing helpers ----------
 function bezier(x1, y1, x2, y2) {
@@ -198,7 +199,7 @@ function status(t) {
     }
     ctx.restore();
   });
-  const tg = gl(t, T.vo[12] + 0.2, 0.5) * a, rc = gl(t, T.vo[12] + 2.2, 0.5) * a, y = 880;
+  const tg = gl(t, T.vo[12] + 0.2, 0.5) * a, rc = gl(t, T.vo[12] + 2.6, 0.5) * a, y = 880;
   if (tg > 0) {
     ctx.save(); ctx.globalAlpha = tg;
     rr(ctx, CX - 470, y, 440, 74, 37); ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.fill();
@@ -220,7 +221,7 @@ function honest(t) {
   const a = gl(t, T.honest + 0.1, 0.6) * (1 - gl(t, T.end - 0.3, 0.5)); if (a <= 0) return;
   const cy = 600, beat = 1 + 0.04 * Math.max(0, Math.sin(t * 5.2)) ** 8;
   person(CX, cy, a, beat);
-  const h = gl(t, T.vo[15] + 1.9, 0.6) * (1 - gl(t, T.vo[16] - 0.2, 0.4));
+  const h = gl(t, T.vo[15] + 3.4, 0.6) * (1 - gl(t, T.vo[16] - 0.2, 0.4));
   if (h > 0) { ctx.save(); ctx.globalAlpha = a * h; const s = 76 * beat; ctx.drawImage(iconImg('heart', '#ffae5a'), CX + 92 - s / 2, cy + 92 - s / 2, s, s); ctx.restore(); }
   const lk = gl(t, T.vo[16] + 0.3, 0.5) * (1 - gl(t, T.vo[17] + 0.2, 0.4));
   if (lk > 0) {   // "not spying": a lock badge
@@ -230,7 +231,7 @@ function honest(t) {
   }
   // "sharing it with everyone who loves privacy": people appear around, linked to the developer
   for (let i = 0; i < 10; i++) {
-    const e = gl(t, T.vo[17] + 1.2 + i * 0.12, 0.6) * a; if (e <= 0) continue;
+    const e = gl(t, T.vo[17] + 2.2 + i * 0.12, 0.6) * a; if (e <= 0) continue;
     const ang = -Math.PI + (i + 0.5) / 10 * Math.PI * 2, R = 330 + 40 * (i % 2);
     const x = CX + Math.cos(ang) * R * 1.55, y = cy + Math.sin(ang) * R * 0.75;
     ctx.save(); ctx.globalAlpha = e * 0.5; ctx.strokeStyle = 'rgba(106,168,255,.6)'; ctx.lineWidth = 2;
@@ -244,20 +245,20 @@ function honest(t) {
 
 // captions: top-centre by default; during the stack they sit on the left, beside the layers
 const CAP = [
-  [T.vo[1], 1.25, ["Here's what's behind it."]],
-  [T.vo[2], 1.25, ['One solo developer.']],
-  [T.vo[3], 2.45, ['Built with modern tools, including AI.']],
-  [T.vo[4], 3.5, ['At the bottom:', 'Arch Linux.'], [23, 147, 209], 'left'],
-  [T.vo[5], 3.05, ['On top:', 'Hyprland.'], [40, 200, 220], 'left'],
-  [T.vo[6], 2.55, ['Then Quickshell', 'draws the desktop.'], [162, 107, 255], 'left'],
-  [T.vo[7], 2.15, ["And NOVA's design", 'on top of it all.'], [106, 168, 255], 'left'],
-  [T.vo[8], 2.8, ['Your computer should', 'work for you.'], [255, 174, 90], 'left'],
-  [T.vo[10], 0.95 + 3.6, ['So where is it now?']],
-  [T.vo[12], 3.7, ['Real footage is coming.'], [255, 138, 138]],
-  [T.vo[14], 3.2, ['Some comments make it sound worse than it is.']],
-  [T.vo[15], 3.75, ["Building an OS alone isn't fast.", "But I'm trying my best."], [255, 174, 90]],
-  [T.vo[16], 2.9, ["And no, I'm not building this", 'to spy on anyone.'], [95, 220, 134]],
-  [T.vo[17], 4.2, ["I'm building it for myself,", 'and for everyone who loves privacy.'], [106, 168, 255]],
+  [T.vo[1], VOD[1], ["Here's what's behind it."]],
+  [T.vo[2], VOD[2], ['One solo developer.']],
+  [T.vo[3], VOD[3], ['Built with modern tools, including AI.']],
+  [T.vo[4], VOD[4], ['At the bottom:', 'Arch Linux.'], [23, 147, 209], 'left'],
+  [T.vo[5], VOD[5], ['On top:', 'Hyprland.'], [40, 200, 220], 'left'],
+  [T.vo[6], VOD[6], ['Then Quickshell', 'draws the desktop.'], [162, 107, 255], 'left'],
+  [T.vo[7], VOD[7], ["And NOVA's design", 'on top of it all.'], [106, 168, 255], 'left'],
+  [T.vo[8], VOD[8], ['Your computer should', 'work for you.'], [255, 174, 90], 'left'],
+  [T.vo[10], T.vo[11] - T.vo[10] + VOD[11], ['So where is it now?']],
+  [T.vo[12], VOD[12], ['Real footage is coming.'], [255, 138, 138]],
+  [T.vo[14], VOD[14], ['Some comments make it sound worse than it is.']],
+  [T.vo[15], VOD[15], ["Building an OS alone isn't fast.", "But I'm trying my best."], [255, 174, 90]],
+  [T.vo[16], VOD[16], ["And no, I'm not building this", 'to spy on anyone.'], [95, 220, 134]],
+  [T.vo[17], VOD[17], ["I'm building it for myself,", 'and for everyone who loves privacy.'], [106, 168, 255]],
 ];
 function captions(t) {
   for (const [t0, d, lines, col, side] of CAP) {
@@ -273,14 +274,21 @@ function seek(t) {
   t = clamp(t, 0, DUR - 1e-6);
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
   const endE = gl(t, T.end, 0.8);
-  const g = ctx.createRadialGradient(CX, 600, 0, CX, 600, 1100); g.addColorStop(0, `rgba(40,110,255,${0.16 * (1 - endE)})`); g.addColorStop(1, 'rgba(40,110,255,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  doubts(t); deskFlat(t); solo(t); stack(t); why(t); status(t); honest(t); captions(t);
+  const emo = gl(t, T.honest, 1.6) * (1 - gl(t, T.end - 0.6, 1.0));   // the honest part: blue fades to a dim, warm light
+  const g = ctx.createRadialGradient(CX, 600, 0, CX, 600, 1100); g.addColorStop(0, `rgba(40,110,255,${0.16 * (1 - endE) * (1 - emo)})`); g.addColorStop(1, 'rgba(40,110,255,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  if (emo > 0) { const w = ctx.createRadialGradient(CX, 640, 0, CX, 640, 900); w.addColorStop(0, `rgba(255,150,70,${0.14 * emo})`); w.addColorStop(1, 'rgba(255,150,70,0)'); ctx.fillStyle = w; ctx.fillRect(0, 0, W, H); }
+  doubts(t); deskFlat(t); solo(t); stack(t); why(t); status(t);
+  // slow push-in on the developer while they speak honestly
+  const push = 1 + 0.08 * clamp((t - T.honest) / (T.end - T.honest));
+  ctx.save(); ctx.translate(CX, 600); ctx.scale(push, push); ctx.translate(-CX, -600); honest(t); ctx.restore();
+  if (emo > 0) { const v = ctx.createRadialGradient(CX, H / 2, H * 0.35, CX, H / 2, W * 0.75); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, `rgba(0,0,0,${0.55 * emo})`); ctx.fillStyle = v; ctx.fillRect(0, 0, W, H); }
+  captions(t);
   if (endE > 0) {
     starImg(CX, 330, lerp(110, 160, endE), endE);
     if (t >= T.end + 0.2) { const g2 = gl(t, T.end + 0.2); text(ctx, 'NOVA OS', CX + 16, 500 + 30 * (1 - g2), { size: 96, w: 600, track: 0.36, align: 'center', base: 'middle', color: '#fff', a: g2, v: true }); }
     headline(ctx, 'Follow along.', CX, 640, 80, T.vo[13], 999, t);
-    headline(ctx, 'Coming soon.', CX, 745, 80, T.vo[13] + 1.4, 999, t, { color: 'rgb(255,174,90)' });
-    if (t > T.vo[13] + 2.0) text(ctx, 'byeno.org', CX, 850, { size: 44, w: 600, align: 'center', base: 'middle', color: 'rgba(255,255,255,.75)', a: gl(t, T.vo[13] + 2.0), v: true });
+    headline(ctx, 'Coming soon.', CX, 745, 80, T.vo[13] + 1.9, 999, t, { color: 'rgb(255,174,90)' });
+    if (t > T.vo[13] + 2.6) text(ctx, 'byeno.org', CX, 850, { size: 44, w: 600, align: 'center', base: 'middle', color: 'rgba(255,255,255,.75)', a: gl(t, T.vo[13] + 2.6), v: true });
   }
   const fo = clamp((t - (DUR - 0.6)) / 0.6); if (fo > 0) { ctx.fillStyle = `rgba(0,0,0,${fo})`; ctx.fillRect(0, 0, W, H); }
 }

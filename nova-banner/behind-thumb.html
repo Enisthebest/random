@@ -1,0 +1,37 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Behind NOVA thumbnail</title>
+<style>
+@font-face{font-family:GeistV;src:url(../nova-os/fonts/Geist-Variable.woff2) format("woff2");font-weight:100 900}
+html,body{margin:0;background:#000}
+.t{position:relative;width:1280px;height:720px;overflow:hidden;background:#050507;font-family:GeistV,sans-serif;color:#fff}
+.glow{position:absolute;border-radius:50%;filter:blur(90px)}
+.g1{left:640px;top:120px;width:560px;height:520px;background:rgba(40,110,255,.55)}
+.g2{left:860px;top:330px;width:360px;height:340px;background:rgba(245,142,30,.35)}
+.scene{position:absolute;left:640px;top:40px;width:640px;height:680px;perspective:6000px}
+.stack{position:absolute;left:150px;top:300px;width:400px;height:250px;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-42deg)}
+.l{position:absolute;inset:0;border-radius:22px;display:flex;align-items:center;justify-content:center;flex-direction:column;font-weight:800;font-size:44px;letter-spacing:-.02em}
+.l small{font-size:20px;font-weight:600;opacity:.85;letter-spacing:0;margin-top:4px}
+.l1{background:linear-gradient(135deg,#2aa3e0,#1478ae);transform:translateZ(0);box-shadow:0 26px 0 #0c4f74}
+.l2{background:linear-gradient(135deg,#3fd6e6,#1ea8b8);transform:translateZ(80px);box-shadow:0 26px 0 #137582}
+.l3{background:linear-gradient(135deg,#b28bff,#8656e6);transform:translateZ(160px);box-shadow:0 26px 0 #55339c}
+.l4{transform:translateZ(240px);overflow:hidden;box-shadow:0 26px 0 #1b3f8c;outline:2px solid rgba(255,255,255,.2)}
+.l4 img{width:100%;height:100%;object-fit:cover}
+.star{position:absolute;left:62px;top:58px;width:84px}
+.txt{position:absolute;left:62px;top:170px}
+.q1{font-size:128px;font-weight:800;letter-spacing:-.045em;line-height:.92}
+.q2{font-size:190px;font-weight:800;letter-spacing:-.05em;line-height:.9;color:rgb(255,174,90)}
+.tag{margin-top:26px;display:inline-block;font-size:44px;font-weight:800;letter-spacing:-.02em;color:#0b0b0e;background:#f2f2f4;padding:6px 22px 10px;border-radius:14px}
+.chip{position:absolute;font-size:30px;font-weight:700;background:rgba(30,30,36,.95);border:2px solid rgba(255,255,255,.14);border-radius:40px;padding:12px 26px;color:#e4e4e7}
+.c1{left:900px;top:70px;transform:rotate(5deg)}
+.c2{left:1010px;top:612px;transform:rotate(-4deg)}
+</style></head><body><div class="t">
+<div class="glow g1"></div><div class="glow g2"></div>
+<div class="scene"><div class="stack">
+ <div class="l l1">Arch Linux<small>the base</small></div>
+ <div class="l l2">Hyprland<small>windows + glass</small></div>
+ <div class="l l3">Quickshell<small>draws the desktop</small></div>
+ <div class="l l4"><img src="../nova-design-kit/png/shell-desktop.png"></div>
+</div></div>
+<div class="chip c1">looks AI?</div><div class="chip c2">is this real?</div>
+<img class="star" src="../nova-os/assets/nova-star.png">
+<div class="txt"><div class="q1">IS NOVA</div><div class="q2">REAL?</div><div class="tag">The honest answer</div></div>
+</div></body></html>

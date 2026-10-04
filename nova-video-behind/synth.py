@@ -41,7 +41,7 @@ def bell(f, d=1.2):
     return np.sin(2 * np.pi * f * tt + 0.9 * np.exp(-tt / 0.12) * np.sin(2 * np.pi * f * 3.5 * tt)) * np.exp(-tt / (d / 4)) * np.minimum(1, tt / 0.002)
 
 music, drums, sfx, vo = (np.zeros(N) for _ in range(4))
-BPM = 96; B = 60 / BPM; BAR = 4 * B
+BPM = 84; B = 60 / BPM; BAR = 4 * B   # slow and calm
 CH = [['G2', 'D3', 'G3', 'B3', 'D4'], ['E2', 'B2', 'E3', 'G3', 'B3'], ['C2', 'G2', 'C3', 'E3', 'G3'], ['D2', 'A2', 'D3', 'F#3', 'A3']]
 L = T['layers']; WHY = T['vo'][8]; STAT = T['vo'][10]; END = T['end']
 kn = int(0.25 * SR); kick = lp(np.sin(2 * np.pi * np.cumsum(48 + 70 * np.exp(-t_(kn) / 0.03)) / SR) * np.exp(-t_(kn) / 0.13), 900)
@@ -100,7 +100,7 @@ duck = 1 - 0.65 * env
 def reverb(x, secs=1.8, wet=0.3):
     n = int(secs * SR); ir = lp(rng.standard_normal(n) * np.exp(-t_(n) / (secs / 5)), 7000); ir /= np.sqrt(np.sum(ir ** 2))
     return x + wet * fftconvolve(x, ir)[:len(x)]
-mus = reverb(music, 2.2, 0.35) + drums * 0.9 + reverb(sfx, 1.2, 0.2)
+mus = reverb(music, 2.6, 0.4) + drums * 0.55 + reverb(sfx, 1.2, 0.2)
 mixd = np.tanh(mus * duck * 1.2) / 1.2 + reverb(vo, 0.6, 0.06)
 mixd = mixd[:int(DUR * SR)]
 tt = t_(len(mixd)); mixd *= np.minimum(1, tt / 0.05) * np.minimum(1, (DUR - tt) / 1.2)
@@ -108,7 +108,7 @@ st = np.stack([mixd, np.roll(mixd, 13) * 0.97 + mixd * 0.03], 1); st /= np.max(n
 with wave.open('out/music.wav', 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype('<i2').tobytes())
 _m = (np.tanh(mus * duck * 1.2) / 1.2)[:int(DUR * SR)]; _v = reverb(vo, 0.6, 0.06)[:int(DUR * SR)]
-for a, b, nm in [(0.4, 8.3, 'intro'), (8.65, 20.7, 'stack'), (21.1, 25.8, 'why'), (26.1, 34.7, 'status'), (35.2, 50.3, 'honest'), (50.9, 53.4, 'end')]:
+for a, b, nm in [(0.5, 10.9, 'intro'), (11.77, 27.0, 'stack'), (27.96, 33.9, 'why'), (34.9, 45.8, 'status'), (47.1, 68.6, 'honest'), (70.0, 73.0, 'end')]:
     rm = lambda x: 20 * np.log10(np.sqrt(np.mean(x[int(a * SR):int(b * SR)] ** 2)) + 1e-9)
     print(f'{nm:7s} voice {rm(_v):6.1f}  music {rm(_m):6.1f}')
 print('wrote', st.shape[0] / SR, 's')
