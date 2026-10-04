@@ -1,6 +1,6 @@
 # NOVA OS — Terms of Use & Disclaimer
 
-*Last updated: [DATE]*
+*Last updated: 4 October 2026*
 
 By downloading, installing or using NOVA OS ("NOVA"), you agree to these terms. If you don't agree, don't install or use NOVA.
 
@@ -20,7 +20,7 @@ Installing an operating system can erase data and change how your computer start
 
 ## 4. No liability
 
-To the maximum extent allowed by law, the NOVA team [YOUR NAME / COMPANY] is **not liable for any damage or loss** caused by using, or being unable to use, NOVA, including:
+To the maximum extent allowed by law, the NOVA team is **not liable for any damage or loss** caused by using, or being unable to use, NOVA, including:
 
 - loss or corruption of data,
 - damage to hardware or firmware,
@@ -43,4 +43,4 @@ We may update these terms. The latest version is always at byeno.org. Continuing
 
 ## 8. Contact
 
-Questions? Contact [CONTACT EMAIL].
+Questions? Contact novaos.star@gmail.com.

@@ -1,6 +1,6 @@
 # NOVA OS — Privacy Policy
 
-*Last updated: [DATE]*
+*Last updated: 4 October 2026*
 
 The latest version of this policy is always at byeno.org/privacy.
 
@@ -37,4 +37,4 @@ If this ever changes, we'll update this page and say so clearly in the release n
 
 ## Contact
 
-Questions? Contact [CONTACT EMAIL].
+Questions? Contact novaos.star@gmail.com.
