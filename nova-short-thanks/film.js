@@ -2,11 +2,11 @@
 (() => {
 const W = 1080, H = 1920, G = 0.8;
 const VOD = [3.07, 0.7, 3.14];
-const T = { vo: [0.3, 9.0, 10.6] };
-const NAMES = ['hxpedz', 'Panvi10', 'drzvaep', 'UniqueAgasti', 'janojako2354', 'TahsinArian-r8r', 'farichYouTube'];
-const N0 = 3.9, NS = 0.62;                        // first name, gap between names
+const T = { vo: [0.3, 9.6, 11.2] };
+const NAMES = ['hxpedz', 'Panvi10', 'drzvaep', 'UniqueAgasti', 'janojako2354', 'TahsinArian-r8r', 'farichYouTube', 'lithium255', 'chill_cameraguy35', 'Amar_from_tetova'];
+const N0 = 3.9, NS = 0.5;                        // first name, gap between names
 const NT = NAMES.map((_, i) => N0 + i * NS);
-const DUR = 17.0;
+const DUR = 17.6;
 
 // ---------- easing + drawing helpers ----------
 function bezier(x1, y1, x2, y2) {
@@ -64,23 +64,23 @@ function glow(x, y, r, a, col) {
 // ---------- the film ----------
 const CX = W / 2, GOLD = 'rgb(255,197,107)';
 const DUST = Array.from({ length: 90 }, (_, i) => ({ x: hash(i + 1) * W, y: hash(i + 50) * H, s: 1 + hash(i + 99) * 2.4, sp: 10 + hash(i + 7) * 30, tw: hash(i + 3) * 6 }));
-const CARD_H = 104, CARD_GAP = 22, LIST_Y = 560;
+const CARD_H = 90, CARD_GAP = 16, LIST_Y = 520;
 const cardY = i => LIST_Y + i * (CARD_H + CARD_GAP);
 
 function nameCard(i, t) {
   const t0 = NT[i]; if (t < t0) return;
   const outT = T.vo[1] - 0.35, out = gl(t, outT + i * 0.03, 0.45);    // all lift away together on "Thank you"
   const e = clamp((t - t0) / 0.42), p = back(e), side = i % 2 ? 1 : -1;
-  const label = '@' + NAMES[i], tw = measure(label, 54, 700, -0.02), w = tw + 170, h = CARD_H;
+  const label = '@' + NAMES[i], tw = measure(label, 48, 700, -0.02), w = tw + 170, h = CARD_H;
   const x = CX - w / 2 + side * 260 * (1 - ease(e)), y = cardY(i) - 120 * out;
   const flash = 1 - clamp((t - t0) / 0.5);
   ctx.save(); ctx.globalAlpha = clamp(e * 2.2) * (1 - out);
   ctx.translate(x + w / 2, y + h / 2); ctx.scale(0.86 + 0.14 * p, 0.86 + 0.14 * p); ctx.translate(-(x + w / 2), -(y + h / 2));
   rr(ctx, x, y, w, h, h / 2); ctx.fillStyle = '#121218'; ctx.fill();
   ctx.lineWidth = 2; ctx.strokeStyle = `rgba(255,197,107,${0.18 + 0.6 * flash})`; ctx.stroke();
-  ctx.beginPath(); ctx.arc(x + h / 2, y + h / 2, 36, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,197,107,.14)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(x + h / 2, y + h / 2, 31, 0, Math.PI * 2); ctx.fillStyle = 'rgba(255,197,107,.14)'; ctx.fill();
   starImg(x + h / 2, y + h / 2, 44 * (1 + 0.5 * flash));
-  text(ctx, label, x + h + 12, y + h / 2 + 2, { size: 54, w: 700, base: 'middle', color: '#f4f4f6', v: true, track: -0.02 });
+  text(ctx, label, x + h + 12, y + h / 2 + 2, { size: 48, w: 700, base: 'middle', color: '#f4f4f6', v: true, track: -0.02 });
   ctx.restore();
   if (flash > 0) glow(x + h / 2, y + h / 2, 160, 0.35 * flash * (1 - out), '255,197,107');
 }
@@ -102,7 +102,7 @@ function seek(t) {
   // the names, and a little counter
   NAMES.forEach((_, i) => nameCard(i, t));
   const shown = NT.filter(x => t >= x).length, ca = gl(t, N0, 0.4) * (1 - gl(t, T.vo[1] - 0.35, 0.4));
-  if (ca > 0) text(ctx, `DAY ONES · ${shown}`, CX, cardY(NAMES.length) + 50, { size: 30, w: 700, align: 'center', base: 'middle', color: 'rgba(255,255,255,.55)', a: ca, v: true, track: 0.2 });
+  if (ca > 0) text(ctx, `DAY ONES · ${shown}`, CX, cardY(NAMES.length) + 36, { size: 30, w: 700, align: 'center', base: 'middle', color: 'rgba(255,255,255,.55)', a: ca, v: true, track: 0.2 });
   // "Thank you."
   const ty = gl(t, T.vo[1] - 0.05, 0.4) * (1 - gl(t, T.vo[2] - 0.35, 0.4));
   if (ty > 0) {
