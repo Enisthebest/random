@@ -1,5 +1,7 @@
 # NOVA OS: files for Claude Code
 
+**Want the exact messages to send, step by step? Open `ROADMAP.md`.**
+
 Put both folders in your NOVA OS project folder (unzip them there):
 
 ```
