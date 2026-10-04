@@ -75,7 +75,7 @@ ACC = {'--acc': '#3B8BFF', '--acc2': '#6AA8FF', '--sel': 'rgba(59,139,255,.18)',
 
 def desktop(inner, title):
     style = ';'.join(f'{k}:{v}' for k, v in ACC.items())
-    dock = ''.join(f'<img src="{A}{f}" alt="">' for f in ['folder.webp', 'shield.webp', 'monitor.png', 'images.png', 'ledger.png', 'fix.png', 'settings.webp', 'nova-star.png'])
+    dock = ''.join(f'<img src="{A}{f}" alt="">' for f in ['folder.webp', 'shield.webp', 'monitor.png', 'images.png', 'ledger.png', 'fix.png', 'settings.webp', 'ace-app-icon.svg'])
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><title>{title}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -109,7 +109,7 @@ def aimg(f): return f'<img class="ai" src="{A}{f}" alt="">'
 
 # 1. just opened: pinned apps + recent
 apps = [('shield.webp', 'Shield'), ('folder.webp', 'Files'), ('monitor.png', 'Monitor'), ('images.png', 'Images'),
-        ('ledger.png', 'Ledger'), ('fix.png', 'Fix'), ('settings.webp', 'Settings'), ('nova-star.png', 'ACE')]
+        ('ledger.png', 'Ledger'), ('fix.png', 'Fix'), ('settings.webp', 'Settings'), ('ace-app-icon.svg', 'ACE')]
 grid = ''.join(f'<div class="tile{" on" if i == 0 else ""}"><img src="{A}{f}" alt="">{n}</div>' for i, (f, n) in enumerate(apps))
 open_ = query('Search apps, files and settings', True) + f'''<div class="list">
 <div class="sec">Apps</div><div class="apps">{grid}</div>
@@ -145,7 +145,7 @@ calc = query('128 × 12 + 64') + f'''<div class="list">
 
 # 4. Pro: a sentence goes to ACE, shown as a draft the user confirms
 ace = query('turn off wifi and lock my screen') + f'''<div class="list">
-<div class="ace"><div class="h"><img src="{A}nova-star.png" alt=""><b>ACE will do this</b><span class="chip pro">{ic('sparkles', 13)} Pro</span></div>
+<div class="ace"><div class="h"><img src="{A}ace-asking.svg" alt=""><b>ACE will do this</b><span class="chip pro">{ic('sparkles', 13)} Pro</span></div>
 <div class="step"><span class="n">1</span>Turn off Wi-Fi<span class="ico">{ic('wifi-off', 17)}</span></div>
 <div class="step"><span class="n">2</span>Lock the screen<span class="ico">{ic('lock', 17)}</span></div>
 <div class="acts"><span class="note">{ic('shield-check', 14)} Runs on this device. Nothing happens until you press Run.</span>

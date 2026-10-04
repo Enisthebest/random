@@ -10,5 +10,6 @@ for f in glob.glob(os.path.join(HERE, '..', 'nova-apps', 'project', '*.dc.html')
     s = re.sub(r'</?x-dc>\n?', '', s); s = re.sub(r'</?helmet>\n?', '', s)
     s = re.sub(r'<script type="text/x-dc".*?</script>\n?', '', s, flags=re.S)
     for k, v in BLOB.items(): s = s.replace('/_blob/' + k, '../assets/' + v)
+    if NAMES[os.path.basename(f)[:-8]] == 'ace': s = s.replace('../assets/nova-star.png', '../assets/ace-logo.svg')  # ACE's face is Buddy
     open(os.path.join(HERE, 'screens', NAMES[os.path.basename(f)[:-8]] + '.html'), 'w').write(s)
 print('screens rebuilt')

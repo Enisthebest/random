@@ -15,7 +15,7 @@ CSS = '''
 .msgs{flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
 .u{align-self:flex-end;max-width:62%;background:#2f7cf6;color:#fff;padding:11px 18px;border-radius:20px 20px 6px 20px;font-size:15px;line-height:1.5}
 .a{display:flex;gap:14px;align-items:flex-start;max-width:78%}
-.a .st{width:22px;height:22px;object-fit:contain;margin-top:9px;flex-shrink:0}
+.a .st{width:30px;height:30px;margin-top:6px;flex-shrink:0}
 .ab{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:11px 18px;border-radius:20px 20px 20px 6px;font-size:15px;line-height:1.5}
 .draft{border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);padding:16px 18px;width:520px;box-sizing:border-box}
 .dh{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;margin-bottom:12px}
@@ -42,7 +42,7 @@ CSS = '''
 
 def side(active):
     chats = [('Fix this error', 'message-circle'), ('Free up space', 'message-circle'), ('Message Sam', 'message-circle'), ('PC temperatures', 'message-circle')]
-    h = (f'<aside class="side"><div class="app"><img src="{A}nova-star.png" alt="" style="width:30px;height:30px;object-fit:contain"><b>ACE</b></div>'
+    h = (f'<aside class="side"><div class="app"><img src="{A}ace-logo.svg" alt="" style="width:34px;height:34px"><b>ACE</b></div>'
          f'<button class="nav{" on" if active == "new" else ""}">{ic("square-pen", 18)}New chat</button><div class="sec">Today</div>')
     h += ''.join(f'<button class="nav{" on" if active == n else ""}">{ic(i, 18)}{n}</button>' for n, i in chats)
     h += f'<div class="sec">Settings</div><button class="nav{" on" if active == "perm" else ""}">{ic("lock", 18)}Permissions &amp; model</button></aside>'
@@ -51,7 +51,7 @@ def side(active):
 def head(title, sub='ACE runs on your device. It only sees what you allow.'):
     return f'<div class="head"><div><h1 class="h1">{title}</h1><p class="sub">{sub}</p></div><span class="pro">{ic("sparkles", 14)}Pro</span></div>'
 
-STAR = f'<img class="st" src="{A}nova-star.png" alt="">'
+STAR = f'<img class="st" src="{A}ace-logo.svg" alt="">'
 def u(t): return f'<div class="u">{t}</div>'
 def a(inner): return f'<div class="a">{STAR}<div style="display:flex;flex-direction:column;gap:10px">{inner}</div></div>'
 def ab(t): return f'<div class="ab">{t}</div>'
@@ -64,7 +64,7 @@ S = {}
 sugg = ''.join(f'<div class="sg"><div class="ti">{ic(i, 17)}</div><div><b>{t}</b><span>{d}</span></div></div>' for i, t, d in [
     ('monitor', 'Explain what\'s on my screen', 'Asks before it looks'), ('hard-drive', 'Free up disk space', 'Shows the commands first'),
     ('message-circle', 'Message someone for me', 'You send the draft'), ('mail', 'Clean up my inbox', 'Sorts, never deletes without asking')])
-welcome = (f'<div class="main">{head("New chat")}<div class="chat"><div class="welcome"><img src="{A}nova-star.png" alt="" style="width:72px;height:72px;object-fit:contain">'
+welcome = (f'<div class="main">{head("New chat")}<div class="chat"><div class="welcome"><img src="{A}ace-happy.svg" alt="" style="width:110px;height:110px">'
            '<div style="font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:16px">What can I do for you?</div>'
            f'<div style="font-size:14px;color:#a1a1aa;margin-top:8px;display:flex;gap:6px;align-items:center">{ic("shield-check", 15)}Everything stays on this device</div>'
            f'<div class="sugg">{sugg}</div></div>{INPUT}</div></div>')

@@ -15,6 +15,7 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 | `skill/nova-design/` | Claude Code skill: how to design **new** NOVA screens in this style. Copy to `.claude/skills/`. |
 | `shell/` | Generator for the shell screens (`screens/shell-*.html`, `png/shell-*.png`): desktop, Control panel, Wi-Fi/Bluetooth pickers, lock screen, notifications, power menu, OSD. |
 | `apps2/` | Generator for Terminal, Text Editor and NOVA Browser (`screens/terminal.html`, `editor.html`, `browser-*.html`). |
+| `ace-identity/` | ACE's logo (Buddy), its 9 moods as SVG, app icon, and ACE_PERSONALITY.md (voice, example lines, animations). |
 | `launcher/` | Generator for the launcher screens (`screens/launcher-*.html`, `png/launcher-*.png`). |
 
 ## How to use it

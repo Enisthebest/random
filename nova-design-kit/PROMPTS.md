@@ -141,6 +141,7 @@ Changing the accent updates every component that uses --accent live.
 ### ACE (Pro) — `png/ace.png`, `ace-new.png`, `ace-screen.png`, `ace-command.png`, `ace-message.png`, `ace-permissions.png`
 ```
 Build the ACE app (Pro only) to match png/ace.png plus the five ace-*.png screens.
+ACE has a face and a personality: read ace-identity/ACE_PERSONALITY.md first. Build Buddy (ace-identity/svg/) as a live QML component with its 9 moods, and write every ACE line in its voice.
 Sidebar: ACE + star, New chat, "Today" conversation list (selected highlighted), Settings: Permissions & model.
 Header: conversation title / "ACE runs on your device. It only sees what you allow." with an orange "Pro" chip.
 Chat: user bubbles right (#2F7CF6, bottom-right corner 6), ACE bubbles left with the star (bottom-left corner 6), suggestion chips above the 56px round input with a white send button.

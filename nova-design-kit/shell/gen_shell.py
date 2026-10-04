@@ -70,7 +70,7 @@ def bar(clock='12:22', ctl_on=False, extra_right=''):
 def dock(running=(0, 1)):
     apps = ['folder.webp', 'shield.webp', 'monitor.png', 'images.png', 'ledger.png', 'fix.png', 'settings.webp']
     h = ''.join(f'<div class="app{" run" if i in running else ""}"><img src="{A}{f}" alt=""></div>' for i, f in enumerate(apps))
-    return f'<div class="dock">{h}<div class="sep"></div><div class="app"><img src="{A}nova-star.png" alt=""></div></div>'
+    return f'<div class="dock">{h}<div class="sep"></div><div class="app"><img src="{A}ace-app-icon.svg" alt=""></div></div>'
 
 def page(title, inner, wall='wall', dim=False):
     return f'''<!doctype html>
