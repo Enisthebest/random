@@ -56,9 +56,18 @@ Set `FFMPEG=/path/to/ffmpeg` if ffmpeg isn't on PATH, and `PORT` if 8125 is take
 - Sound effects via `peak(sig, time, gain)` (aligns the sound's peak to the frame): `key()` typing per word of each headline, `tick()` per cut, `whoosh()` per scene change, `chime()` on reveals and the end card.
 - Mix: sidechain pads under the kick, short silence right before the drop, end chord softer than the drop, fade out the last 1.5 s. `make.sh` normalises to −14 LUFS, true peak −1 dB.
 
+## Voice-over
+- NOVA's voice is **af_bella** from Kokoro (open source, Apache-2.0, free for videos). `template/vo.py` makes one WAV per line and measures each one.
+- **Write the script first**, generate the lines, then time the film to the voice: put each line's start in `T.vo` and leave ~0.3 s between lines.
+- Short sentences, one idea each, said the way a friend would say them. Questions + one-word answers work great ("Background apps? Frozen.").
+- **Captions always match the voice** word for word (many people watch muted). Split long lines into 2 rows or swap words in as they're spoken.
+- In `synth.py`: load the lines at `T.vo` (resample to 48 kHz), high-pass at 90 Hz, and **duck the music ~8 dB under the voice** with an envelope follower. Check the balance: the voice should be 5–10 dB above the music in every section.
+- See `nova-short-gaming/` for a full example (voice + phonk + ducking).
+
 ## Checklist before sending
 - [ ] Stills of every scene looked at; nothing clipped, overlapping or off-frame.
 - [ ] Every line readable at normal speed.
+- [ ] With a voice-over: captions match it, and the voice is clearly above the music.
 - [ ] Scan shows only intended cuts.
 - [ ] Music drop lands on the reveal; ending isn't louder than the drop.
 - [ ] Correct format (16:9 1920×1080 for YouTube/ads, 9:16 1080×1920 for TikTok/Reels/Shorts), 60 fps, MP4.
