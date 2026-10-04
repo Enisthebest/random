@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Setup: look</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(48px) saturate(1.15);transform:scale(1.12)}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.42)}
+.mono{font-family:"Geist Mono",ui-monospace,monospace}
+/* the wizard window */
+.win{position:absolute;left:180px;top:110px;width:1080px;height:680px;border-radius:24px;background:rgba(12,12,16,.90);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(30px);display:flex;overflow:hidden;z-index:2}
+.side{width:268px;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:26px 18px;box-sizing:border-box;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:12px;margin:0 6px 30px}
+.brand img{width:34px;height:34px;object-fit:contain}
+.brand b{display:block;font-size:15px;font-weight:700}.brand span{display:block;font-size:12px;color:#8d8d96;margin-top:1px}
+.step{display:flex;align-items:center;gap:12px;height:42px;padding:0 10px;border-radius:11px;font-size:14px;font-weight:500;color:#6e6e77}
+.step .n{width:24px;height:24px;border-radius:12px;border:1.5px solid rgba(255,255,255,.16);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.step.done{color:#a1a1aa}.step.done .n{background:var(--acc);border:0;color:var(--on)}
+.step.now{background:var(--sel);color:#f2f2f4}.step.now .n{background:#f2f2f4;border:0;color:#0b0b0e}
+.pro{margin-left:auto;height:20px;padding:0 8px;border-radius:10px;background:rgba(245,146,30,.16);color:#ffae5a;font-size:11px;font-weight:700;display:flex;align-items:center}
+.side .foot{margin-top:auto;display:flex;align-items:center;gap:8px;padding:0 8px;font-size:12px;color:#8d8d96}
+.main{flex:1;display:flex;flex-direction:column;padding:34px 44px 26px;box-sizing:border-box;min-width:0}
+.kick{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96}
+h1{margin:10px 0 0;font-size:30px;font-weight:700;letter-spacing:-.01em}
+.sub{margin:8px 0 0;font-size:15px;line-height:1.5;color:#a1a1aa;max-width:620px}
+.body{margin-top:26px;flex:1;min-height:0}
+.nav{display:flex;align-items:center;gap:10px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06)}
+.btn{height:40px;padding:0 18px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#f2f2f4;box-sizing:border-box}
+.btn.pri{background:#f2f2f4;color:#0b0b0e;border:0}
+.link{font-size:14px;font-weight:600;color:var(--acc-text)}
+/* building blocks */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:6px 20px;box-sizing:border-box}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96;margin:0 0 10px}
+.row{display:flex;align-items:center;gap:14px;min-height:58px;border-bottom:1px solid rgba(255,255,255,.06)}
+.row:last-child{border-bottom:0}
+.tile{width:36px;height:36px;border-radius:11px;background:var(--tint);color:var(--acc-text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tile.g{background:rgba(52,199,89,.14);color:#5fdc86}.tile.o{background:rgba(245,146,30,.14);color:#ffae5a}
+.t1{font-size:15px;font-weight:600}.t2{font-size:13px;color:#a1a1aa;margin-top:3px;line-height:1.4}
+.tog{width:46px;height:28px;border-radius:14px;background:#3a3a40;position:relative;flex-shrink:0;margin-left:auto}
+.tog::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f2f2f4}
+.tog.on{background:var(--acc)}.tog.on::after{left:21px}.tog.g{background:#2f9e5a}
+.field{height:46px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:15px}
+.field.focus{border:2px solid var(--acc);padding:0 13px}
+.field .ph{color:#6e6e77}
+.flabel{font-size:13px;font-weight:600;color:#a1a1aa;margin:0 0 8px}
+.chip{white-space:nowrap;height:26px;padding:0 10px;border-radius:13px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
+.chip.g{background:rgba(52,199,89,.16);color:#5fdc86}.chip.a{background:var(--tint);color:var(--acc-text)}
+.check{width:22px;height:22px;border-radius:11px;background:var(--acc);color:var(--on);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
+.promise{background:#ececef;color:#111114;border-radius:16px;display:flex;align-items:center;gap:12px;padding:0 16px;height:56px;font-size:14px;font-weight:600}
+.kbd{height:26px;min-width:26px;padding:0 8px;box-sizing:border-box;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);color:#e4e4e7;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+</style></head><body>
+<div class="frame" style="--acc:#19C995;--acc-text:#4FE3B5;--on:#0B0B0E;--sel:rgba(25,201,149,.18);--tint:rgba(25,201,149,.14)">
+<img class="wall" src="../assets/wall-aurora.jpg" alt=""><div class="dim"></div>
+<div class="win" role="dialog" aria-label="Set up NOVA"><div class="side"><div class="brand"><img src="../assets/nova-star.png" alt=""><div><b>Set up NOVA</b><span>About 3 minutes</span></div></div><div class="step done"><span class="n"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 6 9 17l-5-5" /></svg></span>Language & region</div><div class="step done"><span class="n"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 6 9 17l-5-5" /></svg></span>Internet</div><div class="step done"><span class="n"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 6 9 17l-5-5" /></svg></span>Account</div><div class="step done"><span class="n"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 6 9 17l-5-5" /></svg></span>Privacy</div><div class="step done"><span class="n"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 6 9 17l-5-5" /></svg></span>Protection</div><div class="step now" aria-current="step"><span class="n">6</span>Look</div><div class="step "><span class="n">7</span>ACE<span class="pro">PRO</span></div><div class="step "><span class="n">8</span>Finish</div><div class="foot"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><circle cx="16" cy="4" r="1" /> <path d="m18 19 1-7-6 1" /> <path d="m5 8 3-3 5.5 3-2.36 3.5" /> <path d="M4.24 14.5a5 5 0 0 0 6.88 6" /> <path d="M13.76 17.5a5 5 0 0 0-6.88-6" /></svg>Accessibility <span class="kbd" style="margin-left:auto">super</span><span class="kbd">U</span></div></div><div class="main"><div class="kick">Step 6 of 8</div><h1>Make it yours</h1><p class="sub">Pick a wallpaper. Its colour becomes your accent, so toggles and highlights match it.</p><div class="body">
+<div style="display:flex;gap:26px">
+ <div style="display:grid;grid-template-columns:repeat(3,132px);gap:20px 18px;align-content:start"><div style="display:flex;flex-direction:column;gap:8px"><div style="position:relative;width:132px;height:74px;border-radius:12px;">
+ <img src="../assets/wall-original.jpg" alt="" style="width:132px;height:74px;border-radius:12px;object-fit:cover;display:block">
+ </div>
+ <div style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#a1a1aa"><i style="width:10px;height:10px;border-radius:5px;background:#3B8BFF"></i>NOVA</div></div><div style="display:flex;flex-direction:column;gap:8px"><div style="position:relative;width:132px;height:74px;border-radius:12px;outline:3px solid var(--acc);outline-offset:3px">
+ <img src="../assets/wall-aurora.jpg" alt="" style="width:132px;height:74px;border-radius:12px;object-fit:cover;display:block">
+ <span class="check" style="position:absolute;right:7px;top:7px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 6 9 17l-5-5" /></svg></span></div>
+ <div style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#f2f2f4"><i style="width:10px;height:10px;border-radius:5px;background:#19C995"></i>Aurora</div></div><div style="display:flex;flex-direction:column;gap:8px"><div style="position:relative;width:132px;height:74px;border-radius:12px;">
+ <img src="../assets/wall-ember.jpg" alt="" style="width:132px;height:74px;border-radius:12px;object-fit:cover;display:block">
+ </div>
+ <div style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#a1a1aa"><i style="width:10px;height:10px;border-radius:5px;background:#FF4F8B"></i>Ember</div></div><div style="display:flex;flex-direction:column;gap:8px"><div style="position:relative;width:132px;height:74px;border-radius:12px;">
+ <img src="../assets/wall-lilac.jpg" alt="" style="width:132px;height:74px;border-radius:12px;object-fit:cover;display:block">
+ </div>
+ <div style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#a1a1aa"><i style="width:10px;height:10px;border-radius:5px;background:#A26BFF"></i>Lilac</div></div><div style="display:flex;flex-direction:column;gap:8px"><div style="position:relative;width:132px;height:74px;border-radius:12px;">
+ <img src="../assets/wall-ocean.jpg" alt="" style="width:132px;height:74px;border-radius:12px;object-fit:cover;display:block">
+ </div>
+ <div style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#a1a1aa"><i style="width:10px;height:10px;border-radius:5px;background:#12B8F0"></i>Ocean</div></div><div style="display:flex;flex-direction:column;gap:8px"><div style="position:relative;width:132px;height:74px;border-radius:12px;">
+ <img src="../assets/wall-citrus.jpg" alt="" style="width:132px;height:74px;border-radius:12px;object-fit:cover;display:block">
+ </div>
+ <div style="display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:#a1a1aa"><i style="width:10px;height:10px;border-radius:5px;background:#A8E632"></i>Citrus</div></div></div>
+ <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+  <p class="flabel" style="margin:0">Preview</p><div style="position:relative;width:266px;height:150px;border-radius:14px;overflow:hidden">
+ <img src="../assets/wall-aurora.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+ <div style="position:absolute;left:6px;right:6px;top:5px;display:flex;justify-content:space-between"><i style="width:34px;height:9px;border-radius:3px;background:#101013"></i><i style="width:30px;height:9px;border-radius:3px;background:#101013"></i><i style="width:46px;height:9px;border-radius:3px;background:#101013"></i></div>
+ <div style="position:absolute;left:50px;top:24px;width:166px;height:96px;border-radius:8px;background:rgba(12,12,16,.92);display:flex">
+  <div style="width:44px;background:rgba(255,255,255,.03);padding:8px 5px;box-sizing:border-box;display:flex;flex-direction:column;gap:4px"><i style="height:8px;border-radius:3px;background:var(--sel)"></i><i style="height:8px;border-radius:3px;background:rgba(255,255,255,.06)"></i><i style="height:8px;border-radius:3px;background:rgba(255,255,255,.06)"></i></div>
+  <div style="flex:1;padding:10px;display:flex;flex-direction:column;gap:7px"><i style="width:60px;height:7px;border-radius:3px;background:#f2f2f4"></i>
+   <div style="display:flex;align-items:center;gap:6px"><i style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"></i><i style="width:20px;height:12px;border-radius:6px;background:var(--acc)"></i></div>
+   <div style="display:flex;align-items:center;gap:6px"><i style="flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.1)"></i><i style="width:20px;height:12px;border-radius:6px;background:#3a3a40"></i></div>
+   <i style="height:6px;border-radius:3px;background:linear-gradient(90deg,var(--acc) 64%,rgba(255,255,255,.1) 64%)"></i></div></div>
+ <div style="position:absolute;left:50%;bottom:6px;transform:translateX(-50%);width:104px;height:16px;border-radius:5px;background:rgba(16,16,19,.9);display:flex;align-items:center;justify-content:center;gap:5px"><i style="width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.35)"></i><i style="width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.35)"></i><i style="width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.35)"></i><i style="width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.35)"></i><i style="width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.35)"></i><i style="width:9px;height:9px;border-radius:3px;background:rgba(255,255,255,.35)"></i></div></div>
+  <div class="card" style="padding:2px 18px"><div class="row" style="min-height:54px"><div><div class="t1" style="font-size:14px">Match accent to wallpaper</div><div class="t2">Accent: Aurora <span class="mono">#19C995</span></div></div><div class="tog on"></div></div></div>
+ </div></div></div><div class="nav"><span class=btn><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></svg>Back</span><span style="margin-left:auto"></span><span class="btn pri">Continue<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></svg></span></div></div></div>
+</div></body></html>

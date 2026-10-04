@@ -9,7 +9,7 @@ You are the designer as well as the engineer. Every new NOVA screen must look li
 
 ## 1. Before you draw anything
 1. Say in one sentence what this screen is for and the **one main action**. That action gets the only primary (white) button.
-2. Find the closest existing mockup in `png/` and reuse its skeleton: window apps → sidebar + header + body (`shield.png`, `settings.png`); quick overlays → centred glass panel (`launcher-*.png`); shell → pills, dock and shell cards.
+2. Find the closest existing mockup in `png/` and reuse its skeleton: window apps → sidebar + header + body (`shield.png`, `settings.png`); quick overlays → centred glass panel (`launcher-*.png`); shell → pills, dock and shell cards; multi-step flows (setup, onboarding, installers) → step rail + content + Back/Continue bar (`setup-*.png`).
 3. Write the copy first (see Voice). If the copy is short and clear, the layout is usually obvious.
 
 ## 2. The look, in rules

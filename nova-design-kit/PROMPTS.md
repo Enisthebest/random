@@ -229,3 +229,27 @@ No shadows and no grey edges on the panel (see DESIGN_SYSTEM.md). Match the scre
 ```
 Build notification toasts to match png/shell-notifications.png: 382x66, radius 16, top-right under the top bar, stacked with 10px gaps (max 3, older ones collapse). App icon in a tinted circle (green for Shield/Guard, accent for system), title 14/600, one line 12/400, "now" top-right. They slide in from the right with the glide and leave after 5s. Clicking opens the related app. With Do Not Disturb on, an incoming toast folds down into the Do Not Disturb moon icon instead of staying.
 ```
+
+---
+
+## First boot
+
+### Setup wizard — `png/setup-*.png` (overview: `png/_setup-overview.png`)
+```
+Build the first-boot setup wizard to match nova-design-kit/png/setup-*.png (HTML in screens/setup-*.html), following DESIGN_SYSTEM.md → "Setup wizard". It runs once, full screen, before the first login, and creates the user account.
+Screens, in order:
+0. Welcome (setup-welcome): full screen, blurred wallpaper with a 42% black layer, NOVA star, "Welcome to NOVA" 72/700, one line below, "Hello" cycling through languages (one bright, the rest 32% white; it moves on every 2s with a 400ms cross-fade), a language pill and the white "Get started" button. Bottom row: Accessibility, keyboard layout, Shut down.
+1. Language & region (setup-region): searchable language list with a check on the chosen one, keyboard layout picker, a "Try it" field to test typing, time zone guessed from the language and keyboard (never from location or an online lookup).
+2. Internet (setup-wifi): network list (the selected one highlighted), password card with "Private Wi-Fi address" on by default, "Join another network", and "Set up offline" next to Continue. Connecting must not contact any NOVA server.
+3. Account (setup-account): avatar with 5 gradient colours or a photo, name, username (auto-filled from the first name, lowercase, checked live), password with a 4-step strength bar and a hint, confirm field, "Encrypt my home folder" on by default. No email, no online account.
+4. Privacy (setup-privacy): the green "NOVA collects nothing about you." card, then crash reports, location and lock-screen previews, all OFF by default. Link to the privacy policy.
+5. Protection (setup-protection): three Shield level cards (Relaxed, Balanced = recommended + preselected, Strict), then Updates as a 3-way segmented control: Ask me first (default), Install automatically, Only when I check.
+6. Look (setup-look): the 6 wallpapers from nova-wallpapers/ in a 3×2 grid, a live mini preview, "Match accent to wallpaper" on. Picking a wallpaper changes the accent of the wizard itself right away (the accent floods out from the clicked thumbnail, 400ms): every later step uses the new accent, as in setup-look/ace/finish.
+7. ACE (setup-ace): NOVA Pro only. On other editions this step and its sidebar item don't exist and the steps renumber. Buddy (ace-happy), the greeting bubble, the four promise cards, "Maybe later" and "Turn on ACE".
+8. Finish (setup-finish): "You're all set, [FIRST NAME] ✦", six shortcut tiles, chips summing up the choices, three "What's next" cards, and "Start using NOVA", which logs straight into the new desktop.
+Layout: a 1080×680 window (radius 24) centred over the blurred wallpaper; left rail 268px with the brand, the numbered steps (done = accent circle with a check, current = white circle on the selected background, later = dimmed) and Accessibility (Super+U) at the bottom; content on the right: "STEP N OF 8" label, title 30/700, one subtitle line, content, then the nav bar (Back on the left; an optional link and the white primary button on the right).
+Behaviour: Continue stays disabled until the step is valid; Enter = Continue, Esc = Back. Steps slide: the content glides 40px left and fades out (first 40%) while the next one fades in from the right (second half), 800ms on the NOVA curve; the sidebar highlight glides to the next step. Clicking a finished step in the sidebar jumps back to it. Nothing is applied until Finish, except Wi-Fi and the wallpaper/accent preview; if the PC turns off halfway, the wizard starts again.
+On Finish: create the user (useradd + passwd, wheel group), apply locale, keymap, time zone, Shield level, update mode, wallpaper and accent, then remove the wizard's autostart.
+Wire it to: [localectl, timedatectl, NetworkManager/iwd, useradd, systemd-homed or fscrypt for encryption, our Shield and update config].
+No shadows and no grey edges. Match the screenshots closely.
+```

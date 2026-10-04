@@ -157,3 +157,24 @@ The whole OS moves with one curve and one duration.
 - **Desktop:** `png/shell-desktop.png`. **Power menu:** `png/shell-power.png`. **Volume/brightness OSD:** `png/shell-osd.png`.
 - **Lock screen:** blurred wallpaper, clock 200/600 at the upper third, date 30/500 below, "Swipe up to unlock" at the bottom.
 - **Notifications:** 382 × 66 toast top-right, radius 16, app icon in a tinted circle, title 14/600 + line 12, "now" top-right.
+
+---
+
+## 8. Setup wizard (first boot)
+
+Mockups: `png/setup-*.png`, overview `png/_setup-overview.png`, generator `setup/gen_setup.py`.
+
+| Part | Spec |
+|---|---|
+| **Backdrop** | Current wallpaper, blur 48 px, saturate 1.15, 42% black layer |
+| **Welcome** | Full screen, no window. Star 150 px, title 72/700, subtitle 20/400 at 72% white, "Hello" row 17/600, two 52 px round buttons (language, primary "Get started") |
+| **Window** | 1080 × 680, radius 24, `--surface-window`, centred |
+| **Step rail** | 268 px, `--surface-sidebar`. Step rows 42 px, radius 11, 24 px number circle. Done = accent circle + check (`onAccent`), current = white circle + `--surface-selected` row, later = `--text-disabled`. ACE carries an orange PRO chip |
+| **Content** | Padding 34 / 44. "STEP N OF 8" label 12/700 uppercase, title 30/700, subtitle 15/400 secondary, max 620 px |
+| **Nav bar** | Hairline on top, Back (default button) left, optional accent text link + primary button right |
+| **Inputs** | 46 px fields, radius 12; focused = 2 px accent border |
+| **Choice cards** | Radius 18; selected = 2 px accent border + `--surface-selected` |
+| **Defaults** | Every privacy option off; Shield Balanced; updates "Ask me first"; home encryption on; private Wi-Fi address on |
+| **Accent** | Follows the wallpaper picked in the Look step from that moment on |
+| **Motion** | Steps slide 40 px with the 800 ms glide (out in the first 40%, in during the second half); rail highlight glides; accent change floods from the clicked thumbnail (400 ms) |
+
