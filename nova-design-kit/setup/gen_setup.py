@@ -237,16 +237,21 @@ S['setup-ace'] = ('Setup: ACE', win(6, 'Meet ACE', "Your ace up the sleeve. ACE 
  </div></div>''', cont='Turn on ACE', extra='<span class="link" style="margin-right:14px">Maybe later</span>'))
 
 # 8. Finish
-keys = [('Open the launcher', ['super', 'space']), ('Lock your PC', ['super', 'L']), ('Open Terminal', ['super', '↵']), ('Close a window', ['super', 'Q']), ('Control panel', ['super', 'C']), ('Take a screenshot', ['super', 'shift', 'S'])]
-kg = ''.join(f'<div style="display:flex;align-items:center;gap:10px;height:52px;padding:0 16px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)"><span style="font-size:14px;font-weight:500">{t}</span><span style="margin-left:auto;display:flex;gap:5px">{"".join(f"<span class=kbd>{k}</span>" for k in ks)}</span></div>' for t, ks in keys)
-NEXT = [('package', 'Get apps', 'Browse the NOVA app store'), ('usb', 'Bring your files', 'Copy from a USB drive or old PC'), ('book-open', 'Take the tour', 'Two minutes, works offline')]
-nxt = ''.join(f'<div class="card" style="flex:1;padding:14px 16px;display:flex;align-items:center;gap:12px"><div class="tile">{ic(i, 18)}</div><div><div class="t1" style="font-size:14px">{t}</div><div class="t2" style="font-size:12px;margin-top:2px">{d}</div></div></div>' for i, t, d in NEXT)
-S['setup-finish'] = ('Setup: finish', win(7, "You're all set, Alex ✦", 'NOVA is ready. Here are a few shortcuts worth knowing. You can find them all in Settings → Keyboard.', f'''
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">{kg}</div>
-<div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+keys = [('search', 'Launcher', ['super', 'space']), ('folder', 'Files', ['super', 'E']),
+        ('terminal', 'Terminal', ['super', '↵']), ('nova-shield', 'Shield', ['super', 'S']),
+        ('sliders-horizontal', 'Control panel', ['super', 'C']), ('image', 'Wallpapers', ['super', 'W']),
+        ('gamepad-2', 'Gaming mode', ['super', 'G']), ('camera', 'Screenshot', ['super', 'shift', 'S']),
+        ('lock', 'Lock your PC', ['super', 'L']), ('power', 'Power menu', ['super', 'X']),
+        ('x', 'Close a window', ['super', 'Q']), ('accessibility', 'Accessibility', ['super', 'U'])]
+kg = ''.join(f'<div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 10px 0 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)"><span style="color:var(--acc-text);display:flex">{ic(i, 16)}</span><span style="font-size:14px;font-weight:500">{t}</span><span style="margin-left:auto;display:flex;gap:5px">{"".join(f"<span class=kbd>{k}</span>" for k in ks)}</span></div>' for i, t, ks in keys)
+NEXT = [('package', 'Get apps', 'From the NOVA store'), ('usb', 'Bring your files', 'From a USB drive'), ('book-open', 'Take the tour', 'Two minutes, offline')]
+nxt = ''.join(f'<div class="card" style="flex:1;padding:8px 14px;display:flex;align-items:center;gap:12px"><div class="tile">{ic(i, 18)}</div><div><div class="t1" style="font-size:14px">{t}</div><div class="t2" style="font-size:12px;margin-top:2px">{d}</div></div></div>' for i, t, d in NEXT)
+S['setup-finish'] = ('Setup: finish', win(7, "You're all set, Alex ✦", 'NOVA is ready. Shortcuts worth knowing (all of them are in Settings → Keyboard):', f'''
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 12px">{kg}</div>
+<div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
  <span class="chip g">{ic("shield-check", 14)}Shield: Balanced</span><span class="chip g">{ic("hard-drive", 14)}Home folder encrypted</span>
  <span class="chip a">{ic("palette", 14)}Aurora</span><span class="chip a">{ic("refresh-cw", 14)}Updates: ask me first</span></div>
-<p class="lbl" style="margin:28px 0 12px">What's next</p>
+<p class="lbl" style="margin:16px 0 8px">What's next</p>
 <div style="display:flex;gap:12px">{nxt}</div>''', cont='Start using NOVA'))
 
 out = os.path.join(HERE, '..', 'screens')

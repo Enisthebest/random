@@ -178,3 +178,25 @@ Mockups: `png/setup-*.png`, overview `png/_setup-overview.png`, generator `setup
 | **Accent** | Follows the wallpaper picked in the Look step from that moment on |
 | **Motion** | Steps slide 40 px with the 800 ms glide (out in the first 40%, in during the second half); rail highlight glides; accent change floods from the clicked thumbnail (400 ms) |
 
+---
+
+## 9. Keyboard shortcuts
+
+One list, used by Hyprland, the setup wizard's Finish screen and Settings → Keyboard. Key caps show `super`, `shift`, `space`, `↵` and capital letters.
+
+| Shortcut | Does |
+|---|---|
+| Super + Space | Launcher |
+| Super + E | Files |
+| Super + Enter | Terminal |
+| Super + S | Shield |
+| Super + C | Control panel |
+| Super + W | Wallpapers (Settings → Appearance, wallpaper picker) |
+| Super + G | Gaming mode on/off (shows the OSD) |
+| Super + Shift + S | Screenshot |
+| Super + L | Lock |
+| Super + X | Power menu |
+| Super + Q | Close window |
+| Super + U | Accessibility |
+| Super + A | ACE (Pro only) |
+

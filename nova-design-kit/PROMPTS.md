@@ -201,7 +201,7 @@ Use Quickshell's WlSessionLock (or our lock tool) and PAM for the password.
 
 ### Power menu — `png/shell-power.png`
 ```
-Build the power menu to match png/shell-power.png: opens from the Control panel's power shortcut or Super+Escape. A centred glass panel over the desktop dimmed 40%: "Signed in as [NAME]", five 72px round buttons with labels and key hints: Lock (L), Sleep (S), Log out (O), Restart (R), Shut down (P, red tint). Arrow keys move, Enter or the letter runs it, Esc closes. Opens with a 400ms fade + scale 0.96→1. Use loginctl / systemctl.
+Build the power menu to match png/shell-power.png: opens from the Control panel's power shortcut or Super+X. A centred glass panel over the desktop dimmed 40%: "Signed in as [NAME]", five 72px round buttons with labels and key hints: Lock (L), Sleep (S), Log out (O), Restart (R), Shut down (P, red tint). Arrow keys move, Enter or the letter runs it, Esc closes. Opens with a 400ms fade + scale 0.96→1. Use loginctl / systemctl.
 ```
 
 ### Volume and brightness popup (OSD) — `png/shell-osd.png`
@@ -246,10 +246,19 @@ Screens, in order:
 5. Protection (setup-protection): three Shield level cards (Relaxed, Balanced = recommended + preselected, Strict), then Updates as a 3-way segmented control: Ask me first (default), Install automatically, Only when I check.
 6. Look (setup-look): the 6 wallpapers from nova-wallpapers/ in a 3×2 grid, a live mini preview, "Match accent to wallpaper" on. Picking a wallpaper changes the accent of the wizard itself right away (the accent floods out from the clicked thumbnail, 400ms): every later step uses the new accent, as in setup-look/ace/finish.
 7. ACE (setup-ace): NOVA Pro only. On other editions this step and its sidebar item don't exist and the steps renumber. Buddy (ace-happy), the greeting bubble, the four promise cards, "Maybe later" and "Turn on ACE".
-8. Finish (setup-finish): "You're all set, [FIRST NAME] ✦", six shortcut tiles, chips summing up the choices, three "What's next" cards, and "Start using NOVA", which logs straight into the new desktop.
+8. Finish (setup-finish): "You're all set, [FIRST NAME] ✦", twelve shortcut tiles (from DESIGN_SYSTEM.md → "Keyboard shortcuts"; read them from the real keybind config so they never go out of date), chips summing up the choices, three "What's next" cards, and "Start using NOVA", which logs straight into the new desktop.
 Layout: a 1080×680 window (radius 24) centred over the blurred wallpaper; left rail 268px with the brand, the numbered steps (done = accent circle with a check, current = white circle on the selected background, later = dimmed) and Accessibility (Super+U) at the bottom; content on the right: "STEP N OF 8" label, title 30/700, one subtitle line, content, then the nav bar (Back on the left; an optional link and the white primary button on the right).
 Behaviour: Continue stays disabled until the step is valid; Enter = Continue, Esc = Back. Steps slide: the content glides 40px left and fades out (first 40%) while the next one fades in from the right (second half), 800ms on the NOVA curve; the sidebar highlight glides to the next step. Clicking a finished step in the sidebar jumps back to it. Nothing is applied until Finish, except Wi-Fi and the wallpaper/accent preview; if the PC turns off halfway, the wizard starts again.
 On Finish: create the user (useradd + passwd, wheel group), apply locale, keymap, time zone, Shield level, update mode, wallpaper and accent, then remove the wizard's autostart.
 Wire it to: [localectl, timedatectl, NetworkManager/iwd, useradd, systemd-homed or fscrypt for encryption, our Shield and update config].
 No shadows and no grey edges. Match the screenshots closely.
+```
+
+---
+
+## Keyboard shortcuts — `png/setup-finish.png`
+```
+Set up NOVA's system keyboard shortcuts in Hyprland exactly as listed in DESIGN_SYSTEM.md → "Keyboard shortcuts". Keep them in one keybinds file, and have the setup wizard's Finish screen and Settings → Keyboard read that same file, so what we show always matches what works.
+Before adding them, list any existing binds that clash (Super+S, Super+E, Super+W, Super+G, Super+X, Super+U) and tell me what you moved.
+Gaming mode (Super+G) has no design yet: for now, make it toggle a gamemode profile (gamemoderun / Hyprland: animations, blur and shadows off, VRR on, Do Not Disturb on) and show the OSD with a gamepad icon and "Gaming mode on/off".
 ```
