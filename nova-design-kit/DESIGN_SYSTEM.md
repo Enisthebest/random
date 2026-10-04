@@ -192,11 +192,26 @@ One list, used by Hyprland, the setup wizard's Finish screen and Settings → Ke
 | Super + S | Shield |
 | Super + C | Control panel |
 | Super + W | Wallpapers (Settings → Appearance, wallpaper picker) |
-| Super + G | Gaming mode on/off (shows the OSD) |
+| Super + G | Gaming mode on/off (see section 10) |
 | Super + Shift + S | Screenshot |
 | Super + L | Lock |
 | Super + X | Power menu |
 | Super + Q | Close window |
 | Super + U | Accessibility |
 | Super + A | ACE (Pro only) |
+
+---
+
+## 10. Gaming mode
+
+Mockups: `png/gaming-*.png`, overview `png/_gaming-overview.png`, generator `gaming/gen_gaming.py`. "Starfall" and `assets/game-starfall.jpg` are placeholders for whatever game is running.
+
+| Part | Spec |
+|---|---|
+| **On card** | 560 px glass panel (radius 24) centred over the game, 35% dim. 56 px accent icon tile with `gamepad-2`, title 24/700, then a list of what was done: 44 px rows, green check circle on the left, value on the right in secondary text. Then the focus-lock row with the Super G key caps, then the green Shield line. Shows for 2.5 s |
+| **Focus-lock pill** | 56 px glass pill, top centre, 40 px from the top: lock icon, "Focus lock is on", key caps. Shows for 2 s on any blocked shortcut |
+| **Overlay pill** | 34 px pill, top right, 16 px in: FPS, CPU °, GPU °, RAM, numbers in Geist Mono. Off by default |
+| **Settings page** | Normal Settings window, "Gaming mode" in the nav with `gamepad-2`. Left card: 7 toggle rows. Right column: Start automatically, Overlay, the green "Shield never pauses" note |
+| **Off card** | 382 px glass card under the top bar (like notifications): summary, then rows with an accent action on the right (Install, Show). Leaves after 6 s |
+| **Motion** | None while Gaming mode is on (that's the point). The off card uses the normal glide, since animations are back |
 

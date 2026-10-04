@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Settings: Gaming mode</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&amp;family=Geist+Mono&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(48px) saturate(1.15);transform:scale(1.12)}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.42)}
+.mono{font-family:"Geist Mono",ui-monospace,monospace}
+/* the wizard window */
+.win{position:absolute;left:180px;top:110px;width:1080px;height:680px;border-radius:24px;background:rgba(12,12,16,.90);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(30px);display:flex;overflow:hidden;z-index:2}
+.side{width:268px;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:26px 18px;box-sizing:border-box;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:12px;margin:0 6px 30px}
+.brand img{width:34px;height:34px;object-fit:contain}
+.brand b{display:block;font-size:15px;font-weight:700}.brand span{display:block;font-size:12px;color:#8d8d96;margin-top:1px}
+.step{display:flex;align-items:center;gap:12px;height:42px;padding:0 10px;border-radius:11px;font-size:14px;font-weight:500;color:#6e6e77}
+.step .n{width:24px;height:24px;border-radius:12px;border:1.5px solid rgba(255,255,255,.16);box-sizing:border-box;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.step.done{color:#a1a1aa}.step.done .n{background:var(--acc);border:0;color:var(--on)}
+.step.now{background:var(--sel);color:#f2f2f4}.step.now .n{background:#f2f2f4;border:0;color:#0b0b0e}
+.pro{margin-left:auto;height:20px;padding:0 8px;border-radius:10px;background:rgba(245,146,30,.16);color:#ffae5a;font-size:11px;font-weight:700;display:flex;align-items:center}
+.side .foot{margin-top:auto;display:flex;align-items:center;gap:8px;padding:0 8px;font-size:12px;color:#8d8d96}
+.main{flex:1;display:flex;flex-direction:column;padding:34px 44px 26px;box-sizing:border-box;min-width:0}
+.kick{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96}
+h1{margin:10px 0 0;font-size:30px;font-weight:700;letter-spacing:-.01em}
+.sub{margin:8px 0 0;font-size:15px;line-height:1.5;color:#a1a1aa;max-width:620px}
+.body{margin-top:26px;flex:1;min-height:0}
+.nav{display:flex;align-items:center;gap:10px;padding-top:18px;border-top:1px solid rgba(255,255,255,.06)}
+.btn{height:40px;padding:0 18px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#f2f2f4;box-sizing:border-box}
+.btn.pri{background:#f2f2f4;color:#0b0b0e;border:0}
+.link{font-size:14px;font-weight:600;color:var(--acc-text)}
+/* building blocks */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:18px;padding:6px 20px;box-sizing:border-box}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8d8d96;margin:0 0 10px}
+.row{display:flex;align-items:center;gap:14px;min-height:58px;border-bottom:1px solid rgba(255,255,255,.06)}
+.row:last-child{border-bottom:0}
+.tile{width:36px;height:36px;border-radius:11px;background:var(--tint);color:var(--acc-text);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tile.g{background:rgba(52,199,89,.14);color:#5fdc86}.tile.o{background:rgba(245,146,30,.14);color:#ffae5a}
+.t1{font-size:15px;font-weight:600}.t2{font-size:13px;color:#a1a1aa;margin-top:3px;line-height:1.4}
+.tog{width:46px;height:28px;border-radius:14px;background:#3a3a40;position:relative;flex-shrink:0;margin-left:auto}
+.tog::after{content:"";position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:11px;background:#f2f2f4}
+.tog.on{background:var(--acc)}.tog.on::after{left:21px}.tog.g{background:#2f9e5a}
+.field{height:46px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:10px;padding:0 14px;box-sizing:border-box;font-size:15px}
+.field.focus{border:2px solid var(--acc);padding:0 13px}
+.field .ph{color:#6e6e77}
+.flabel{font-size:13px;font-weight:600;color:#a1a1aa;margin:0 0 8px}
+.chip{white-space:nowrap;height:26px;padding:0 10px;border-radius:13px;display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600}
+.chip.g{background:rgba(52,199,89,.16);color:#5fdc86}.chip.a{background:var(--tint);color:var(--acc-text)}
+.check{width:22px;height:22px;border-radius:11px;background:var(--acc);color:var(--on);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:auto}
+.promise{background:#ececef;color:#111114;border-radius:16px;display:flex;align-items:center;gap:12px;padding:0 16px;height:56px;font-size:14px;font-weight:600}
+.kbd{height:26px;min-width:26px;padding:0 8px;box-sizing:border-box;border-radius:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);color:#e4e4e7;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+
+.game{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.glass{position:absolute;border-radius:24px;background:rgba(14,14,18,.88);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(40px) saturate(1.3);z-index:4}
+.hud{position:absolute;top:16px;right:16px;height:34px;border-radius:17px;background:rgba(10,10,14,.72);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(20px);display:flex;align-items:center;gap:14px;padding:0 14px;font-size:13px;font-weight:600;z-index:4}
+.hud b{font-family:"Geist Mono",monospace;font-weight:500}.hud span{display:flex;align-items:center;gap:6px;color:#a1a1aa}
+.hud .sep{width:1px;height:14px;background:rgba(255,255,255,.12)}
+.on-row{display:flex;align-items:center;gap:12px;height:44px;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}
+.on-row:last-child{border-bottom:0}
+.on-row .v{margin-left:auto;color:#a1a1aa;font-size:13px}
+.ok{width:22px;height:22px;border-radius:11px;background:rgba(52,199,89,.16);color:#5fdc86;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+/* Settings window (same skeleton as png/settings.png) */
+.swin{position:absolute;left:80px;top:62px;width:1280px;height:790px;border-radius:24px;background:rgba(12,12,16,.90);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(30px);display:flex;overflow:hidden;z-index:2}
+.snav{width:248px;background:rgba(255,255,255,.025);border-right:1px solid rgba(255,255,255,.06);padding:24px 14px;box-sizing:border-box}
+.snav .it{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:11px;font-size:14px;font-weight:500;color:#d4d4d8}
+.snav .it.on{background:var(--sel);color:#fff}.snav .it.on svg{color:var(--acc-text)}
+.snav .sl{font-size:11px;font-weight:700;letter-spacing:.08em;color:#8d8d96;margin:16px 12px 6px}
+.shead{padding:24px 32px 18px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:14px}
+.shead h2{margin:0;font-size:28px;font-weight:700}.shead p{margin:4px 0 0;font-size:14px;color:#a1a1aa}
+
+x{margin:0;font-family:"Geist",system-ui,sans-serif;color:#f2f2f4;-webkit-font-smoothing:antialiased}
+.frame{position:relative;width:1440px;height:900px;overflow:hidden;background:#050507}
+.wall{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.wall.blur{filter:blur(36px);transform:scale(1.1)}
+.dim{position:absolute;inset:0;background:rgba(0,0,0,.32)}
+/* top bar */
+.bar{position:absolute;left:0;right:0;top:9px;height:36px;display:flex;justify-content:space-between;padding:0 15px;box-sizing:border-box;z-index:3}
+.pill{height:36px;border-radius:12px;background:#101013;border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:12px;padding:0 14px;box-sizing:border-box;font-size:13px;font-weight:600;color:#e4e4e7}
+.pill.on{background:#1b1b1f}
+.ws{width:8px;height:8px;border-radius:4px;background:rgba(255,255,255,.28);display:inline-block}.ws.on{width:22px;background:#f2f2f4}
+.right{display:flex;gap:10px}
+/* dock */
+.dock{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);height:64px;border-radius:16px;background:rgba(16,16,19,.9);border:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:16px;padding:0 12px;box-sizing:border-box;z-index:3}
+.dock .app{position:relative;width:44px;height:44px}
+.dock img{width:44px;height:44px;object-fit:contain;display:block}
+.dock .run::after{content:"";position:absolute;left:50%;bottom:-8px;width:5px;height:5px;margin-left:-2.5px;border-radius:3px;background:var(--acc)}
+.sep{width:1px;height:32px;background:rgba(255,255,255,.08)}
+</style></head><body>
+<div class="frame" style="--acc:#3B8BFF;--acc-text:#6AA8FF;--on:#fff;--sel:rgba(59,139,255,.18);--tint:rgba(59,139,255,.14)">
+<img class="wall" src="../assets/wallpaper.png" alt="" style="filter:none;transform:none"><div class="dim" style="background:rgba(0,0,0,.15)"></div>
+<div class="swin">
+<div class="snav"><div style="display:flex;align-items:center;gap:12px;margin:0 12px 22px"><img src="../assets/settings.webp" alt="" style="width:34px;height:34px"><span style="font-size:18px;font-weight:700">Settings</span></div>
+ <div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /> <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /> <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /> <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /> <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></svg>Appearance</div><div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect width="20" height="14" x="2" y="3" rx="2" /> <line x1="8" x2="16" y1="21" y2="21" /> <line x1="12" x2="12" y1="17" y2="21" /></svg>Display</div><div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" /> <path d="M16 9a5 5 0 0 1 0 6" /> <path d="M19.364 18.364a9 9 0 0 0 0-12.728" /></svg>Sound</div><div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20h.01" /> <path d="M2 8.82a15 15 0 0 1 20 0" /> <path d="M5 12.859a10 10 0 0 1 14 0" /> <path d="M8.5 16.429a5 5 0 0 1 7 0" /></svg>Network</div><div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /> <path d="m9 12 2 2 4-4" /></svg>Privacy</div><div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M10 8h.01" /> <path d="M12 12h.01" /> <path d="M14 8h.01" /> <path d="M16 12h.01" /> <path d="M18 8h.01" /> <path d="M6 8h.01" /> <path d="M7 16h10" /> <path d="M8 12h.01" /> <rect width="20" height="16" x="2" y="4" rx="2" /></svg>Keyboard</div><div class="it on" aria-current=page><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><line x1="6" x2="10" y1="11" y2="11" /> <line x1="8" x2="8" y1="9" y2="13" /> <line x1="15" x2="15.01" y1="12" y2="12" /> <line x1="18" x2="18.01" y1="10" y2="10" /> <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z" /></svg>Gaming mode</div><div class="sl">SYSTEM</div><div class="it"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></svg>About NOVA</div></div>
+<div style="flex:1;display:flex;flex-direction:column;min-width:0">
+ <div class="shead"><div><h2>Gaming mode</h2><p>Everything else steps aside while you play.</p></div>
+  <span style="margin-left:auto;display:flex;align-items:center;gap:10px;font-size:13px;color:#a1a1aa">Turn on or off<span class="kbd">super</span><span class="kbd">G</span></span></div>
+ <div style="padding:22px 32px;display:flex;gap:18px">
+  <div style="flex:1;display:flex;flex-direction:column;gap:14px">
+   <div class="card">
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></svg></div><div style="flex:1"><div class="t1">Turn off animations and blur</div><div class="t2">Every animation, blur and see-through effect</div></div><div class="tog on"></div></div>
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect x="14" y="3" width="5" height="18" rx="1" /> <rect x="5" y="3" width="5" height="18" rx="1" /></svg></div><div style="flex:1"><div class="t1">Pause background apps</div><div class="t2">Frozen, not closed: they pick up where they were</div><div style="margin-top:8px;display:flex;align-items:center;gap:4px;font-size:12px;color:#8d8d96">Keep running:&nbsp;<span class="chip a" style="margin-right:6px">Voice chat<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></span><span class="chip a" style="margin-right:6px">Music<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></span><span class="chip" style="background:rgba(255,255,255,.06);color:#a1a1aa"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M5 12h14" /> <path d="M12 5v14" /></svg>Add</span></div></div><div class="tog on"></div></div>
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></svg></div><div style="flex:1"><div class="t1">Pause updates, scans and indexing</div><div class="t2">Guard scans, file search and update downloads wait</div></div><div class="tog on"></div></div>
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /> <path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></div><div style="flex:1"><div class="t1">Lock to the game</div><div class="t2">Workspaces, the launcher and other windows stay away</div></div><div class="tog on"></div></div>
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" /></svg></div><div style="flex:1"><div class="t1">Stop idle things</div><div class="t2">No sleep, screen dimming, screensaver or wallpaper effects</div></div><div class="tog on"></div></div>
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M10.268 21a2 2 0 0 0 3.464 0" /> <path d="M17 17H4a1 1 0 0 1-.74-1.673C4.59 13.956 6 12.499 6 8a6 6 0 0 1 .258-1.742" /> <path d="m2 2 20 20" /> <path d="M8.668 3.01A6 6 0 0 1 18 8c0 2.687.77 4.653 1.707 6.05" /></svg></div><div style="flex:1"><div class="t1">Hold notifications</div><div class="t2">You see them all when you exit. Shield alerts still show.</div></div><div class="tog on"></div></div>
+    <div class="row" style="min-height:62px"><div class="tile"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 20v2" /> <path d="M12 2v2" /> <path d="M17 20v2" /> <path d="M17 2v2" /> <path d="M2 12h2" /> <path d="M2 17h2" /> <path d="M2 7h2" /> <path d="M20 12h2" /> <path d="M20 17h2" /> <path d="M20 7h2" /> <path d="M7 20v2" /> <path d="M7 2v2" /> <rect x="4" y="4" width="16" height="16" rx="2" /> <rect x="8" y="8" width="8" height="8" rx="1" /></svg></div><div style="flex:1"><div class="t1">Performance mode</div><div class="t2">Full processor speed while playing. Uses more power.</div></div><div class="tog on"></div></div>
+   </div></div>
+  <div style="width:330px;display:flex;flex-direction:column;gap:14px">
+   <div class="card" style="padding:18px 20px"><p class="lbl">Start automatically</p>
+    <div class="row" style="border:0;min-height:44px"><div><div class="t1" style="font-size:14px">When a game goes full screen</div><div class="t2">Games from your game launchers</div></div><div class="tog on"></div></div></div>
+   <div class="card" style="padding:18px 20px"><p class="lbl">Overlay</p>
+    <div class="row" style="border:0;min-height:44px"><div><div class="t1" style="font-size:14px">Show FPS and temperatures</div><div class="t2">A small pill in the top-right corner</div></div><div class="tog"></div></div></div>
+   <div style="display:flex;gap:12px;align-items:flex-start;padding:16px 18px;border-radius:18px;background:rgba(52,199,89,.10);border:1px solid rgba(52,199,89,.22)">
+    <span style="color:#5fdc86;display:flex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M12 7.5c.35 2.6 1.6 3.85 4.2 4.2-2.6.35-3.85 1.6-4.2 4.2-.35-2.6-1.6-3.85-4.2-4.2 2.6-.35 3.85-1.6 4.2-4.2z"/></svg></span><div><div class="t1" style="font-size:14px">Shield never pauses</div><div class="t2">Your firewall and protection stay on in Gaming mode.</div></div></div>
+  </div></div></div></div>
+</div></body></html>

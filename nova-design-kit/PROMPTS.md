@@ -260,5 +260,28 @@ No shadows and no grey edges. Match the screenshots closely.
 ```
 Set up NOVA's system keyboard shortcuts in Hyprland exactly as listed in DESIGN_SYSTEM.md → "Keyboard shortcuts". Keep them in one keybinds file, and have the setup wizard's Finish screen and Settings → Keyboard read that same file, so what we show always matches what works.
 Before adding them, list any existing binds that clash (Super+S, Super+E, Super+W, Super+G, Super+X, Super+U) and tell me what you moved.
-Gaming mode (Super+G) has no design yet: for now, make it toggle a gamemode profile (gamemoderun / Hyprland: animations, blur and shadows off, VRR on, Do Not Disturb on) and show the OSD with a gamepad icon and "Gaming mode on/off".
+Gaming mode (Super+G) is built separately: see the "Gaming mode" prompt.
+```
+
+---
+
+## Gaming mode — `png/gaming-on.png`, `gaming-locked.png`, `gaming-settings.png`, `gaming-off.png`
+```
+Build Gaming mode to match nova-design-kit/png/gaming-*.png (HTML in screens/gaming-*.html), following DESIGN_SYSTEM.md → "Gaming mode". Super+G toggles it; it can also start by itself when a game goes full screen (setting, on by default).
+What turning it ON does (each one is a toggle in Settings → Gaming mode, all on by default):
+1. Animations off: hyprctl keyword animations:enabled 0, decoration:blur:enabled 0, transparency off. NOVA's own panels skip their motion too.
+2. Background apps paused: freeze every user app except the game, the shell, audio (PipeWire), and the "Keep running" list (Voice chat and Music by default, user can add more). Freeze, don't kill: use the systemd user scopes / cgroup freezer (systemctl --user freeze <app scope>) so apps resume exactly where they were. Never touch system services. Count the paused apps and the RAM they hold for the "on" card.
+3. Updates, Guard scans and file indexing paused: pause their systemd timers/services and resume them on exit.
+4. Focus lock: the game goes full screen and Hyprland switches to a "gaming" submap where every NOVA shortcut is disabled except Super+G; workspace switching, the launcher, Alt+Tab and other windows are blocked. Any blocked attempt shows the "Focus lock is on · Press Super G to leave [GAME]" pill (gaming-locked.png) for 2s.
+5. Idle things stopped: systemd-inhibit idle+sleep, hypridle/screensaver/screen dimming off, wallpaper and Buddy idle effects off.
+6. Notifications held: Do Not Disturb on, but Shield alerts still show. Everything held is shown when you exit.
+7. Performance mode: powerprofilesctl set performance (or gamemoded), restored on exit.
+Shield and the firewall NEVER pause in Gaming mode.
+Screens:
+- gaming-on: a 560px glass card over the game for 2.5s that lists what was done with real numbers (apps paused, GB freed), then fades out (400ms). Its own appearance does not animate in, since animations are now off: it just appears.
+- gaming-locked: the focus-lock pill (top centre) and the optional FPS/CPU/GPU/RAM pill (top right, off by default, Settings → Overlay).
+- gaming-settings: Settings → Gaming mode page with the 7 toggles, the Keep running chips, Start automatically, Overlay, and the green "Shield never pauses" note.
+- gaming-off: back on the desktop, a card under the top bar: "Gaming mode off · You played [GAME] for [TIME]", apps resumed, updates ready (Install), notifications held (Show). It leaves after 6s.
+Safety: if the game closes or crashes, Gaming mode turns off by itself and everything resumes. Super+G must always work, even if the game hangs. If NOVA restarts while Gaming mode is on, everything is resumed at login.
+Wire it to: [Hyprland IPC, systemd --user, powerprofilesctl or gamemode, our notification daemon, our Shield service].
 ```
