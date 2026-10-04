@@ -20,13 +20,24 @@ img{max-width:100%;height:auto;display:block}
  background:linear-gradient(to bottom,rgba(5,5,5,0) 78.8%,rgba(5,5,5,.23) 79.6%,rgba(5,5,5,.45) 81.4%,rgba(5,5,5,.75) 83.3%,rgba(5,5,5,.84) 85.2%,rgba(5,5,5,.888) 88%,rgba(5,5,5,.905) 91%,rgba(5,5,5,.96) 95%,#050505 100%),
  linear-gradient(to right,rgba(5,5,5,.78) 0%,rgba(5,5,5,.45) 34%,rgba(5,5,5,0) 58%);opacity:var(--shade,0);transition:opacity .6s}
 
-/* text on the film: one line at a time, faded by scroll */
+/* text on the film: editorial, heavy, composed per scene; words slide up out of a mask as you scroll */
 .beats{position:absolute;inset:0;pointer-events:none;z-index:3}
-.beat{position:absolute;left:50%;top:50%;width:min(1100px,88vw);text-align:center;transform:translate(-50%,-50%);opacity:0;will-change:opacity,transform}
-.beat p{margin:0;font-size:calc(64*var(--h));line-height:1.08;font-weight:400;letter-spacing:-.005em;text-shadow:0 2px 30px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.5)}
-.beat small{display:block;margin-top:calc(18*var(--h));font-size:calc(21*var(--h));color:#d6d5d5;text-shadow:0 1px 16px rgba(0,0,0,.8)}
-.beat::before{content:"";position:absolute;inset:-40% -10%;z-index:-1;background:radial-gradient(closest-side,rgba(5,5,5,.58),rgba(5,5,5,0))}
-@media (max-aspect-ratio:11/10){.beat p{font-size:36px}.beat small{font-size:16px;margin-top:12px}}
+.dim{position:absolute;inset:0;background:#050505;opacity:0;z-index:2;pointer-events:none}
+.beat{position:absolute;opacity:0}
+.beat p{margin:0;font-weight:800;font-size:calc(124*var(--h));line-height:.9;letter-spacing:-.045em;color:#fff}
+.beat .ln{display:block;overflow:hidden;padding:.06em 0 .16em;margin-bottom:-.12em}
+.beat .w{display:inline-block;will-change:transform}
+.beat .gap{display:inline-block;width:.24em}
+.pos-tl{left:calc(75*var(--u));top:calc(170*var(--u))}
+.pos-r{right:calc(75*var(--u));top:calc(210*var(--u));text-align:right}
+.pos-bl{left:calc(75*var(--u));bottom:calc(150*var(--u))}
+.pos-c{left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;white-space:nowrap}
+.beat .tag{display:block;margin-bottom:calc(22*var(--u));font-size:calc(14*var(--u));font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#cfcfcf}
+@media (max-aspect-ratio:11/10){
+ .beat p{font-size:46px}.beat .tag{font-size:11px;margin-bottom:14px}
+ .pos-c{white-space:normal;width:calc(100% - 48px)}
+ .pos-tl{left:24px;top:120px}.pos-r{right:24px;top:150px}.pos-bl{left:24px;bottom:150px}
+}
 
 /* header (desktop measurements in --u) */
 .brand{position:absolute;left:calc(75*var(--u));top:calc(27*var(--u));width:calc(48.5*var(--u));height:calc(48.5*var(--u));z-index:5}
@@ -40,9 +51,9 @@ img{max-width:100%;height:auto;display:block}
 .burger{display:none}
 
 /* hero copy: appears when the film settles */
-.hero .headline{position:absolute;left:calc(75.5*var(--u));top:calc(230.5*var(--u));margin:0;font-size:calc(71.6*var(--h));line-height:calc(80.5*var(--h));font-weight:400;letter-spacing:calc(.3*var(--h));white-space:nowrap}
+.hero .headline{position:absolute;left:calc(75.5*var(--u));top:calc(222*var(--u));margin:0;font-size:calc(84*var(--h));line-height:calc(84*var(--h));font-weight:800;letter-spacing:-.04em;white-space:nowrap}
 .hero .headline span{display:block}
-.hero .sub{position:absolute;left:calc(75.5*var(--u));top:calc(230.5*var(--u) + 189*var(--h));margin:0;font-size:calc(20.7*var(--h));line-height:calc(23.5*var(--h));word-spacing:calc(1.8*var(--h));color:var(--muted)}
+.hero .sub{position:absolute;left:calc(75.5*var(--u));top:calc(230.5*var(--u) + 196*var(--h));margin:0;font-size:calc(20.7*var(--h));line-height:calc(23.5*var(--h));word-spacing:calc(1.8*var(--h));color:var(--muted)}
 .hero .sub span{display:block;white-space:nowrap}
 .pill-cta{position:absolute;left:calc(74.9*var(--u));top:calc(230.5*var(--u) + 264.5*var(--h));width:calc(175.6*var(--h));height:calc(50*var(--h));font-size:calc(20.6*var(--h))}
 .ghost{position:absolute;left:calc(74.9*var(--u) + 220.6*var(--h));top:calc(230.5*var(--u) + 279.5*var(--h));font-size:calc(20.6*var(--h));font-weight:500;letter-spacing:calc(.12*var(--h));color:#fff}
@@ -79,7 +90,7 @@ header{text-shadow:0 1px 12px rgba(0,0,0,.6)}
  .plate::after{background:linear-gradient(to bottom,rgba(5,5,5,.25) 0%,rgba(5,5,5,.1) 30%,rgba(5,5,5,.55) 58%,rgba(5,5,5,.92) 78%,#050505 100%)}
  .hero{position:absolute;left:0;right:0;bottom:calc(120px + env(safe-area-inset-bottom));padding:0 24px}
  .hero .headline,.hero .sub,.pill-cta,.ghost{position:static}
- .hero .headline{font-size:calc(46*var(--m));line-height:1.05;letter-spacing:-.01em;white-space:normal}
+ .hero .headline{font-size:calc(52*var(--m));line-height:.95;letter-spacing:-.045em;white-space:normal}
  .hero .sub{margin-top:16px;font-size:calc(17*var(--m));line-height:1.45;word-spacing:0}
  .hero .sub span{display:inline;white-space:normal}
  .hero .acts{display:flex;align-items:center;gap:22px;margin-top:26px}
@@ -111,13 +122,13 @@ body.is-open .menu .rvm:nth-child(1){transition-delay:.06s}body.is-open .menu li
 .wrap{width:min(1200px,100% - 48px);margin-inline:auto}
 section{padding:140px 0}
 .eyebrow{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--strip);font-weight:600}
-h2{font-size:clamp(36px,5.2vw,68px);line-height:1.04;font-weight:400;letter-spacing:-.01em;margin:16px 0 0}
+h2{font-size:clamp(38px,5.6vw,76px);line-height:.98;font-weight:800;letter-spacing:-.04em;margin:16px 0 0}
 .lead{font-size:clamp(18px,1.6vw,22px);line-height:1.55;color:var(--muted);max-width:680px;margin:24px 0 0}
 .statement h2{max-width:980px}
 .statement h2 em{font-style:normal;color:var(--muted)}
 .feature{display:grid;grid-template-columns:1fr 1.6fr;gap:64px;align-items:center;padding:70px 0;border-top:1px solid rgba(255,255,255,.07)}
 .feature:nth-child(even){grid-template-columns:1.6fr 1fr}.feature:nth-child(even) .ft{order:2}
-.feature h3{font-size:clamp(28px,3vw,40px);font-weight:400;margin:10px 0 0;letter-spacing:-.01em}
+.feature h3{font-size:clamp(30px,3.2vw,46px);font-weight:800;margin:10px 0 0;letter-spacing:-.035em;line-height:1}
 .feature p{color:var(--muted);font-size:18px;line-height:1.55;margin:14px 0 0}
 .feature .shot{border-radius:18px;overflow:hidden;background:#0b0b0b;aspect-ratio:1440/900}
 .num{font-size:13px;letter-spacing:.2em;color:var(--strip);font-weight:600}
