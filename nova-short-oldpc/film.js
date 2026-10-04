@@ -93,11 +93,11 @@ function laptop(t, a) {
   // the screen
   ctx.save(); rr(ctx, x, y, w, h, 8); ctx.clip();
   const novaOn = gl(t, T.boot + 0.9, 0.5), boot = t > T.boot && t < T.boot + 1.4;
-  if (t < T.drop + 0.6) oldScreen(t);
+  if (t < T.drop + 1.0) oldScreen(t);
   if (t >= T.drop + 0.4) {
     // first NOVA's desktop (after the drop), then a real reboot into it
     const fresh = t < T.boot ? gl(t, T.drop + 0.4, 0.5) : novaOn;
-    ctx.fillStyle = '#000'; ctx.fillRect(x, y, w, h);
+    if (t >= T.boot) { ctx.fillStyle = '#000'; ctx.fillRect(x, y, w, h); }
     if (boot) starImg(x + w / 2, y + h / 2, 70, gl(t, T.boot + 0.25, 0.3) * (1 - gl(t, T.boot + 0.9, 0.3)));
     if (fresh > 0 && IMG.desk) { ctx.globalAlpha = a * fresh; ctx.drawImage(IMG.desk, x, y, w, h); ctx.globalAlpha = a; }
   }
