@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8"><title>ACE logo concepts</title>
+<style>
+@font-face{font-family:GeistV;src:url(../nova-os/fonts/Geist-Variable.woff2) format("woff2");font-weight:100 900}
+html,body{margin:0;background:#07070a;font-family:GeistV,sans-serif;color:#f2f2f4}
+.board{width:2000px;padding:70px 80px 80px;box-sizing:border-box}
+h1{font-size:64px;font-weight:800;letter-spacing:-.03em;margin:0}
+.sub{font-size:26px;color:#a1a1aa;margin:10px 0 50px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.tile{background:#0f0f14;border:1px solid rgba(255,255,255,.07);border-radius:36px;padding:36px 28px 30px;display:flex;flex-direction:column;align-items:center}
+.tile svg{width:300px;height:300px}
+.name{font-size:34px;font-weight:800;margin-top:22px;letter-spacing:-.02em}
+.desc{font-size:20px;color:#a1a1aa;text-align:center;margin-top:10px;line-height:1.4;min-height:84px}
+.num{font-size:18px;font-weight:700;color:#ffae5a;letter-spacing:.12em}
+.word{display:flex;align-items:center;gap:18px;margin-top:22px;font-size:44px;font-weight:800;letter-spacing:.18em}
+.word svg{width:56px;height:56px}
+</style></head><body><div class="board">
+<h1>ACE — logo concepts</h1><div class="sub">Pick one (or mix). All sit next to the NOVA star and use NOVA's orange → blue.</div>
+<div class="grid">
+
+<div class="tile" id="t1"><div class="num">01 · ORB</div>
+<svg viewBox="0 0 300 300" id="orb"><defs>
+<radialGradient id="o1" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff4e2"/><stop offset=".28" stop-color="#ffb066"/><stop offset=".62" stop-color="#3d6dff"/><stop offset="1" stop-color="#0b1440"/></radialGradient>
+<radialGradient id="o2" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+</defs>
+<circle cx="150" cy="150" r="118" fill="url(#o1)"/>
+<ellipse cx="118" cy="98" rx="52" ry="28" fill="#fff" opacity=".22" transform="rotate(-25 118 98)"/>
+<circle cx="150" cy="150" r="58" fill="url(#o2)" opacity=".55"/>
+<path d="M150 108c4 26 16 38 42 42-26 4-38 16-42 42-4-26-16-38-42-42 26-4 38-16 42-42z" fill="#fff"/>
+</svg>
+<div class="name">The Orb</div><div class="desc">ACE as a living light. It breathes when idle, swirls when thinking, glows when done.</div></div>
+
+<div class="tile" id="t2"><div class="num">02 · A-STAR</div>
+<svg viewBox="0 0 300 300"><defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb066"/><stop offset="1" stop-color="#3d6dff"/></linearGradient></defs>
+<rect x="20" y="20" width="260" height="260" rx="70" fill="#14141a" stroke="rgba(255,255,255,.1)" stroke-width="2"/>
+<path d="M150 62 L88 236 M150 62 L212 236" stroke="#f2f2f4" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M150 140c3.5 22 13.5 32 35.5 35.5-22 3.5-32 13.5-35.5 35.5-3.5-22-13.5-32-35.5-35.5 22-3.5 32-13.5 35.5-35.5z" fill="url(#g2)"/>
+</svg>
+<div class="name">The A-Star</div><div class="desc">A bold "A" whose crossbar is the NOVA star. Simple, strong, works tiny.</div></div>
+
+<div class="tile" id="t3"><div class="num">03 · ACE CARD</div>
+<svg viewBox="0 0 300 300"><defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb066"/><stop offset="1" stop-color="#3d6dff"/></linearGradient></defs>
+<g transform="rotate(-9 150 150)">
+<rect x="70" y="34" width="160" height="232" rx="22" fill="#f2f2f4"/>
+<text x="92" y="82" font-family="GeistV" font-weight="800" font-size="34" fill="#16161a">A</text>
+<text x="208" y="218" font-family="GeistV" font-weight="800" font-size="34" fill="#16161a" transform="rotate(180 208 206)">A</text>
+<path d="M150 98c5 36 21 50 52 52-31 4-47 18-52 52-5-34-21-48-52-52 31-2 47-16 52-52z" fill="url(#g3)"/>
+</g></svg>
+<div class="name">The Ace Card</div><div class="desc">The ace up your sleeve. A playing card whose suit is the NOVA star.</div></div>
+
+<div class="tile" id="t4"><div class="num">04 · BUDDY</div>
+<svg viewBox="0 0 300 300"><defs><linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb066"/><stop offset="1" stop-color="#3d6dff"/></linearGradient></defs>
+<rect x="34" y="40" width="232" height="220" rx="78" fill="#121218" stroke="url(#g4)" stroke-width="7"/>
+<rect x="104" y="118" width="26" height="62" rx="13" fill="#f2f2f4"/><rect x="170" y="118" width="26" height="62" rx="13" fill="#f2f2f4"/>
+<path d="M214 64c2 12 7 17 19 19-12 2-17 7-19 19-2-12-7-17-19-19 12-2 17-7 19-19z" fill="#ffae5a"/>
+</svg>
+<div class="name">The Buddy</div><div class="desc">A friendly glass face with two eyes that blink, look and squint. The most personality.</div></div>
+
+</div></div></body></html>
