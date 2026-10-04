@@ -50,7 +50,7 @@ sn = int(0.04 * SR); shaker = bp(rng.standard_normal(sn), 5000, 11000) * np.exp(
 bi = 0; t0 = 0.0
 while t0 < DUR:
     ch = CH[bi % 4]; layers_in = sum(1 for x in L if t0 >= x - 0.3)
-    in_stack = T['stack'] <= t0 < WHY; in_why = WHY <= t0 < STAT; in_stat = STAT <= t0 < END; ending = t0 >= END
+    in_stack = T['stack'] <= t0 < WHY; in_why = WHY <= t0 < STAT; in_stat = STAT <= t0 < T['honest']; honest = T['honest'] <= t0 < END; ending = t0 >= END
     if ending:
         break
     # felt piano: chord + an 8th-note figure
@@ -66,6 +66,8 @@ while t0 < DUR:
             place(drums, kick, t0 + b * B, 0.5 * lvl if b % 2 == 0 else 0.0)
             if b % 2: place(drums, clap, t0 + b * B, 0.28 * lvl)
             for k in range(2): place(drums, shaker, t0 + b * B + k * B / 2, 0.05 * lvl)
+    if honest:   # the honest part: drums out, soft strings under the voice
+        place(music, strings([note(x) * 2 for x in ch[1:4]], BAR + 0.3, 1.0), t0, 0.14)
     if in_why:   # strings swell under "your computer should work for you"
         place(music, strings([note(x) * 2 for x in ch[1:4]], BAR + 0.3, 0.8), t0, 0.22)
     t0 += BAR; bi += 1
@@ -106,7 +108,7 @@ st = np.stack([mixd, np.roll(mixd, 13) * 0.97 + mixd * 0.03], 1); st /= np.max(n
 with wave.open('out/music.wav', 'wb') as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR); w.writeframes((st * 32767).astype('<i2').tobytes())
 _m = (np.tanh(mus * duck * 1.2) / 1.2)[:int(DUR * SR)]; _v = reverb(vo, 0.6, 0.06)[:int(DUR * SR)]
-for a, b, nm in [(0.4, 8.3, 'intro'), (8.65, 20.7, 'stack'), (21.1, 25.8, 'why'), (26.1, 34.7, 'status'), (35.1, 37.6, 'end')]:
+for a, b, nm in [(0.4, 8.3, 'intro'), (8.65, 20.7, 'stack'), (21.1, 25.8, 'why'), (26.1, 34.7, 'status'), (35.2, 42.4, 'honest'), (43.0, 45.5, 'end')]:
     rm = lambda x: 20 * np.log10(np.sqrt(np.mean(x[int(a * SR):int(b * SR)] ** 2)) + 1e-9)
     print(f'{nm:7s} voice {rm(_v):6.1f}  music {rm(_m):6.1f}')
 print('wrote', st.shape[0] / SR, 's')

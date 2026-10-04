@@ -120,7 +120,7 @@ const STATUS = [
   { ic: 'clock', title: 'Beta', val: 'After that', col: [141, 141, 150], t: 'beta' },
 ];
 function status(t) {
-  const a = gl(t, T.vo[10], 0.4) * (1 - gl(t, T.end - 0.2, 0.5)); if (a <= 0) return;
+  const a = gl(t, T.vo[10], 0.4) * (1 - gl(t, T.honest - 0.2, 0.5)); if (a <= 0) return;
   STATUS.forEach((r, i) => {
     const e = gl(t, T.st[r.t], 0.5) * a; if (e <= 0) return;
     const x = 70, y = 640 + i * 150 + 20 * (1 - e), w = 940, h = 126;
@@ -159,6 +159,19 @@ function status(t) {
   }
 }
 
+// the honest part: just the developer again, with a quiet heartbeat
+function honest(t) {
+  const a = gl(t, T.honest + 0.1, 0.6) * (1 - gl(t, T.end - 0.3, 0.5)); if (a <= 0) return;
+  const cy = 940, beat = 1 + 0.04 * Math.max(0, Math.sin(t * 5.2)) ** 8;
+  ctx.save(); ctx.globalAlpha = a;
+  ctx.beginPath(); ctx.arc(CX, cy, 150 * beat, 0, Math.PI * 2); ctx.fillStyle = 'rgba(59,139,255,.16)'; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(106,168,255,.5)'; ctx.stroke();
+  ctx.drawImage(iconImg('user', '#6aa8ff'), CX - 80, cy - 80, 160, 160);
+  const h = gl(t, T.vo[15] + 1.9, 0.6);
+  if (h > 0) { ctx.globalAlpha = a * h; const s = 76 * beat; ctx.drawImage(iconImg('heart', '#ffae5a'), CX + 92 - s / 2, cy + 92 - s / 2, s, s); }
+  ctx.restore();
+}
+
 // captions (match the voice)
 const CAP = [
   [T.vo[1], 1.25, ["Here's what's behind it."]],
@@ -171,6 +184,8 @@ const CAP = [
   [T.vo[8], 2.8, ['Your computer should', 'work for you.'], [255, 174, 90]],
   [T.vo[10], 0.95 + 3.6, ['So where is it now?']],
   [T.vo[12], 3.7, ['Real footage', 'is coming.'], [255, 138, 138]],
+  [T.vo[14], 3.2, ['Some comments make it', 'sound worse than it is.']],
+  [T.vo[15], 3.75, ["Building an OS alone isn't fast.", "But I'm trying my best."], [255, 174, 90]],
 ];
 function captions(t) {
   for (const [t0, d, lines, col] of CAP) {
@@ -184,7 +199,7 @@ function seek(t) {
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
   const endE = gl(t, T.end, 0.8);
   const g = ctx.createRadialGradient(CX, 1000, 0, CX, 1000, 1000); g.addColorStop(0, `rgba(40,110,255,${0.16 * (1 - endE)})`); g.addColorStop(1, 'rgba(40,110,255,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
-  doubts(t); deskFlat(t); solo(t); stack(t); why(t); status(t); captions(t);
+  doubts(t); deskFlat(t); solo(t); stack(t); why(t); status(t); honest(t); captions(t);
   if (endE > 0) {
     starImg(CX, 700, lerp(120, 170, endE), endE);
     if (t >= T.end + 0.2) { const g2 = gl(t, T.end + 0.2); text(ctx, 'NOVA OS', CX + 14, 880 + 30 * (1 - g2), { size: 92, w: 600, track: 0.36, align: 'center', base: 'middle', color: '#fff', a: g2, v: true }); }
