@@ -6,6 +6,7 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 |---|---|
 | `PROMPTS.md` | **Start here.** A master prompt plus one ready-to-paste prompt per app and shell piece. |
 | `DESIGN_SYSTEM.md` | Colours, type, spacing, components, motion, shell layout. |
+| `FEASIBILITY.md` | Is it possible? Every piece with the exact tool to build it, and a prompt for when Claude says "not possible". |
 | `LINUX_GUIDE.md` | How to build it on Arch + Hyprland: toolkit choice, Hyprland config, fonts, backends. |
 | `tokens.css`, `tokens.json` | The exact design values, ready to import. |
 | `png/` | Screenshot of every app (1440 × 900). `_overview.png` shows them all. |

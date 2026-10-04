@@ -16,6 +16,7 @@ Read these first, in this order:
 1. nova-design-kit/DESIGN_SYSTEM.md: colours, type, spacing, components, motion.
 2. nova-design-kit/tokens.css and tokens.json: the exact values. Define them once as shared theme constants in our codebase and use them everywhere; never hard-code a colour, radius or duration in a component.
 3. nova-design-kit/LINUX_GUIDE.md: how this maps to Arch + Hyprland (toolkit, Hyprland animation/blur config, fonts, backends).
+   Also nova-design-kit/FEASIBILITY.md: how every piece is built. Nothing in the kit is impossible; never stop at "not possible", build the closest version and tell me what differs.
 4. nova-design-kit/png/*.png: what each screen must look like. screens/*.html are the same screens as live HTML you can inspect for exact sizes.
 
 Rules:
