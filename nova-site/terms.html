@@ -11,7 +11,7 @@ img{max-width:100%;height:auto;display:block}
 :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px}
 
 /* ---------- the scroll film ---------- */
-.scrub{position:relative;height:420vh}
+.scrub{position:relative;height:560vh}
 .stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:var(--bg)}
 .plate{position:absolute;inset:0}
 .plate canvas,.plate .still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -19,6 +19,14 @@ img{max-width:100%;height:auto;display:block}
 .plate::after{content:"";position:absolute;inset:0;pointer-events:none;
  background:linear-gradient(to bottom,rgba(5,5,5,0) 78.8%,rgba(5,5,5,.23) 79.6%,rgba(5,5,5,.45) 81.4%,rgba(5,5,5,.75) 83.3%,rgba(5,5,5,.84) 85.2%,rgba(5,5,5,.888) 88%,rgba(5,5,5,.905) 91%,rgba(5,5,5,.96) 95%,#050505 100%),
  linear-gradient(to right,rgba(5,5,5,.78) 0%,rgba(5,5,5,.45) 34%,rgba(5,5,5,0) 58%);opacity:var(--shade,0);transition:opacity .6s}
+
+/* text on the film: one line at a time, faded by scroll */
+.beats{position:absolute;inset:0;pointer-events:none;z-index:3}
+.beat{position:absolute;left:50%;top:50%;width:min(1100px,88vw);text-align:center;transform:translate(-50%,-50%);opacity:0;will-change:opacity,transform}
+.beat p{margin:0;font-size:calc(64*var(--h));line-height:1.08;font-weight:400;letter-spacing:-.005em;text-shadow:0 2px 30px rgba(0,0,0,.75),0 0 2px rgba(0,0,0,.5)}
+.beat small{display:block;margin-top:calc(18*var(--h));font-size:calc(21*var(--h));color:#d6d5d5;text-shadow:0 1px 16px rgba(0,0,0,.8)}
+.beat::before{content:"";position:absolute;inset:-40% -10%;z-index:-1;background:radial-gradient(closest-side,rgba(5,5,5,.58),rgba(5,5,5,0))}
+@media (max-aspect-ratio:11/10){.beat p{font-size:36px}.beat small{font-size:16px;margin-top:12px}}
 
 /* header (desktop measurements in --u) */
 .brand{position:absolute;left:calc(75*var(--u));top:calc(27*var(--u));width:calc(48.5*var(--u));height:calc(48.5*var(--u));z-index:5}

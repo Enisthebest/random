@@ -7,8 +7,8 @@ await p.waitForTimeout(1500);
 const ease = x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
 const span = await p.evaluate(() => document.querySelector('.scrub').offsetHeight - innerHeight);
 const total = await p.evaluate(() => document.documentElement.scrollHeight - innerHeight);
-const keys = [[0, 0], [0.8, 0], [7.5, span], [9.5, span], [16, total * 0.72]];   // [seconds, scrollY]
-const FPS = 30, DUR = 16; let f = 0;
+const keys = [[0, 0], [0.8, 0], [13, span], [15, span], [20, total * 0.72]];   // [seconds, scrollY]
+const FPS = 30, DUR = 20; let f = 0;
 for (let t = 0; t < DUR; t += 1 / FPS) {
   let y = 0;
   for (let k = 0; k < keys.length - 1; k++) { const [t0, y0] = keys[k], [t1, y1] = keys[k + 1]; if (t >= t0 && t <= t1) { y = y0 + (y1 - y0) * ease((t - t0) / (t1 - t0)); break; } if (t > t1) y = y1; }
