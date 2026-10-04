@@ -330,6 +330,8 @@ LCSS = CSS + ".legal{max-width:760px;padding:120px 0 120px}.legal h1{font-size:c
 SITE_PRIVACY = "<h2>This website</h2><p>byeno.org uses <strong>no cookies, no analytics and no trackers</strong>, and loads no third-party scripts or fonts. Like any web server, the server that hosts this site may keep short-lived access logs (IP address, time, page requested) to keep it running.</p>"
 for md_file, title, out, extra in [('PRIVACY.md', 'Privacy Policy', 'privacy.html', SITE_PRIVACY), ('TERMS.md', 'Terms', 'terms.html', '')]:
     body = markdown.markdown(open(os.path.join(HERE, '..', 'nova-legal', md_file)).read())
+    # Cloudflare skips anything between email_off comments, so no obfuscation script gets injected
+    body = body.replace('novaos.star@gmail.com', '<!--email_off--><a href="mailto:novaos.star@gmail.com">novaos.star@gmail.com</a><!--/email_off-->')
     page = f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{title}: NOVA OS</title><link rel="icon" href="favicon.png"><style>{LCSS}</style></head><body><a class="back" href="./"><span>{STAR}</span>NOVA OS</a><div class="wrap legal">{body}{extra}</div><footer><div class="wrap"><span>© NOVA OS</span><nav><a href="./">Home</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></body></html>'
     open(os.path.join(HERE, out), 'w').write(page)
 print('built privacy.html, terms.html')
