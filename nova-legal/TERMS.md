@@ -33,14 +33,10 @@ Some countries don't allow certain warranties or liabilities to be excluded. In 
 
 NOVA is built on Arch Linux, Hyprland and many other open-source projects. Each of those keeps its own licence (for example the GPL), and those licences apply to that software. Nothing in these terms limits the rights those licences give you.
 
-## 6. Pro features
-
-Features marked **Pro** (such as ACE) may require a separate purchase. Any extra terms for Pro will be shown before you buy.
-
-## 7. Changes
+## 6. Changes
 
 We may update these terms. The latest version is always at byeno.org. Continuing to use NOVA after a change means you accept the new terms.
 
-## 8. Contact
+## 7. Contact
 
 Questions? Contact novaos.star@gmail.com.

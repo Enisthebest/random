@@ -13,7 +13,6 @@ The latest version of this policy is always at byeno.org/privacy.
 - It doesn't ask you to create an account.
 - It doesn't send us usage data, crash reports, or "anonymous statistics".
 - It doesn't show ads or build a profile of you.
-- **ACE (Pro)** runs on your device. Your chats, screen, files and commands are not sent to us or to anyone else. ACE only sees your screen when you press **Allow once**, and only acts after you confirm.
 - **NOVA Browser** blocks trackers by default. Its stats (like "trackers blocked") are counted on your device and never sent anywhere.
 
 ## When your computer talks to the internet
