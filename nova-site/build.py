@@ -1,11 +1,10 @@
 """Builds nova-site/index.html: one file with inline CSS + JS (assets next to it in frames/, img/, fonts/).
-Hero = the NOVA intro film, scrubbed by scroll from small WebP frames on a canvas (smooth on every device).
+Hero = a full-screen NOVA wallpaper (switchable, accent follows), with a slow CSS drift. No video, no scroll effects.
 Layout of the final hero state follows the 1487x1058 comp (height-locked units). Run: python3 build.py"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 ICONS = os.path.join(HERE, '..', 'nova-icons', 'svg')
 CONFIG = {'tiktok': 'https://www.tiktok.com/@novaos.star', 'x': 'https://x.com/Novaos_star', 'youtube': 'https://www.youtube.com/@NovaOS-star'}
-ND, NM = len(os.listdir(os.path.join(HERE, 'frames', 'd'))), len(os.listdir(os.path.join(HERE, 'frames', 'm')))
 
 def ic(name, size=20, sw=2):
     s = open(os.path.join(ICONS, name + '.svg')).read()
@@ -30,6 +29,10 @@ def beat_html(a, b, pos, tag, lines):
     ls = ''.join('<span class="ln">' + '<span class="gap"></span>'.join(f'<span class="w">{w}</span>' for w in line.split(' ')) + '</span>' for line in lines)
     return f'<div class="beat pos-{pos}" data-a="{a}" data-b="{b}"><span class="tag">{tag} / 04</span><p>{ls}</p></div>'
 BEATS = ''.join(beat_html(*x) for x in BEATS_DATA)
+
+WALLS_ACC = [('original', 'NOVA', '#3B8BFF', '#6AA8FF'), ('aurora', 'Aurora', '#19C995', '#4FE3B5'), ('ember', 'Ember', '#FF4F8B', '#FF7FAA'),
+             ('lilac', 'Lilac', '#A26BFF', '#C4A0FF'), ('ocean', 'Ocean', '#12B8F0', '#5AD4FF'), ('citrus', 'Citrus', '#A8E632', '#C6F56B')]
+SWATCHES = ''.join(f'<button style="--c:{c}" data-k="{k}" data-acc="{a}" aria-label="{n} wallpaper" aria-pressed="{str(k == "original").lower()}"></button>' for k, n, c, a in WALLS_ACC)
 
 STACK = [('layers', 'Arch Linux'), ('app-window', 'Hyprland'), ('panels-top-left', 'Quickshell'), ('monitor', 'Wayland')]
 FEATURES = [
@@ -61,35 +64,17 @@ a{color:inherit;text-decoration:none}
 img{max-width:100%;height:auto;display:block}
 :focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:6px}
 
-/* ---------- the scroll film ---------- */
-.scrub{position:relative;height:560vh}
-.stage{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;background:var(--bg)}
+/* ---------- the hero: one full-screen wallpaper ---------- */
+.stage{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:var(--bg)}
 .plate{position:absolute;inset:0}
-.plate canvas,.plate .still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.plate .still{transition:opacity .4s}
-.plate::after{content:"";position:absolute;inset:0;pointer-events:none;
- background:linear-gradient(to bottom,rgba(5,5,5,0) 78.8%,rgba(5,5,5,.23) 79.6%,rgba(5,5,5,.45) 81.4%,rgba(5,5,5,.75) 83.3%,rgba(5,5,5,.84) 85.2%,rgba(5,5,5,.888) 88%,rgba(5,5,5,.905) 91%,rgba(5,5,5,.96) 95%,#050505 100%),
- linear-gradient(to right,rgba(5,5,5,.78) 0%,rgba(5,5,5,.45) 34%,rgba(5,5,5,0) 58%);opacity:var(--shade,0);transition:opacity .6s}
-
-/* text on the film: editorial, heavy, composed per scene; words slide up out of a mask as you scroll */
-.beats{position:absolute;inset:0;pointer-events:none;z-index:3}
-.dim{position:absolute;inset:0;background:#050505;opacity:0;z-index:2;pointer-events:none}
-.beat{position:absolute;opacity:0}
-.beat p{margin:0;font-weight:800;font-size:calc(124*var(--h));line-height:.9;letter-spacing:-.045em;color:#fff}
-.beat .ln{display:block;overflow:hidden;padding:.06em 0 .16em;margin-bottom:-.12em}
-.beat .w{display:inline-block;will-change:transform}
-.beat .gap{display:inline-block;width:.24em}
-.pos-tl{left:calc(75*var(--u));top:calc(170*var(--u))}
-.pos-r{right:calc(75*var(--u));top:calc(210*var(--u));text-align:right}
-.pos-bl{left:calc(75*var(--u));bottom:calc(150*var(--u))}
-.pos-c{left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;white-space:nowrap}
-.beat .tag{display:block;margin-bottom:calc(22*var(--u));font-size:calc(14*var(--u));font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:#cfcfcf}
-@media (max-aspect-ratio:11/10){
- .beat p{font-size:46px}.beat .tag{font-size:11px;margin-bottom:14px}
- .pos-c{white-space:normal;width:calc(100% - 48px)}
- .pos-tl{left:24px;top:120px}.pos-r{right:24px;top:150px}.pos-bl{left:24px;bottom:150px}
-}
-
+.plate img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center right;transition:opacity .9s var(--ease)}
+.plate img.back{opacity:0}
+@media (prefers-reduced-motion:no-preference){.plate{animation:drift 26s ease-in-out infinite alternate}}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.12) translate(-1.5%,1%)}}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(to right,rgba(5,5,5,.82) 0%,rgba(5,5,5,.55) 30%,rgba(5,5,5,.08) 60%,rgba(5,5,5,0) 75%),
+ linear-gradient(to bottom,rgba(5,5,5,0) 70%,rgba(5,5,5,.7) 90%,#050505 100%)}
+.stage>header,.stage>.hero{position:relative;z-index:2}.stage>.logos{z-index:2}
 /* header (desktop measurements in --u) */
 .brand{position:absolute;left:calc(75*var(--u));top:calc(27*var(--u));width:calc(48.5*var(--u));height:calc(48.5*var(--u));z-index:5}
 .brand svg{width:100%;height:100%}
@@ -113,16 +98,18 @@ img{max-width:100%;height:auto;display:block}
 .logos small{font-size:calc(14*var(--u));letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.8}
 .lg{display:flex;align-items:center;gap:calc(10*var(--u));font-size:calc(18*var(--u));font-weight:700;letter-spacing:-.01em}
 .lg svg{width:calc(26*var(--u));height:calc(26*var(--u))}
-.stage .rv{opacity:0;transform:translateY(calc(14*var(--u)));transition:opacity .9s var(--ease),transform .9s var(--ease)}
-.stage .logos.rv{transform:translate(-50%,calc(14*var(--u)))}
-.stage.done .rv{opacity:1;transform:none}.stage.done .logos.rv{transform:translateX(-50%)}
-.stage.done .d1{transition-delay:.06s}.stage.done .d2{transition-delay:.14s}.stage.done .d3{transition-delay:.22s}.stage.done .d4{transition-delay:.34s}
+@media (prefers-reduced-motion:no-preference){.stage .rv{animation:rise .9s var(--ease) both}.stage .logos.rv{animation:riseX .9s var(--ease) both}
+ .d1{animation-delay:.08s!important}.d2{animation-delay:.16s!important}.d3{animation-delay:.24s!important}.d4{animation-delay:.36s!important}}
+@keyframes riseX{from{opacity:0;transform:translate(-50%,calc(14*var(--u)))}}
+.hero .headline span:last-child{color:var(--acc);transition:color .9s var(--ease)}
+.swatches{position:absolute;left:calc(75.5*var(--u));top:calc(230.5*var(--u) + 372*var(--h));display:flex;align-items:center;gap:12px}
+.swatches span{font-size:calc(14*var(--h));letter-spacing:.16em;text-transform:uppercase;color:var(--strip);font-weight:600;margin-right:6px}
+.logos{pointer-events:none}
+.swatches button{width:22px;height:22px;border-radius:11px;border:0;padding:0;cursor:pointer;background:var(--c);outline:2px solid transparent;outline-offset:3px;transition:outline-color .3s,transform .3s var(--ease)}
+.swatches button:hover{transform:scale(1.15)}
+.swatches button[aria-pressed=true]{outline-color:#fff}
 header{text-shadow:0 1px 12px rgba(0,0,0,.6)}
-.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:calc(150*var(--u));background:linear-gradient(rgba(5,5,5,.55),rgba(5,5,5,0));z-index:4;pointer-events:none}
-.hint{position:absolute;left:50%;bottom:calc(46*var(--u));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--nav);transition:opacity .5s}
-.hint i{width:1px;height:42px;background:linear-gradient(#b6b5b5,transparent);animation:drip 2s var(--ease) infinite}
-@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-.stage.moving .hint,.stage.done .hint{opacity:0}
+.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:calc(150*var(--u));background:linear-gradient(rgba(5,5,5,.55),rgba(5,5,5,0));z-index:1;pointer-events:none}
 @media (prefers-reduced-motion:no-preference){
  .brand,.pill-nav{animation:rise .8s var(--ease) both}.links{animation:riseNav .8s var(--ease) both}
 }
@@ -138,8 +125,11 @@ header{text-shadow:0 1px 12px rgba(0,0,0,.6)}
  .burger{display:flex;position:absolute;right:20px;top:calc(18px + env(safe-area-inset-top));width:48px;height:40px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:9;align-items:center;justify-content:center;flex-direction:column;gap:6px;cursor:pointer;padding:0}
  .burger i{display:block;width:18px;height:1.6px;background:#fff;border-radius:1px;transition:transform .42s var(--ease)}
  body.is-open .burger i:first-child{transform:translateY(3.8px) rotate(45deg)}body.is-open .burger i:last-child{transform:translateY(-3.8px) rotate(-45deg)}
- .plate::after{background:linear-gradient(to bottom,rgba(5,5,5,.25) 0%,rgba(5,5,5,.1) 30%,rgba(5,5,5,.55) 58%,rgba(5,5,5,.92) 78%,#050505 100%)}
- .hero{position:absolute;left:0;right:0;bottom:calc(120px + env(safe-area-inset-bottom));padding:0 24px}
+ .stage::after{background:linear-gradient(to bottom,rgba(5,5,5,.35) 0%,rgba(5,5,5,0) 22%,rgba(5,5,5,.1) 42%,rgba(5,5,5,.78) 66%,rgba(5,5,5,.95) 82%,#050505 100%)}
+ .plate img{object-position:center}
+ .stage>.hero{position:absolute}
+ .swatches{position:static;margin-top:26px}.swatches span{font-size:11px}
+ .hero{position:absolute;left:0;right:0;bottom:calc(132px + env(safe-area-inset-bottom));padding:0 24px}
  .hero .headline,.hero .sub,.pill-cta,.ghost{position:static}
  .hero .headline{font-size:calc(52*var(--m));line-height:.95;letter-spacing:-.045em;white-space:normal}
  .hero .sub{margin-top:16px;font-size:calc(17*var(--m));line-height:1.45;word-spacing:0}
@@ -147,11 +137,10 @@ header{text-shadow:0 1px 12px rgba(0,0,0,.6)}
  .hero .acts{display:flex;align-items:center;gap:22px;margin-top:26px}
  .pill-cta{width:auto;height:50px;padding:0 26px;font-size:17px}
  .ghost{font-size:17px}
- .logos{top:auto;left:24px;bottom:calc(28px + env(safe-area-inset-bottom));width:calc(100% - 48px);display:grid;grid-template-columns:auto auto;gap:12px 24px;justify-content:center}
+ .logos{transform:none;top:auto;left:24px;bottom:calc(28px + env(safe-area-inset-bottom));width:calc(100% - 48px);display:grid;grid-template-columns:auto auto;gap:12px 24px;justify-content:center}
  .logos small{grid-column:1/-1;text-align:center;font-size:11px}
- .stage .logos.rv{transform:translateY(14px)}.stage.done .logos.rv{transform:none}
+ .stage .logos.rv{animation-name:rise}
  .lg{font-size:15px;gap:8px}.lg svg{width:18px;height:18px}
- .hint{bottom:90px}
 }
 @media (min-width:600px) and (max-aspect-ratio:11/10){ .logos{grid-template-columns:repeat(4,auto)} }
 
@@ -217,61 +206,23 @@ footer a:hover{color:var(--ink)}
 '''
 
 JS = r'''
+// wallpaper switcher: swap the hero wallpaper and the accent; other wallpapers only load when picked
 (() => {
-  const stage = document.querySelector('.stage'), scrub = document.querySelector('.scrub'), cv = document.getElementById('film'), still = document.querySelector('.still');
-  const ctx = cv.getContext('2d');
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const saver = navigator.connection && (navigator.connection.saveData || /2g/.test(navigator.connection.effectiveType || ''));
-  const portrait = matchMedia('(max-aspect-ratio: 11/10)').matches;
-  const SET = portrait ? { dir: 'm', n: __NM__ } : { dir: 'd', n: __ND__ };
-  const frames = new Array(SET.n); let want = 0, shown = -1;
-  const beats = [...document.querySelectorAll('.beat')], dim = document.querySelector('.dim');
-
-  // no film: calm end frame with the copy, no tall scroll area
-  if (reduce || saver) { document.querySelector('.beats').remove(); document.querySelector('.dim').remove(); scrub.style.height = '100vh'; still.src = portrait ? 'media/hero-end-960.webp' : 'media/hero-end.webp'; stage.classList.add('done'); stage.style.setProperty('--shade', 1); return; }
-
-  function size() { const r = devicePixelRatio > 1 ? 1.5 : 1; cv.width = cv.clientWidth * r; cv.height = cv.clientHeight * r; shown = -1; draw(); }
-  function draw() {
-    let i = want; while (i > 0 && !frames[i]) i--;           // nearest frame already loaded
-    const im = frames[i]; if (!im || i === shown) return; shown = i;
-    const s = Math.max(cv.width / im.naturalWidth, cv.height / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s;
-    ctx.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h);
-    still.style.opacity = 0;
-  }
-  function onScroll() {
-    const r = scrub.getBoundingClientRect(), span = scrub.offsetHeight - innerHeight;
-    const p = Math.min(1, Math.max(0, -r.top / span));
-    const v = Math.min(1, p / 0.8);                            // the film ends at 80%, the copy holds the rest
-    want = Math.round(v * (SET.n - 1));
-    stage.classList.toggle('moving', p > 0.02);
-    stage.classList.toggle('done', p > 0.78);
-    stage.style.setProperty('--shade', Math.min(1, Math.max(0, (p - 0.7) / 0.1)));
-    let dimmed = 0;
-    for (const b of beats) {   // words rise out of their line mask one after another, then the scene lifts away
-      const a = +b.dataset.a, z = +b.dataset.b, u = (p - a) / (z - a);
-      const words = b._w || (b._w = [...b.querySelectorAll('.w')]);
-      if (u <= 0 || u >= 1) { b.style.opacity = 0; continue; }
-      const out = Math.min(1, Math.max(0, (u - 0.8) / 0.2));
-      b.style.opacity = 1 - out; dimmed = Math.max(dimmed, 1 - out);
-      words.forEach((w, k) => { const r = Math.min(1, Math.max(0, (u - k * 0.045) / 0.16)), e = 1 - Math.pow(1 - r, 3); w.style.transform = `translateY(${(1 - e) * 110}%)`; });
-      const lift = `translateY(${-out * 40}px)`;
-      b.style.transform = b.classList.contains('pos-c') ? `translate(-50%, -50%) ${lift}` : lift;
-    }
-    dim.style.opacity = dimmed * 0.38;
-    requestAnimationFrame(draw);
-  }
-  // load frame 0 first, then stream the rest in order (6 at a time)
-  let next = 0;
-  function pump() {
-    if (next >= SET.n) return;
-    const i = next++, im = new Image(); im.decoding = 'async';
-    im.onload = () => { frames[i] = im; if (i <= want) requestAnimationFrame(draw); pump(); };
-    im.onerror = pump;
-    im.src = `frames/${SET.dir}/${String(i).padStart(3, '0')}.webp`;
-  }
-  for (let k = 0; k < 6; k++) pump();
-  addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', size);
-  size(); onScroll();
+  const plate = document.querySelector('.plate'), stage = document.querySelector('.stage');
+  const portrait = matchMedia('(max-aspect-ratio: 11/10)');
+  const url = k => portrait.matches ? `img/hero/${k}-p.webp` : (innerWidth * devicePixelRatio > 1400 ? `img/hero/${k}-1920.webp` : `img/hero/${k}-1280.webp`);
+  let front = plate.querySelector('picture') || plate.querySelector('img'), cur = 'original';
+  const set = (k, acc) => {
+    if (k === cur) return; cur = k;
+    const im = new Image(); im.alt = ''; im.className = 'back'; im.decoding = 'async';
+    im.onload = () => { plate.appendChild(im); requestAnimationFrame(() => requestAnimationFrame(() => { im.classList.remove('back'); front.style.transition = 'opacity .9s'; front.style.opacity = 0; setTimeout(() => { front.remove(); front = im; }, 950); })); };
+    im.src = url(k);
+    stage.style.setProperty('--acc', acc);
+  };
+  document.querySelectorAll('.swatches button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.swatches button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    set(b.dataset.k, b.dataset.acc);
+  }));
 })();
 // menu
 (() => {
@@ -288,7 +239,7 @@ JS = r'''
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -10% 0px' });
   document.querySelectorAll('.in-view').forEach(e => io.observe(e));
 })();
-'''.replace('__ND__', str(ND)).replace('__NM__', str(NM))
+'''
 
 feats = ''.join(f'''<div class="feature in-view"><div class="ft"><span class="num">{i + 1:02d}</span><h3>{t}</h3><p>{d}</p></div><div class="shot">{pic(k, t)}</div></div>''' for i, (k, t, d) in enumerate(FEATURES))
 faq = ''.join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in FAQ)
@@ -303,19 +254,16 @@ HTML = f'''<!doctype html>
 <title>NOVA OS: your computer, finally yours</title>
 <meta name="description" content="NOVA OS is a privacy-first Linux desktop. Beautiful by default, light on old PCs, and it never watches you. Coming soon.">
 <meta name="theme-color" content="#050505">
-<meta property="og:title" content="NOVA OS"><meta property="og:description" content="Your computer. Finally yours."><meta property="og:image" content="https://byeno.org/media/hero-start.webp">
+<meta property="og:title" content="NOVA OS"><meta property="og:description" content="Your computer. Finally yours."><meta property="og:image" content="https://byeno.org/img/hero/original-1920.webp">
 <link rel="icon" href="favicon.png">
 <link rel="preload" href="fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="frames/d/000.webp" as="image" media="(min-aspect-ratio: 11/10)">
-<link rel="preload" href="frames/m/000.webp" as="image" media="(max-aspect-ratio: 11/10)">
+<link rel="preload" href="img/hero/original-1280.webp" as="image" media="(min-aspect-ratio: 11/10)">
+<link rel="preload" href="img/hero/original-p.webp" as="image" media="(max-aspect-ratio: 11/10)">
 <style>{CSS}</style>
 </head>
 <body>
-<div class="scrub">
- <div class="stage">
-  <div class="plate"><picture><source media="(max-aspect-ratio: 11/10)" srcset="frames/m/000.webp"><img class="still" src="frames/d/000.webp" alt="" aria-hidden="true"></picture><canvas id="film" aria-hidden="true"></canvas></div>
-  <div class="dim"></div>
-  <div class="beats">{BEATS}</div>
+<div class="stage" style="--acc:#6AA8FF">
+  <div class="plate"><picture><source media="(max-aspect-ratio: 11/10)" srcset="img/hero/original-p.webp"><img src="img/hero/original-1280.webp" srcset="img/hero/original-1280.webp 1280w, img/hero/original-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high"></picture></div>
   <header>
    <a class="brand" href="./" aria-label="Home">{STAR}</a>
    <nav class="links" aria-label="Primary"><a href="#about">About</a><a href="#features">Features</a><a href="#faq">FAQ</a><a href="#follow">Follow</a></nav>
@@ -326,10 +274,9 @@ HTML = f'''<!doctype html>
    <h1 class="headline rv d1"><span>Your computer.</span> <span>Finally yours.</span></h1>
    <p class="sub rv d2"><span>A privacy-first Linux desktop. Beautiful by default,</span> <span>light on old PCs, and it never watches you.</span></p>
    <div class="acts rv d3"><a class="pill pill-cta rv d3" href="#follow"><span>Get notified</span></a><a class="ghost rv d3" href="{CONFIG['youtube']}" rel="noopener">Watch the videos</a></div>
+   <div class="swatches rv d4" role="group" aria-label="Try a wallpaper"><span>Try a wallpaper</span>{SWATCHES}</div>
   </main>
   <div class="logos rv d4" aria-label="Built on">{logos}</div>
-  <div class="hint" aria-hidden="true">Scroll<i></i></div>
- </div>
 </div>
 <nav class="menu" id="menu" aria-hidden="true"><div class="menu-inner">
  <p class="menu-eyebrow rvm">Menu</p>
@@ -386,4 +333,4 @@ for md_file, title, out, extra in [('PRIVACY.md', 'Privacy Policy', 'privacy.htm
     page = f'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{title}: NOVA OS</title><link rel="icon" href="favicon.png"><style>{LCSS}</style></head><body><a class="back" href="./"><span>{STAR}</span>NOVA OS</a><div class="wrap legal">{body}{extra}</div><footer><div class="wrap"><span>© NOVA OS</span><nav><a href="./">Home</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a></nav></div></footer></body></html>'
     open(os.path.join(HERE, out), 'w').write(page)
 print('built privacy.html, terms.html')
-print('built index.html', len(HTML) // 1024, 'KB', ND, 'desktop frames', NM, 'phone frames')
+print('built index.html', len(HTML) // 1024, 'KB')

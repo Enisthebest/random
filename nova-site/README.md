@@ -1,6 +1,6 @@
 # byeno.org (v2): the NOVA site with the scroll film
 
-- `index.html`: one file, inline CSS + JS. The hero is the NOVA intro film, **scrubbed by scroll** from small WebP frames drawn on a canvas, which is smooth on every device (no video decoding while you scroll).
+- `index.html`: one file, inline CSS + JS. The hero is a full-screen NOVA wallpaper with a slow CSS drift and a "Try a wallpaper" switcher (6 wallpapers from `img/hero/`, each 4–12 KB; the accent of "Finally yours." follows the wallpaper). Phones get a tall crop. No video, no scroll effects.
   - Desktop: `frames/d/` (121 frames, 1280×720, ~1.4 MB total). Phones: `frames/m/` (81 frames, cropped tall, ~0.35 MB).
   - Frame 0 shows instantly; the rest stream in while you scroll. With "reduce motion" or data saver on, the scroll film is skipped and the calm end frame (`media/hero-end*.webp`) shows with the text.
   - After the film settles, the headline, buttons and the "Built on" strip rise in (layout measured on a 1487×1058 comp, height-locked units).
