@@ -285,3 +285,29 @@ Screens:
 Safety: if the game closes or crashes, Gaming mode turns off by itself and everything resumes. Super+G must always work, even if the game hangs. If NOVA restarts while Gaming mode is on, everything is resumed at login.
 Wire it to: [Hyprland IPC, systemd --user, powerprofilesctl or gamemode, our notification daemon, our Shield service].
 ```
+
+---
+
+## Install experience
+
+### Installer + boot screens — `png/install-*.png`, `png/boot-*.png` (overview: `png/_install-overview.png`)
+```
+Build NOVA's install experience to match nova-design-kit/png/install-*.png and png/boot-*.png (HTML in screens/), following DESIGN_SYSTEM.md → "Installer and boot". It uses the same window, step rail and controls as the setup wizard, so USB → install → first boot → setup feels like one product.
+Order: boot-splash (USB) → install-try → install-checks → install-disk → install-encrypt → install-confirm → install-progress → install-done (or install-error) → restart → boot-unlock → boot-splash → the setup wizard.
+Stack (Arch): build the live ISO with archiso. Use Calamares for the install logic (partitioning with KPMcore incl. NTFS resize, LUKS2, users later in the setup wizard, bootloader), but replace its look: a custom branding + QML pages (Calamares supports QML view modules) that match the mockups exactly. If a page can't be matched in Calamares, tell me before you write a custom one.
+Screens:
+- boot-splash: Plymouth theme. Pure black, the NOVA star (132px) centred, a 160×3 progress line 70px below that only appears if boot takes over 3s. No text, no logos of hardware makers. Same theme on the USB and on every boot.
+- install-try: live session, full screen. Two cards: "Try NOVA" (dark glass) and "Install NOVA" (white, primary). A language pill under them. The live top bar always says "Running from USB · nothing is saved". The desktop has an "Install NOVA" icon to come back later.
+- install-checks: space (≥40 GB), memory (≥4 GB), power (warning if on battery, not a blocker), internet (optional), Secure Boot. Plus the friendly beta note (soft language: "We suggest backing up…", "please install at your own risk") and the terms link. Only space is a hard blocker.
+- install-disk: if Windows (or another OS) is found: "Install next to Windows" (recommended, preselected) with the draggable split bar (Windows part shows its used space, the handle can't go below used space + 20 GB; NOVA minimum 40 GB), "Erase the disk and install NOVA", "Manual". With no other OS: only Erase (preselected) and Manual. With several disks: a disk picker above the options.
+- install-encrypt: "Encrypt the disk" ON by default (LUKS2). Password + strength bar + confirm. Generate a recovery key (6 groups of 4, no look-alike characters), add it as a second LUKS keyslot, offer Save to USB and a QR code, and require "I saved it somewhere safe" before Continue.
+- install-confirm: plain-language list of exactly what will happen (shrink, new space, encryption, boot menu) and the disk bar after install. If Erase was chosen, the first row is red: "Everything on [DISK] will be deleted: Windows and all files", and the button becomes red "Erase and install" and needs the user to type the disk's name. Nothing touches the disk before this button.
+- install-progress: one progress bar with the current step, time left, "Show details" (live log), and a slideshow (5 slides, 8s each, cross-fade 400ms) about NOVA features. The user can keep using the live session.
+- install-done: green check, "NOVA is installed ✦", remove-the-USB note, Keep trying / Restart now.
+- install-error: never a raw error. Orange icon, one sentence on what happened, a green line saying what is safe ("Nothing on your disk was changed" — only if true), numbered fix steps, Save the log to USB, Go back, Try again. Write friendly messages for the common cases: Windows Fast Startup / hibernation (NTFS "unclean" or hiberfile → the screen shown), BitLocker on the Windows partition (can't resize: suggest suspending BitLocker), not enough free space, disk read errors, no internet when it was needed.
+- boot-unlock: the Plymouth password prompt for the encrypted disk (sd-encrypt hook): star, "Enter your disk password", round field, keyboard layout. Esc switches to "Enter your recovery key". Wrong password: the field turns red for 1s and clears.
+Bootloader: GRUB with os-prober so Windows shows up; NOVA is the default after 5s; theme the menu black with the NOVA star and Geist.
+Secure Boot: if NOVA isn't signed yet (shim/sbctl), the check must say so honestly ("Turn off Secure Boot in your BIOS to install the beta") instead of "On". Don't fake it.
+Safety: nothing is written until Confirm; if the install fails before partitioning, say so; after it, say exactly what state the disk is in.
+No shadows and no grey edges. Match the screenshots closely.
+```

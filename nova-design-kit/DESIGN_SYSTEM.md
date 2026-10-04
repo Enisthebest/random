@@ -215,3 +215,23 @@ Mockups: `png/gaming-*.png`, overview `png/_gaming-overview.png`, generator `gam
 | **Off card** | 382 px glass card under the top bar (like notifications): summary, then rows with an accent action on the right (Install, Show). Leaves after 6 s |
 | **Motion** | None while Gaming mode is on (that's the point). The off card uses the normal glide, since animations are back |
 
+---
+
+## 11. Installer and boot
+
+Mockups: `png/install-*.png`, `png/boot-*.png`, overview `png/_install-overview.png`, generator `installer/gen_installer.py`. Same window, step rail, fields, toggles and buttons as the setup wizard (section 8).
+
+| Part | Spec |
+|---|---|
+| **Boot splash** | Pure black. Star 132 px, centred (−40 px). Progress line 160 × 3, radius 2, 12% white track, white fill, 70 px under the star, only after 3 s. The star breathes (opacity .7 → 1, 1.6 s, NOVA curve) |
+| **Disk password (boot)** | Black. Star 110 px, "Enter your disk password" 17/600, a 320 × 48 round field like the lock screen, keyboard layout 13 px under it, recovery hint at the bottom in `--text-disabled` |
+| **Live top bar** | Left pill: USB icon + "Running from USB · nothing is saved". Right pill: Wi-Fi, volume, battery, clock |
+| **Try or Install** | Full screen. Star 84 px, title 52/700, two 400 px cards (radius 24): Try = dark glass, Install = white primary with a black button |
+| **Step rail** | "Install NOVA" + version. 5 steps: Before you start, Where to install, Encryption, Confirm, Install |
+| **Checks** | 66 px rows with a 32 px status circle: green check, orange warning, accent info. Value on the right in the status colour |
+| **Disk options** | Radio cards (radius 16, selected = 2 px accent border + `--surface-selected`). Split bar 44 px: the other OS in 10% white with its used space, NOVA in accent, white 18 px handle |
+| **Recovery key** | Geist Mono 16 px, 2 lines, on `#0B0B0E` inside the card; Save to USB, Show QR, "I saved it" checkbox required |
+| **Confirm** | One plain sentence per change, coloured tile per kind (orange = changes existing data, accent = new, green = protection). Erase = red row + red button + type the disk name |
+| **Progress** | 8 px bar, step + percent (mono) + time left, then a 250 px slideshow card |
+| **Done / Error** | Centred in the window: 96 px status circle (green check / orange alert), title 40/36 px 700, one paragraph, then actions. Errors always say what's safe and how to fix it |
+

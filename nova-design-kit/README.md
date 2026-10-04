@@ -17,6 +17,7 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 | `apps2/` | Generator for Terminal, Text Editor and NOVA Browser (`screens/terminal.html`, `editor.html`, `browser-*.html`). |
 | `ace-identity/` | ACE's logo (Buddy), its 9 moods as SVG, app icon, and ACE_PERSONALITY.md (voice, example lines, animations). |
 | `launcher/` | Generator for the launcher screens (`screens/launcher-*.html`, `png/launcher-*.png`). |
+| `installer/` | Generator for the installer and boot screens (`screens/install-*.html`, `boot-*.html`, overview `png/_install-overview.png`). |
 | `gaming/` | Generator for Gaming mode (`screens/gaming-*.html`, `png/gaming-*.png`, overview `png/_gaming-overview.png`). |
 | `setup/` | Generator for the first-boot setup wizard (`screens/setup-*.html`, `png/setup-*.png`, overview `png/_setup-overview.png`). |
 
@@ -31,4 +32,5 @@ Everything Claude Code needs to rebuild the NOVA OS interface to this design.
 Apps: Shield · NOVA Guard · Files · Monitor · Ledger · Images · Fix · Settings · ACE (Pro) · Terminal · Text Editor · NOVA Browser.
 Shell: top bar · dock · Control panel · Wi-Fi & Bluetooth pickers · launcher · lock screen · notifications · power menu · volume/brightness popup.
 Gaming mode: on card, focus lock + overlay, Settings page, off summary.
+Install: boot splash, Try or Install, checks, disk, encryption, confirm, progress, done, error, disk password at boot.
 First boot: setup wizard (welcome, language & region, internet, account, privacy, protection, look, ACE for Pro, finish).
