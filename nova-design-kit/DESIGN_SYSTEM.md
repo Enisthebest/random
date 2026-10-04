@@ -245,3 +245,13 @@ Breather locks the screen for a short break so you get up and move. Logo: `asset
 - **Break** (`png/breather-lock.png`): the full screen with the countdown, "Go move.", and one tip at a time. Skip (if allowed). **Hold Esc for 3 seconds always unlocks**, so nobody is ever trapped.
 - **Back** (`png/breather-back.png`): a short welcome and the next break time.
 - Local only: it counts time, never what you do.
+
+## 13. NOVA Store
+
+NOVA ships light. Only the core apps are built in (Files, Settings, Shield, NOVA Browser, Terminal, Store); everything else comes from the Store. Icon: `assets/store-icon.svg`. Open with Super + A.
+
+- **Discover** (`png/store-discover.png`): a featured app, "Made by NOVA" apps, and Flathub for everything else.
+- **App page** (`png/store-app.png`): size, version, licence, screenshots, and a plain list of what the app can access and collect.
+- **Installed** (`png/store-installed.png`): updates, your apps with Remove, and the built-in apps (they can't be removed).
+- **First boot** (`png/store-firstboot.png`): a "Pick your apps" step in the setup wizard.
+- Every app shows where it comes from (NOVA or Flathub). No account, no tracking.

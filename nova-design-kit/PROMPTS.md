@@ -326,3 +326,19 @@ After: "Welcome back." with the count of breaks today and the next break time. S
 Also: Super + B opens Breather, and a quick toggle in the Control panel turns it on/off.
 No shadows and no grey edges. Match the screenshots closely.
 ```
+
+## NOVA Store — `png/store-discover.png`, `store-app.png`, `store-installed.png`, `store-firstboot.png`
+
+```
+Build NOVA Store to match png/store-*.png. Icon: assets/store-icon.svg. Super + A opens it.
+Sources:
+1) NOVA apps come from NOVA's own pacman repo ([nova] in /etc/pacman.conf). Packages are signed with the NOVA key, and the repo is plain static files (repo-add) hosted on GitHub Releases or any static host.
+2) Other apps come from Flathub via Flatpak.
+Use PackageKit or call pacman/flatpak through a small privileged helper (polkit). Never run the whole UI as root.
+App info lives in an appstream-style JSON per NOVA app: name, one line, description, icon, screenshots, size, version, licence, and "what it can access" (shown on the app page). Every app shows its source (NOVA or Flathub).
+Core apps (Files, Settings, Shield, NOVA Browser, Terminal, Store) are marked "Part of NOVA" and can't be removed.
+Updates: check once a day at most and show a count. Nothing installs without the user pressing Update.
+Privacy: no account and no analytics. The Store only downloads the package lists and the packages you pick.
+Also add a "Pick your apps" step to the setup wizard (png/store-firstboot.png). Skip installs nothing.
+No shadows and no grey edges. Match the screenshots closely.
+```
