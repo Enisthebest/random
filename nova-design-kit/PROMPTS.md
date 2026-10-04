@@ -312,3 +312,17 @@ Secure Boot: if NOVA isn't signed yet (shim/sbctl), the check must say so honest
 Safety: nothing is written until Confirm; if the install fails before partitioning, say so; after it, say exactly what state the disk is in.
 No shadows and no grey edges. Match the screenshots closely.
 ```
+
+## Breather (break app) — `png/breather-app.png`, `breather-warning.png`, `breather-lock.png`, `breather-back.png`, `breather-logo.png`
+
+```
+Build Breather, a NOVA app that locks the screen for a short break so the user gets up and moves. Match the screenshots in png/breather-*.png and the logo in assets/breather-icon.svg. Accent mint #3fdcaa (gradient #8ff5d2 → #22b8cf).
+Build it as a Quickshell module: a settings window plus a full-screen overlay layer (wlr-layer-shell, exclusive keyboard focus) on every monitor during the break.
+Settings saved in ~/.config/nova/breather.json: enabled, work minutes (25/50/90), break minutes (2/5/10), warn 1 min before, skips per day (0 = strict), wait-for list (Gaming mode, apps using the camera or microphone, full-screen video).
+Timer: counts active time only (reset if the user is idle 5+ min, via hypridle). Don't start a break while Gaming mode is on or a wait-for item is active; start right after it ends.
+Warning: a notification-style card 60 s before, with Start now and 5 more minutes (snooze once per break).
+Break screen: countdown ring, "Go move.", one rotating tip (eyes, stretch, water, walk). Skip shows only if skips are left. Holding Esc for 3 s ALWAYS ends the break (safety). Don't lock the session, just cover the screen: audio and downloads keep going.
+After: "Welcome back." with the count of breaks today and the next break time. Stats stay on the device; nothing is sent anywhere.
+Also: Super + B opens Breather, and a quick toggle in the Control panel turns it on/off.
+No shadows and no grey edges. Match the screenshots closely.
+```

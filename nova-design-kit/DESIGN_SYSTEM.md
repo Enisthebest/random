@@ -235,3 +235,13 @@ Mockups: `png/install-*.png`, `png/boot-*.png`, overview `png/_install-overview.
 | **Progress** | 8 px bar, step + percent (mono) + time left, then a 250 px slideshow card |
 | **Done / Error** | Centred in the window: 96 px status circle (green check / orange alert), title 40/36 px 700, one paragraph, then actions. Errors always say what's safe and how to fix it |
 
+
+## 12. Breather (break app)
+
+Breather locks the screen for a short break so you get up and move. Logo: `assets/breather-icon.svg` (mono: `assets/breather-mono.svg`), a mint timer ring around wind lines. Accent: mint `#3fdcaa` with the gradient `#8ff5d2 → #22b8cf`.
+
+- **App** (`png/breather-app.png`): one window. A big On/Off toggle in the header, the countdown ring to the next break, Break now / Pause 1 h, and today's breaks. Settings: work time (25/50/90 min), break length (2/5/10 min), a 1-minute warning, skips (2 a day, off = strict), and "wait until I'm done with" (Gaming mode, video calls, full-screen video).
+- **Warning** (`png/breather-warning.png`): a corner card 1 minute before. Start now / 5 more minutes.
+- **Break** (`png/breather-lock.png`): the full screen with the countdown, "Go move.", and one tip at a time. Skip (if allowed). **Hold Esc for 3 seconds always unlocks**, so nobody is ever trapped.
+- **Back** (`png/breather-back.png`): a short welcome and the next break time.
+- Local only: it counts time, never what you do.
