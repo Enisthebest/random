@@ -1,0 +1,148 @@
+# NOVA OS Plymouth theme.
+# Boot: black, the star fades in and grows to full size (0.9 s), a soft glow breathes behind it, and a thin progress
+# line appears only if booting takes longer than 3 s. Shutdown/reboot: the star is there at once and slowly dims.
+# Disk password: the star moves up, a round field with dots appears under it.
+
+Window.SetBackgroundTopColor(0, 0, 0);
+Window.SetBackgroundBottomColor(0, 0, 0);
+
+W = Window.GetWidth();
+H = Window.GetHeight();
+S = H / 1080;                      # scale for the screen size (1 on 1080p, 2 on 4K)
+if (S < 0.75) S = 0.75;
+
+fun clamp(v, a, b) { if (v < a) return a; if (v > b) return b; return v; }
+fun ease(u) { u = clamp(u, 0, 1); return u * u * (3 - 2 * u); }
+
+mode = Plymouth.GetMode();
+booting = (mode == "boot" || mode == "resume");
+
+# ---------- the star (pre-scaled steps so we never rescale every frame) ----------
+star_src = Image("star.png");
+SIZE = 132 * S;                    # star size from the design
+STEPS = 16;
+i = 0;
+while (i <= STEPS) {
+  k = 0.86 + 0.14 * i / STEPS;
+  star_img[i] = star_src.Scale(SIZE * k * star_src.GetWidth() / star_src.GetHeight(), SIZE * k);
+  i++;
+}
+star = Sprite(star_img[STEPS]);
+star.SetZ(10);
+
+glow_src = Image("glow.png");
+glow = Sprite(glow_src.Scale(SIZE * 3.6, SIZE * 3.6));
+glow.SetZ(5);
+
+CY = H / 2 - 30 * S;               # star centre (a little above the middle, like the design)
+
+fun place_star(cy) {
+  im = star.GetImage();
+  star.SetX(W / 2 - im.GetWidth() / 2);
+  star.SetY(cy - im.GetHeight() / 2);
+  gi = glow.GetImage();
+  glow.SetX(W / 2 - gi.GetWidth() / 2);
+  glow.SetY(cy - gi.GetHeight() / 2);
+}
+
+# ---------- progress line (boot only, after 3 s) ----------
+track = Sprite(Image("bar-track.png").Scale(160 * S, 3 * S));
+fill_src = Image("bar-fill.png");
+fill = Sprite();
+BAR_Y = CY + SIZE / 2 + 70 * S;
+track.SetX(W / 2 - 80 * S); track.SetY(BAR_Y); track.SetZ(10); track.SetOpacity(0);
+fill.SetX(W / 2 - 80 * S); fill.SetY(BAR_Y); fill.SetZ(11); fill.SetOpacity(0);
+global.progress = 0;
+global.shown_fill = 0;
+
+fun progress_cb(duration, progress) {
+  global.progress = progress;
+}
+Plymouth.SetBootProgressFunction(progress_cb);
+
+# ---------- password prompt (encrypted disk) ----------
+global.asking = 0;
+field = Sprite(Image("field.png").Scale(360 * S, 48 * S));
+field.SetX(W / 2 - 180 * S); field.SetZ(20); field.SetOpacity(0);
+bullet_src = Image("bullet.png").Scale(10 * S, 10 * S);
+prompt_spr = Sprite(); prompt_spr.SetZ(20);
+
+fun password_cb(prompt, bullets) {
+  global.asking = 1;
+  text = "Enter your disk password";
+  pimg = Image.Text(text, 0.85, 0.85, 0.88, 1, "Sans " + Math.Int(15 * S));
+  prompt_spr.SetImage(pimg);
+  prompt_spr.SetX(W / 2 - pimg.GetWidth() / 2);
+  prompt_spr.SetY(H / 2 - 4 * S);
+  prompt_spr.SetOpacity(1);
+  field.SetY(H / 2 + 30 * S);
+  field.SetOpacity(1);
+  n = bullets; if (n > 24) n = 24;
+  i = 0;
+  while (i < 24) {
+    if (i < n) {
+      if (!dot[i]) dot[i] = Sprite(bullet_src);
+      dot[i].SetX(W / 2 - (n * 16 * S) / 2 + i * 16 * S + 3 * S);
+      dot[i].SetY(H / 2 + 30 * S + 19 * S);
+      dot[i].SetZ(21);
+      dot[i].SetOpacity(1);
+    } else if (dot[i]) dot[i].SetOpacity(0);
+    i++;
+  }
+}
+Plymouth.SetDisplayPasswordFunction(password_cb);
+
+fun normal_cb() {
+  global.asking = 0;
+  field.SetOpacity(0); prompt_spr.SetOpacity(0);
+  i = 0; while (i < 24) { if (dot[i]) dot[i].SetOpacity(0); i++; }
+}
+Plymouth.SetDisplayNormalFunction(normal_cb);
+
+# ---------- messages (e.g. "Checking disk") stay small and quiet at the bottom ----------
+msg = Sprite(); msg.SetZ(20);
+fun message_cb(text) {
+  im = Image.Text(text, 0.6, 0.6, 0.64, 1, "Sans " + Math.Int(13 * S));
+  msg.SetImage(im); msg.SetX(W / 2 - im.GetWidth() / 2); msg.SetY(H - 80 * S);
+}
+Plymouth.SetMessageFunction(message_cb);
+
+# ---------- animation ----------
+global.t = 0;
+global.cy = CY;
+fun refresh_cb() {
+  global.t += 1 / 50;
+  t = global.t;
+
+  # where the star sits: moves up while asking for the disk password
+  target = CY; if (global.asking) target = H / 2 - 150 * S;
+  global.cy += (target - global.cy) * 0.12;
+
+  if (booting) {
+    e = ease(t / 0.9);                                  # fade in + grow
+    star.SetImage(star_img[Math.Int(e * STEPS)]);
+    star.SetOpacity(e);
+    breathe = 0.5 + 0.5 * Math.Sin(t * 2.2);
+    glow.SetOpacity(e * (0.35 + 0.25 * breathe));
+  } else {
+    d = ease(t / 6);                                    # shutdown: slowly dims
+    star.SetImage(star_img[STEPS - Math.Int(d * STEPS * 0.5)]);
+    star.SetOpacity(1 - 0.55 * d);
+    glow.SetOpacity((1 - d) * (0.3 + 0.15 * Math.Sin(t * 1.4)));
+  }
+  place_star(global.cy);
+
+  # progress line: only on boot, only after 3 s, never while asking for a password
+  if (booting && t > 3 && !global.asking) {
+    a = ease((t - 3) / 0.5);
+    track.SetOpacity(a);
+    global.shown_fill += (global.progress - global.shown_fill) * 0.08;
+    w = Math.Int(160 * S * clamp(global.shown_fill, 0.02, 1));
+    if (w < 1) w = 1;
+    fill.SetImage(fill_src.Scale(w, 3 * S));
+    fill.SetOpacity(a);
+  } else {
+    track.SetOpacity(0); fill.SetOpacity(0);
+  }
+}
+Plymouth.SetRefreshFunction(refresh_cb);

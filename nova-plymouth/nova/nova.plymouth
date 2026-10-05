@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=NOVA
+Description=NOVA OS boot and shutdown: the star fades in on black, breathes, and fades out on shutdown.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/nova
+ScriptFile=/usr/share/plymouth/themes/nova/nova.script
