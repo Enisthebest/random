@@ -1,0 +1,25 @@
+TITLE
+ok we need to talk about nova and ai
+
+DESCRIPTION
+ok. we need to talk.
+
+alot of you keep calling nova "ai slop" so here's the truth. yes i use ai. im one person building an os and ai is how a solo dev can even try this. but the idea the design the decisions and the testing are mine. the magic isnt the ai its the mind using it.
+
+still dont trust it? fair. im picking beta testers to break it find the bugs and tell me everything. want in? join the discord 👇
+
+💬 discord: [PASTE YOUR INVITE LINK]
+🌐 site: https://byeno.org
+🎵 tiktok: @novaos.star
+𝕏 x: @Novaos_star
+
+0:00 ok we need to talk
+0:12 whats behind nova
+0:59 the honest part
+1:22 how nova actually gets made
+1:38 beta testers
+1:43 join the discord
+
+nova os is a privacy-first linux desktop built on arch and hyprland. no ads. no tracking. still in development, real footage coming.
+
+#novaos #linux #archlinux #hyprland #privacy #buildinpublic #solodev
