@@ -89,13 +89,14 @@ for i, nm in enumerate(['G2', 'D3', 'G3', 'B3', 'D4', 'A4']): place(music, felt(
 place(music, strings([note(x) for x in ['G3', 'B3', 'D4']], 4.4, 1.0), END, 0.18)
 for i, nm in enumerate(['D6', 'G6', 'B6']): place(sfx, bell(note(nm), 2.2), END + 0.3 + i * 0.08, 0.06)
 
-# voice 4 + ducking
-for k, at in enumerate(T['vo']):
+# voice 4 + ducking (NOVO=1: music only, for the text-only cut)
+import os
+for k, at in ([] if os.environ.get('NOVO') else enumerate(T['vo'])):
     a, sr = sf.read(f'assets/vo{k}.wav')
     if a.ndim > 1: a = a.mean(1)
     a = resample_poly(a, SR, sr); place(vo, a / (np.max(np.abs(a)) + 1e-9), at, 2.0)
 vo = hp(vo, 90)
-env = np.abs(vo); env = lfilter([1 - 0.9995], [1, -0.9995], env); env = np.minimum(1, env / (np.max(env) * 0.35 + 1e-9))
+env = np.abs(vo) + 1e-12; env = lfilter([1 - 0.9995], [1, -0.9995], env); env = np.minimum(1, env / (np.max(env) * 0.35 + 1e-9))
 duck = 1 - 0.65 * env
 def reverb(x, secs=1.8, wet=0.3):
     n = int(secs * SR); ir = lp(rng.standard_normal(n) * np.exp(-t_(n) / (secs / 5)), 7000); ir /= np.sqrt(np.sum(ir ** 2))
