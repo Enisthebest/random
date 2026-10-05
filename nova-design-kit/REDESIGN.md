@@ -43,7 +43,7 @@ The panel opened most often should feel special, not like a settings page. Keep 
 - A **"Use another font…"** button that lists every installed font with a search box.
 - A **Monospace font** picker for the terminal and code (default Geist Mono).
 - The change applies live everywhere in the shell and NOVA apps, no restart.
-- All fonts must be free (SIL OFL or similar) and installed from the official repos.
+- All fonts must be free (SIL OFL or similar). Use the Arch repo packages where they exist; otherwise ship the font files with NOVA.
 
 ## 5. Minimal NOVA Browser new tab (Discord: "the browser could be more minimal")
 
